@@ -3,7 +3,7 @@ project(RayTracer)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES src/main.cpp)
+set(SOURCE_FILES src/main.cpp src/loader/OBJLoader.hh)
 add_executable(RayTracer ${SOURCE_FILES})
 
 # Detect and add SFML

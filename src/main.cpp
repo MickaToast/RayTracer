@@ -1,6 +1,24 @@
 #include <SFML/Graphics.hpp>
+#include "loader/OBJLoader.hh"
 
-int main() {
+int main(int argc, char **argv) {
+    if (argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " scene.obj" << std::endl;
+        return 1;
+    }
+
+    objl::Loader loader;
+
+    std::cout << "Loading scene " << argv[1] << "..." << std::endl;
+    if (!loader.LoadFile(argv[1])) {
+        std::cerr << "Failed to load file. May have failed to find it or it was not an .obj file." << std::endl;
+        return 1;
+    }
+
+    std::cout << "DEBUG: Loaded " << loader.LoadedMeshes.size() << " meshes" << std::endl;
+    std::cout << "DEBUG: Loaded " << loader.LoadedVertices.size() << " vertices" << std::endl;
+    std::cout << "DEBUG: Loaded " << loader.LoadedIndices.size() << " indices" << std::endl;
+    std::cout << "DEBUG: Loaded " << loader.LoadedMaterials.size() << " materials" << std::endl;
 
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML Work!");
     sf::CircleShape shape(100.f);

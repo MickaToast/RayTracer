@@ -6,5 +6,5 @@
 - Create a directory called cmake-build-debug in the root directory and go to it
 - Execute the following command
 ```bash
-cmake .. && make && ./RayTracer
+cmake .. && make && ./RayTracer scene.obj
 ```
