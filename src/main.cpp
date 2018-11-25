@@ -19,7 +19,9 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <SFML/Graphics.hpp>
-#include "loader/OBJLoader.h"
+#include <cstdlib>
+#include <ctime>
+#include "loader/OBJLoader.hh"
 
 int main(int argc, char **argv) {
     if (argc != 2) {
@@ -36,14 +38,12 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    std::cout << "DEBUG: Loaded " << loader.LoadedMeshes.size()
-            << " meshes" << std::endl;
-    std::cout << "DEBUG: Loaded " << loader.LoadedVertices.size()
-            << " vertices" << std::endl;
-    std::cout << "DEBUG: Loaded " << loader.LoadedIndices.size()
-            << " indices" << std::endl;
-    std::cout << "DEBUG: Loaded " << loader.LoadedMaterials.size()
-            << " materials" << std::endl;
+    srand(time(0));
+
+    std::cout << "DEBUG: Loaded " << loader.LoadedMeshes.size() << " meshes" << std::endl;
+    std::cout << "DEBUG: Loaded " << loader.LoadedVertices.size() << " vertices" << std::endl;
+    std::cout << "DEBUG: Loaded " << loader.LoadedIndices.size() << " indices" << std::endl;
+    std::cout << "DEBUG: Loaded " << loader.LoadedMaterials.size() << " materials" << std::endl;
 
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML Work!");
     sf::CircleShape shape(100.f);
