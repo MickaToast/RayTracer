@@ -28,6 +28,13 @@ namespace rt {
         return (sqrtf(powf(_X, 2) + powf(_Y, 2) + powf(_Z, 2)));
     }
 
+    void Vector3::Normalize(void) {
+        float norm = this->Norm();
+        _X = _X / norm;
+        _Y = _Y / norm;
+        _Z = _Z / norm;
+    }
+
     bool Vector3::operator==(const Vector3& other) const {
         return (_X == other._X && _Y == other._Y && _Z == other._Z);
     }
@@ -50,5 +57,29 @@ namespace rt {
 
     Vector3 Vector3::operator/(const float& other) const {
         return Vector3(_X / other, _Y / other, _Z / other);
+    }
+
+    float const& Vector3::getX(void) const {
+        return _X;
+    }
+    
+    void Vector3::SetX(const float& X) {
+        _X = X;
+    }
+
+    float const& Vector3::getY(void) const {
+        return _Y;
+    }
+    
+    void Vector3::SetY(const float& Y) {
+        _Y = Y;
+    }
+
+    float const& Vector3::getZ(void) const {
+        return _Z;
+    }
+    
+    void Vector3::SetZ(const float& Z) {
+        _Z = Z;
     }
 }

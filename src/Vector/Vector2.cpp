@@ -30,4 +30,20 @@ namespace rt {
     Vector2 Vector2::operator*(const float& other) const {
         return Vector2(_X *other, _Y * other);
     }
+
+    float const& Vector2::getX(void) const {
+        return _X;
+    }
+    
+    void Vector2::SetX(const float& X) {
+        _X = X;
+    }
+
+    float const& Vector2::getY(void) const {
+        return _Y;
+    }
+    
+    void Vector2::SetY(const float& Y) {
+        _Y = Y;
+    }
 }
