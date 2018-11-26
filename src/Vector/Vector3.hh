@@ -3,8 +3,9 @@
 namespace rt {
     class Vector3 {
         public:
-            Vector3();
+            Vector3(void);
             Vector3(float X, float Y, float Z);
+            ~Vector3(void);
 
             Vector3 Cross(const Vector3 other) const;
             float   Dot(const Vector3 other) const;
@@ -30,4 +31,5 @@ namespace rt {
             float   _Y;
             float   _Z;
     };
+    std::ostream& operator<<(std::ostream& os, const Vector3& v);       
 }

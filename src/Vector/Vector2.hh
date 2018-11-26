@@ -3,8 +3,9 @@
 namespace rt {
     class Vector2 {
         public:
-            Vector2();
+            Vector2(void);
             Vector2(float X_, float Y);
+            ~Vector2(void);
 
             bool operator==(const Vector2& other) const;
             bool operator!=(const Vector2& other) const;

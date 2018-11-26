@@ -11,6 +11,9 @@ namespace rt {
         _Y = Y;
     }
 
+    Vector2::~Vector2(void) {
+    }
+
     bool Vector2::operator==(const Vector2& other) const {
         return (_X == other._X && _Y == other._Y);
     }

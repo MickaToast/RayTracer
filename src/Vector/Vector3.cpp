@@ -1,4 +1,5 @@
 #include <math.h>
+#include <iostream>
 #include "Vector3.hh"
 
 namespace rt {  
@@ -12,6 +13,9 @@ namespace rt {
         _X = X;
         _Y = Y;
         _Z = Z;
+    }
+
+    Vector3::~Vector3(void) {
     }
 
     Vector3 Vector3::Cross(const Vector3 other) const {
@@ -57,6 +61,11 @@ namespace rt {
 
     Vector3 Vector3::operator/(const float& other) const {
         return Vector3(_X / other, _Y / other, _Z / other);
+    }
+
+    std::ostream& operator<<(std::ostream& os, const Vector3& v) {  
+        os << "(" << v.getX() << "," << v.getY() << "," << v.getZ() << ")";
+        return os;
     }
 
     float const& Vector3::getX(void) const {
