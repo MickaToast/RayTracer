@@ -35,3 +35,6 @@ cmake-build-debug/
 
 # Created IntelliJ directory
 .idea/
+
+# Created Visual Studio Code directory
+.vscode/
