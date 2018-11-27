@@ -3,11 +3,11 @@ project(RayTracer)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES    src/Camera/Camera.cpp
-                    src/Vector/Vector2.cpp
-                    src/Vector/Vector3.cpp
+set(SOURCE_FILES    src/Camera/Camera.cc
+                    src/Vector/Vector2.cc
+                    src/Vector/Vector3.cc
                     src/loader/OBJLoader.hh)
-add_executable(RayTracer ${SOURCE_FILES} src/main.cpp)
+add_executable(RayTracer ${SOURCE_FILES} src/main.cc)
 
 # Detect and add SFML
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
@@ -22,7 +22,7 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
  
 # Link runTests with what we want to test and the GTest and pthread library
-set(TEST_FILES  src/main_test.cpp
-                src/Camera/Camera_test.cpp)
+set(TEST_FILES  src/main_test.cc
+                src/Camera/Camera_test.cc)
 add_executable(runTests ${TEST_FILES} ${SOURCE_FILES})
 target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)
