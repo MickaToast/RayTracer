@@ -1,5 +1,5 @@
 #include <cstdlib>
-#include <math.h>
+#include <cmath>
 #include "Camera.hh"
 
 namespace rt {
@@ -22,8 +22,8 @@ namespace rt {
 
         Vector3 pixel = Vector3(
             ((2 * ((pos.getX() + Rx) / _screenRes.getX()) - 1)
-            * (_screenRes.getX() / _screenRes.getY())) * tan(_fov / 2 * M_PI /180),
-            (1 - 2 * ((pos.getY() + Ry) / _screenRes.getY())) * tan(_fov / 2 * M_PI /180),
+            * (_screenRes.getX() / _screenRes.getY())) * tan(_fov / 2 * M_PI / 180),
+            (1 - 2 * ((pos.getY() + Ry) / _screenRes.getY())) * tan(_fov / 2 * M_PI / 180),
             -1
         );
         Vector3 ray = pixel - _pos;

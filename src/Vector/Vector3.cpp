@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include <iostream>
 #include "Vector3.hh"
 
@@ -29,7 +29,7 @@ namespace rt {
     }
 
     float Vector3::Norm(void) const {
-        return (sqrtf(powf(_X, 2) + powf(_Y, 2) + powf(_Z, 2)));
+        return (std::sqrt(std::pow(_X, 2) + std::pow(_Y, 2) + std::pow(_Z, 2)));
     }
 
     void Vector3::Normalize(void) {

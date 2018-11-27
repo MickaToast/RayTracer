@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    srand(time(0));
+    std::srand(time(0));
 
     std::cout << "DEBUG: Loaded " << loader.LoadedMeshes.size() << " meshes" << std::endl;
     std::cout << "DEBUG: Loaded " << loader.LoadedVertices.size() << " vertices" << std::endl;
