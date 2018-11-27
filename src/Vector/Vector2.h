@@ -29,6 +29,7 @@ class Vector2 {
     Vector2 operator+(Vector2 const& right) const;
     Vector2 operator-(Vector2 const& right) const;
     Vector2 operator*(float const& other) const;
+    Vector2 operator/(float const& other) const;
 
     float const&    getX(void) const;
     void            SetX(float const& X);

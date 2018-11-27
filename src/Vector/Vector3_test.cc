@@ -66,7 +66,7 @@ namespace rt {
     TEST(Vector3, operatorEgal) {
         Vector3 v = Vector3();
         Vector3 w = Vector3(1, 2, 3);
-        
+
         EXPECT_FALSE(v == w);
         v.SetX(1);
         v.SetY(2);
@@ -77,7 +77,7 @@ namespace rt {
     TEST(Vector3, operatorNotEgal) {
         Vector3 v = Vector3();
         Vector3 w = Vector3(1, 2, 3);
-        
+
         EXPECT_TRUE(v != w);
         v.SetX(1);
         v.SetY(2);
@@ -103,6 +103,12 @@ namespace rt {
         Vector3 v = Vector3(1, 2, 3);
 
         EXPECT_EQ(v * 6, Vector3(6, 12, 18));
+    }
+
+    TEST(Vector3, operatorDivision) {
+        Vector3 v = Vector3(1, 2, 3);
+
+        EXPECT_EQ(v / 2, Vector3(0.5, 1, 1.5));
     }
 
     TEST(Vector3, CrossProduct) {

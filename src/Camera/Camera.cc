@@ -17,7 +17,6 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <cstdlib>
 #include <cmath>
-#include <iostream>
 #include "Camera.h"
 
 namespace rt {
@@ -36,10 +35,9 @@ namespace rt {
     }
 
     Vector3 Camera::generateRay(Vector2 const &pos) const {
-        float Rx = std::rand() / (RAND_MAX);
-        float Ry = std::rand() / (RAND_MAX);
-        Rx = 0.f;
-        Ry = 0.f;
+        float Rx = static_cast<float>(std::rand()) / RAND_MAX;
+        float Ry = static_cast<float>(std::rand()) / RAND_MAX;
+
         Vector3 pixel = (_screenCorner + (_axis[0] * 2.f * ((pos.getX() + Rx)
         / _screenRes.getX()))) - (_axis[1] * 2.f * ((pos.getY() + Ry)
         / _screenRes.getY()));

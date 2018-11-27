@@ -52,7 +52,7 @@ namespace rt {
     TEST(Vector2, operatorEgal) {
         Vector2 v = Vector2();
         Vector2 w = Vector2(1, 2);
-        
+
         EXPECT_FALSE(v == w);
         v.SetX(1);
         v.SetY(2);
@@ -62,7 +62,7 @@ namespace rt {
     TEST(Vector2, operatorNotEgal) {
         Vector2 v = Vector2();
         Vector2 w = Vector2(1, 2);
-        
+
         EXPECT_TRUE(v != w);
         v.SetX(1);
         v.SetY(2);

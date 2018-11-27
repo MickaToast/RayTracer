@@ -49,7 +49,11 @@ namespace rt {
     }
 
     Vector2 Vector2::operator*(float const& other) const {
-        return Vector2(_X *other, _Y * other);
+        return Vector2(_X * other, _Y * other);
+    }
+
+    Vector2 Vector2::operator/(float const& other) const {
+        return Vector2(_X / other, _Y / other);
     }
 
     std::ostream& operator<<(std::ostream& os, Vector2 const& v) {
