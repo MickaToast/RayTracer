@@ -24,20 +24,20 @@ class Vector2 {
     Vector2(float X_, float Y);
     ~Vector2(void);
 
-    bool operator==(const Vector2& other) const;
-    bool operator!=(const Vector2& other) const;
-    Vector2 operator+(const Vector2& right) const;
-    Vector2 operator-(const Vector2& right) const;
-    Vector2 operator*(const float& other) const;
+    bool    operator==(Vector2 const& other) const;
+    bool    operator!=(Vector2 const& other) const;
+    Vector2 operator+(Vector2 const& right) const;
+    Vector2 operator-(Vector2 const& right) const;
+    Vector2 operator*(float const& other) const;
 
     float const&    getX(void) const;
-    void            SetX(const float& X);
+    void            SetX(float const& X);
     float const&    getY(void) const;
-    void            SetY(const float& X);
+    void            SetY(float const& X);
 
  private:
     float   _X;
     float   _Y;
 };
-std::ostream& operator<<(std::ostream& os, const Vector2& v);
+std::ostream& operator<<(std::ostream& os, Vector2 const& v);
 }  // namespace rt

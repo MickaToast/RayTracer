@@ -23,6 +23,8 @@ include_directories(${GTEST_INCLUDE_DIRS})
  
 # Link runTests with what we want to test and the GTest and pthread library
 set(TEST_FILES  src/main_test.cc
-                src/Camera/Camera_test.cc)
+                src/Camera/Camera_test.cc
+                src/Vector/Vector2_test.cc
+                src/Vector/Vector3_test.cc)
 add_executable(runTests ${TEST_FILES} ${SOURCE_FILES})
 target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)

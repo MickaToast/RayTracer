@@ -24,29 +24,29 @@ class Vector3 {
     Vector3(float X, float Y, float Z);
     ~Vector3(void);
 
-    Vector3 Cross(const Vector3 other) const;
-    float   Dot(const Vector3 other) const;
+    Vector3 Cross(Vector3 const& other) const;
+    float   Dot(Vector3 const& other) const;
     float   Norm(void) const;
     void    Normalize(void);
 
-    bool    operator==(const Vector3& other) const;
-    bool    operator!=(const Vector3& other) const;
-    Vector3 operator+(const Vector3& right) const;
-    Vector3 operator-(const Vector3& right) const;
-    Vector3 operator*(const float& other) const;
-    Vector3 operator/(const float& other) const;
+    bool    operator==(Vector3 const& other) const;
+    bool    operator!=(Vector3 const& other) const;
+    Vector3 operator+(Vector3 const& right) const;
+    Vector3 operator-(Vector3 const& right) const;
+    Vector3 operator*(float const& other) const;
+    Vector3 operator/(float const& other) const;
 
     float const&    getX(void) const;
-    void            SetX(const float& X);
+    void            SetX(float const& X);
     float const&    getY(void) const;
-    void            SetY(const float& X);
+    void            SetY(float const& X);
     float const&    getZ(void) const;
-    void            SetZ(const float& X);
+    void            SetZ(float const& X);
 
  private:
     float   _X;
     float   _Y;
     float   _Z;
 };
-std::ostream& operator<<(std::ostream& os, const Vector3& v);
+std::ostream& operator<<(std::ostream& os, Vector3 const& v);
 }  // namespace rt

@@ -18,57 +18,66 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <cstdlib>
 #include <cmath>
 #include <iostream>
-#include "src/Camera/Camera.h"
+#include "Camera.h"
 
 namespace rt {
     Camera::Camera(Vector3 const& pos, Vector3 const& target) {
         _pos = pos;
-        this->computeScreen(target);
+        this->generateAxis(target);
+        this->generateScreen();
     }
 
     Camera::Camera(Vector3 const& target) {
-        this->computeScreen(target);
+        this->generateAxis(target);
+        this->generateScreen();
     }
 
     Camera::~Camera(void) {
     }
 
     Vector3 Camera::generateRay(Vector2 const &pos) const {
-        float Rx = static_cast<double>(std::rand() / (RAND_MAX));
-        float Ry = static_cast<double>(std::rand() / (RAND_MAX));
-        Rx = 0;
-        Ry = 0;
-        Vector3 pixel = (_screenCorner + (_axis[0] * ((pos.getX() + Rx)
-        / _screenRes.getX()))) + (_axis[1] * ((pos.getY() + Ry)
+        float Rx = std::rand() / (RAND_MAX);
+        float Ry = std::rand() / (RAND_MAX);
+        Rx = 0.f;
+        Ry = 0.f;
+        Vector3 pixel = (_screenCorner + (_axis[0] * 2.f * ((pos.getX() + Rx)
+        / _screenRes.getX()))) - (_axis[1] * 2.f * ((pos.getY() + Ry)
         / _screenRes.getY()));
         Vector3 ray = pixel - _pos;
-        std::cout << "Pixel" << ray << std::endl;
-//        ray.Normalize();
+        ray.Normalize();
         return ray;
     }
 
-    std::array<Vector3, 3> const& Camera::getAxis(void) const {
-        return _axis;
-    }
-
-    void Camera::computeScreen(Vector3 const& target) {
+    void Camera::generateAxis(Vector3 const& target) {
         _axis[2] = target - _pos;
         _axis[2].Normalize();
         _axis[0] = Vector3(0, -1, 0).Cross(_axis[2]);
         _axis[0].Normalize();
         _axis[1] = _axis[0].Cross(_axis[2]);
         _axis[1].Normalize();
+    }
 
-        float screenWidth = 2.f * std::tan((_fov / 2.f) * M_PI / 180.f)
+    void Camera::generateScreen() {
+      float screenWidth = 2.f * std::tan((_fov / 2.f) * M_PI / 180.f)
         * _screenDist;
-        std::cout << _screenRes.getY() / _screenRes.getX() << std::endl;
-        std::cout << screenWidth << std::endl;
-        std::cout << 1080.f / 1920.f << std::endl;
         _screenSize = Vector2(screenWidth, screenWidth * _screenRes.getY()
         / _screenRes.getX());
 
         _screenCenter = _pos + _axis[2] * _screenDist;
         _screenCorner = (_screenCenter - _axis[0] * (_screenSize.getX()
         / 2.f)) + _axis[1] * (_screenSize.getY() / 2.f);
+    }
+
+    std::array<Vector3, 3> const& Camera::getAxis(void) const {
+        return _axis;
+    }
+
+    Vector2 const& Camera::getRes(void) const {
+        return _screenRes;
+    }
+
+    void Camera::setRes(const Vector2& res) {
+        _screenRes = res;
+        this->generateScreen();
     }
 }  // namespace rt

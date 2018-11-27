@@ -28,16 +28,19 @@ class Camera {
     explicit Camera(Vector3 const& target);
     virtual ~Camera(void);
 
-    Vector3 generateRay(Vector2 const &pos) const;
+    Vector3  generateRay(Vector2 const &pos) const;
+    void     generateAxis(Vector3 const& target);
+    void     generateScreen();
 
     std::array<Vector3, 3> const& getAxis(void) const;
-    void computeScreen(Vector3 const& target);
+    Vector2 const&                getRes(void) const;
+    void                          setRes(const Vector2& res);
 
  private:
     Vector3                 _pos = Vector3(0, 0, 0);
     std::array<Vector3, 3>  _axis;
     float                   _fov = 90.0;
-    Vector2                 _screenRes = Vector2(1080, 1080);
+    Vector2                 _screenRes = Vector2(1920, 1080);
     Vector2                 _screenSize;
     Vector3                 _screenCenter;
     Vector3                 _screenCorner;

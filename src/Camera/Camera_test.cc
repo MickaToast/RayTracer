@@ -35,14 +35,29 @@ namespace rt {
         EXPECT_EQ(cam.getAxis()[2], Vector3(-1, 0, 0));
     }
 
+    TEST(Camera, changingRes) {
+        Camera cam = Camera(Vector3(-1, 0, 0));
+
+        EXPECT_EQ(cam.getRes(), Vector2(1920, 1080));
+        cam.setRes(Vector2(1080, 1080));
+        EXPECT_EQ(cam.getRes(), Vector2(1080, 1080));
+    }
+
     TEST(Camera, generateRayBasic) {
         Camera cam = Camera(Vector3(0, 0, -1));
 
+        cam.setRes(Vector2(1080, 1080));
         Vector3 ray = cam.generateRay(Vector2(0, 0));
-        std::cout << "0,0 " << ray << std::endl << std::endl;
+        Vector3 cmp = Vector3(-1, 1, -1);
+        cmp.Normalize();
+        EXPECT_EQ(ray, cmp);
         ray = cam.generateRay(Vector2(540, 540));
-        std::cout << "540,540 " << ray << std::endl << std::endl;
+        cmp = Vector3(0, 0, -1);
+        cmp.Normalize();
+        EXPECT_EQ(ray, cmp);
         ray = cam.generateRay(Vector2(1080, 1080));
-        std::cout << "1080,1080 " << ray << std::endl << std::endl;
+        cmp = Vector3(1, -1, -1);
+        cmp.Normalize();
+        EXPECT_EQ(ray, cmp);
     }
 }  // namespace rt

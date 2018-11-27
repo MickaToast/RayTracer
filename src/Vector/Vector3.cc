@@ -35,13 +35,13 @@ namespace rt {
     Vector3::~Vector3(void) {
     }
 
-    Vector3 Vector3::Cross(const Vector3 other) const {
+    Vector3 Vector3::Cross(Vector3 const& other) const {
         return Vector3(_Y * other._Z - _Z * other._Y,
         _Z * other._X - _X * other._Z,
         _X * other._Y - _Y * other._X);
     }
 
-    float Vector3::Dot(const Vector3 other) const {
+    float Vector3::Dot(Vector3 const& other) const {
         return (_X * other._X) + (_Y * other._Y) + (_Z * other._Z);
     }
 
@@ -56,27 +56,27 @@ namespace rt {
         _Z = _Z / norm;
     }
 
-    bool Vector3::operator==(const Vector3& other) const {
+    bool Vector3::operator==(Vector3 const& other) const {
         return (_X == other._X && _Y == other._Y && _Z == other._Z);
     }
 
-    bool Vector3::operator!=(const Vector3& other) const {
+    bool Vector3::operator!=(Vector3 const& other) const {
         return !(_X == other._X && _Y == other._Y && _Z == other._Z);
     }
 
-    Vector3 Vector3::operator+(const Vector3& right) const {
+    Vector3 Vector3::operator+(Vector3 const& right) const {
         return Vector3(_X + right._X, _Y + right._Y, _Z + right._Z);
     }
 
-    Vector3 Vector3::operator-(const Vector3& right) const {
+    Vector3 Vector3::operator-(Vector3 const& right) const {
         return Vector3(_X - right._X, _Y - right._Y, _Z - right._Z);
     }
 
-    Vector3 Vector3::operator*(const float& other) const {
+    Vector3 Vector3::operator*(float const& other) const {
         return Vector3(_X * other, _Y * other, _Z * other);
     }
 
-    Vector3 Vector3::operator/(const float& other) const {
+    Vector3 Vector3::operator/(float const& other) const {
         return Vector3(_X / other, _Y / other, _Z / other);
     }
 
@@ -89,7 +89,7 @@ namespace rt {
         return _X;
     }
 
-    void Vector3::SetX(const float& X) {
+    void Vector3::SetX(float const& X) {
         _X = X;
     }
 
@@ -97,7 +97,7 @@ namespace rt {
         return _Y;
     }
 
-    void Vector3::SetY(const float& Y) {
+    void Vector3::SetY(float const& Y) {
         _Y = Y;
     }
 
@@ -105,7 +105,7 @@ namespace rt {
         return _Z;
     }
 
-    void Vector3::SetZ(const float& Z) {
+    void Vector3::SetZ(float const& Z) {
         _Z = Z;
     }
 }  // namespace rt

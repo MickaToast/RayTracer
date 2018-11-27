@@ -32,27 +32,27 @@ namespace rt {
     Vector2::~Vector2(void) {
     }
 
-    bool Vector2::operator==(const Vector2& other) const {
+    bool Vector2::operator==(Vector2 const& other) const {
         return (_X == other._X && _Y == other._Y);
     }
 
-    bool Vector2::operator!=(const Vector2& other) const {
+    bool Vector2::operator!=(Vector2 const& other) const {
         return !(_X == other._X && _Y == other._Y);
     }
 
-    Vector2 Vector2::operator+(const Vector2& right) const {
+    Vector2 Vector2::operator+(Vector2 const& right) const {
         return Vector2(_X + right._X, _Y + right._Y);
     }
 
-    Vector2 Vector2::operator-(const Vector2& right) const {
+    Vector2 Vector2::operator-(Vector2 const& right) const {
         return Vector2(_X - right._X, _Y - right._Y);
     }
 
-    Vector2 Vector2::operator*(const float& other) const {
+    Vector2 Vector2::operator*(float const& other) const {
         return Vector2(_X *other, _Y * other);
     }
 
-    std::ostream& operator<<(std::ostream& os, const Vector2& v) {
+    std::ostream& operator<<(std::ostream& os, Vector2 const& v) {
         os << "(" << v.getX() << "," << v.getY() << ")";
         return os;
     }
@@ -61,7 +61,7 @@ namespace rt {
         return _X;
     }
 
-    void Vector2::SetX(const float& X) {
+    void Vector2::SetX(float const& X) {
         _X = X;
     }
 
@@ -69,7 +69,7 @@ namespace rt {
         return _Y;
     }
 
-    void Vector2::SetY(const float& Y) {
+    void Vector2::SetY(float const& Y) {
         _Y = Y;
     }
 }  // namespace rt
