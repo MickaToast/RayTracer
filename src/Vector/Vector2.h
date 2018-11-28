@@ -15,7 +15,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#pragma one
+#pragma once
 
 namespace rt {
 class Vector2 {
@@ -31,9 +31,9 @@ class Vector2 {
     Vector2 operator*(float const& other) const;
     Vector2 operator/(float const& other) const;
 
-    float const&    getX(void) const;
+    float const&    GetX(void) const;
     void            SetX(float const& X);
-    float const&    getY(void) const;
+    float const&    GetY(void) const;
     void            SetY(float const& X);
 
  private:

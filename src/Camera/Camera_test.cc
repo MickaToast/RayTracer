@@ -17,6 +17,8 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include "gtest/gtest.h"
 #include "Camera.h"
+#include "../Vector/Vector3.h"
+#include "../Vector/Vector2.h"
 
 namespace rt {
     TEST(Camera, initBasic) {
@@ -51,43 +53,43 @@ namespace rt {
         cam.setRes(Vector2(1080, 1080));
 
         Vector3 ray = cam.generateRay(Vector2(0, 0));
-        ASSERT_FLOAT_EQ(ray.getX(), -0.57744402);
-        ASSERT_FLOAT_EQ(ray.getY(), 0.57712692);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.57747984);
+        ASSERT_FLOAT_EQ(ray.GetX(), -0.57744402);
+        ASSERT_FLOAT_EQ(ray.GetY(), 0.57712692);
+        ASSERT_FLOAT_EQ(ray.GetZ(), -0.57747984);
         ray = cam.generateRay(Vector2(540, 0));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.00090465625);
-        ASSERT_FLOAT_EQ(ray.getY(), 0.70682973);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.70738316);
+        ASSERT_FLOAT_EQ(ray.GetX(), 0.00090465625);
+        ASSERT_FLOAT_EQ(ray.GetY(), 0.70682973);
+        ASSERT_FLOAT_EQ(ray.GetZ(), -0.70738316);
         ray = cam.generateRay(Vector2(1080, 0));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.57758635);
-        ASSERT_FLOAT_EQ(ray.getY(), 0.57709843);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.57736588);
+        ASSERT_FLOAT_EQ(ray.GetX(), 0.57758635);
+        ASSERT_FLOAT_EQ(ray.GetY(), 0.57709843);
+        ASSERT_FLOAT_EQ(ray.GetZ(), -0.57736588);
 
         ray = cam.generateRay(Vector2(0, 540));
-        ASSERT_FLOAT_EQ(ray.getX(), -0.70668918);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.0011315502);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.70752323);
+        ASSERT_FLOAT_EQ(ray.GetX(), -0.70668918);
+        ASSERT_FLOAT_EQ(ray.GetY(), -0.0011315502);
+        ASSERT_FLOAT_EQ(ray.GetZ(), -0.70752323);
         ray = cam.generateRay(Vector2(540, 540));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.00055861467);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.000046133981);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.99999988);
+        ASSERT_FLOAT_EQ(ray.GetX(), 0.00055861467);
+        ASSERT_FLOAT_EQ(ray.GetY(), -0.000046133981);
+        ASSERT_FLOAT_EQ(ray.GetZ(), -0.99999988);
         ray = cam.generateRay(Vector2(1080, 540));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.70734531);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.0010019129);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.70686752);
+        ASSERT_FLOAT_EQ(ray.GetX(), 0.70734531);
+        ASSERT_FLOAT_EQ(ray.GetY(), -0.0010019129);
+        ASSERT_FLOAT_EQ(ray.GetZ(), -0.70686752);
 
         ray = cam.generateRay(Vector2(0, 1080));
-        ASSERT_FLOAT_EQ(ray.getX(), -0.5770753);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.57756031);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.57741517);
+        ASSERT_FLOAT_EQ(ray.GetX(), -0.5770753);
+        ASSERT_FLOAT_EQ(ray.GetY(), -0.57756031);
+        ASSERT_FLOAT_EQ(ray.GetZ(), -0.57741517);
         ray = cam.generateRay(Vector2(540, 1080));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.00013966055);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.70760429);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.70660895);
+        ASSERT_FLOAT_EQ(ray.GetX(), 0.00013966055);
+        ASSERT_FLOAT_EQ(ray.GetY(), -0.70760429);
+        ASSERT_FLOAT_EQ(ray.GetZ(), -0.70660895);
         ray = cam.generateRay(Vector2(1080, 1080));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.5772121);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.57771367);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.57712483);
+        ASSERT_FLOAT_EQ(ray.GetX(), 0.5772121);
+        ASSERT_FLOAT_EQ(ray.GetY(), -0.57771367);
+        ASSERT_FLOAT_EQ(ray.GetZ(), -0.57712483);
     }
 
     TEST(Camera, generateRay) {
@@ -95,8 +97,8 @@ namespace rt {
 
         cam.setRes(Vector2(1080, 1080));
         Vector3 ray = cam.generateRay(Vector2(540, 540));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.0010455832);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.7080791);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.70613241);
+        ASSERT_FLOAT_EQ(ray.GetX(), 0.0010455832);
+        ASSERT_FLOAT_EQ(ray.GetY(), -0.7080791);
+        ASSERT_FLOAT_EQ(ray.GetZ(), -0.70613241);
     }
 }  // namespace rt

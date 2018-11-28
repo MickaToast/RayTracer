@@ -61,7 +61,7 @@ namespace rt {
     }
 
     bool Vector3::operator!=(Vector3 const& other) const {
-        return !(_X == other._X && _Y == other._Y && _Z == other._Z);
+        return (_X != other._X || _Y != other._Y || _Z != other._Z);
     }
 
     Vector3 Vector3::operator+(Vector3 const& right) const {
@@ -81,11 +81,11 @@ namespace rt {
     }
 
     std::ostream& operator<<(std::ostream& os, const Vector3& v) {
-        os << "(" << v.getX() << "," << v.getY() << "," << v.getZ() << ")";
+        os << "(" << v.GetX() << "," << v.GetY() << "," << v.GetZ() << ")";
         return os;
     }
 
-    float const& Vector3::getX(void) const {
+    float const& Vector3::GetX(void) const {
         return _X;
     }
 
@@ -93,7 +93,7 @@ namespace rt {
         _X = X;
     }
 
-    float const& Vector3::getY(void) const {
+    float const& Vector3::GetY(void) const {
         return _Y;
     }
 
@@ -101,7 +101,7 @@ namespace rt {
         _Y = Y;
     }
 
-    float const& Vector3::getZ(void) const {
+    float const& Vector3::GetZ(void) const {
         return _Z;
     }
 

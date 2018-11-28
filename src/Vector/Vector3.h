@@ -36,11 +36,11 @@ class Vector3 {
     Vector3 operator*(float const& other) const;
     Vector3 operator/(float const& other) const;
 
-    float const&    getX(void) const;
+    float const&    GetX(void) const;
     void            SetX(float const& X);
-    float const&    getY(void) const;
+    float const&    GetY(void) const;
     void            SetY(float const& X);
-    float const&    getZ(void) const;
+    float const&    GetZ(void) const;
     void            SetZ(float const& X);
 
  private:

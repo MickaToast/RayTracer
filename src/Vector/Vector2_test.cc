@@ -22,31 +22,31 @@ namespace rt {
     TEST(Vector2, initBasic) {
         Vector2 v = Vector2();
 
-        EXPECT_EQ(v.getX(), 0);
-        EXPECT_EQ(v.getY(), 0);
+        EXPECT_EQ(v.GetX(), 0);
+        EXPECT_EQ(v.GetY(), 0);
     }
 
     TEST(Vector2, initBasic2) {
         Vector2 v = Vector2(3, 4);
 
-        EXPECT_EQ(v.getX(), 3);
-        EXPECT_EQ(v.getY(), 4);
+        EXPECT_EQ(v.GetX(), 3);
+        EXPECT_EQ(v.GetY(), 4);
     }
 
     TEST(Vector2, setX) {
         Vector2 v = Vector2();
 
         v.SetX(3);
-        EXPECT_EQ(v.getX(), 3);
-        EXPECT_EQ(v.getY(), 0);
+        EXPECT_EQ(v.GetX(), 3);
+        EXPECT_EQ(v.GetY(), 0);
     }
 
     TEST(Vector2, setY) {
         Vector2 v = Vector2();
 
         v.SetY(4);
-        EXPECT_EQ(v.getX(), 0);
-        EXPECT_EQ(v.getY(), 4);
+        EXPECT_EQ(v.GetX(), 0);
+        EXPECT_EQ(v.GetY(), 4);
     }
 
     TEST(Vector2, operatorEgal) {

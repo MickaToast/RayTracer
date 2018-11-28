@@ -18,7 +18,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <cstdlib>
 #include <ctime>
 #include <SFML/Graphics.hpp>
-#include "loader/OBJLoader.hh"
+#include "Loader/OBJLoader.h"
 
 int main(int argc, char **argv) {
     if (argc != 2) {

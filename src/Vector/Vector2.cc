@@ -37,7 +37,7 @@ namespace rt {
     }
 
     bool Vector2::operator!=(Vector2 const& other) const {
-        return !(_X == other._X && _Y == other._Y);
+        return (_X != other._X || _Y != other._Y);
     }
 
     Vector2 Vector2::operator+(Vector2 const& right) const {
@@ -57,11 +57,11 @@ namespace rt {
     }
 
     std::ostream& operator<<(std::ostream& os, Vector2 const& v) {
-        os << "(" << v.getX() << "," << v.getY() << ")";
+        os << "(" << v.GetX() << "," << v.GetY() << ")";
         return os;
     }
 
-    float const& Vector2::getX(void) const {
+    float const& Vector2::GetX(void) const {
         return _X;
     }
 
@@ -69,7 +69,7 @@ namespace rt {
         _X = X;
     }
 
-    float const& Vector2::getY(void) const {
+    float const& Vector2::GetY(void) const {
         return _Y;
     }
 
