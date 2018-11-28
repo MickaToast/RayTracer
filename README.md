@@ -1,4 +1,5 @@
 # RayTracer
+[![Build Status](https://travis-ci.com/MickaToast/RayTracer.svg?token=ZoqAX5iqiYxpkVoJ5TEr&branch=master)](https://travis-ci.com/MickaToast/RayTracer)
 
 ## How to launch
 

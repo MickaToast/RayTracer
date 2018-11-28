@@ -1,0 +1,19 @@
+sudo: true
+language: cpp
+compiler:
+  - gcc
+addons:
+  apt:
+    packages:
+      - libsfml-dev
+      - libgtest-dev
+      - cmake
+before_install:
+  - "cd /usr/src/gtest"
+  - "sudo cmake CMakeLists.txt"
+  - "sudo make"
+  - "sudo cp *.a /usr/lib"
+  - "cd -"
+script:
+  - "mkdir cmake-build-debug && cd cmake-build-debug"
+  - "cmake .. && make && ./runTests"
