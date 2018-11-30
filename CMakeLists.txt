@@ -28,3 +28,4 @@ set(TEST_FILES  src/main_test.cc
                 src/Vector/Vector3_test.cc)
 add_executable(runTests ${TEST_FILES} ${SOURCE_FILES})
 target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)
+target_compile_definitions(runTests PUBLIC RT_TESTING_ENV)

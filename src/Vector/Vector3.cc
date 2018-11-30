@@ -20,16 +20,10 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Vector3.h"
 
 namespace rt {
-    Vector3::Vector3() {
-        _X = 0.0f;
-        _Y = 0.0f;
-        _Z = 0.0f;
+    Vector3::Vector3(): _X(0.0f), _Y(0.0f), _Z(0.0f) {
     }
 
-    Vector3::Vector3(float X, float Y, float Z) {
-        _X = X;
-        _Y = Y;
-        _Z = Z;
+    Vector3::Vector3(float X, float Y, float Z): _X(X), _Y(Y), _Z(Z) {
     }
 
     Vector3::~Vector3(void) {

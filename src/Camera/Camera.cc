@@ -21,13 +21,16 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Camera.h"
 
 namespace rt {
-    Camera::Camera(Vector3 const& pos, Vector3 const& target, Vector2 const& res): _pos(pos), _screenRes(res) {
+    Camera::Camera(Vector3 const& pos, Vector3 const& target,
+    Vector2 const& res): _pos(pos), _fov(90.0f), _screenRes(res),
+    _screenDist(1.f) {
         _pos = pos;
         this->generateAxis(target);
         this->generateScreen();
     }
 
-    Camera::Camera(Vector3 const& target, Vector2 const& res): _screenRes(res) {
+    Camera::Camera(Vector3 const& target, Vector2 const& res): _pos(Vector3()),
+     _fov(90.0f), _screenRes(res), _screenDist(1.f) {
         this->generateAxis(target);
         this->generateScreen();
     }
@@ -36,9 +39,14 @@ namespace rt {
     }
 
     Vector3 Camera::GenerateRay(Vector2 const &pos) const {
+        #ifndef RT_TESTING_ENV
         float Rx = static_cast<float>(std::rand()) / RAND_MAX;
         float Ry = static_cast<float>(std::rand()) / RAND_MAX;
-
+        #else
+        float Rx = 0.0f;
+        float Ry = 0.0f;
+        #endif
+        
         Vector3 pixel = (_screenCorner + (_axis[0] * 2.f * ((pos.getX() + Rx)
         / _screenRes.getX()))) - (_axis[1] * 2.f * ((pos.getY() + Ry)
         / _screenRes.getY()));

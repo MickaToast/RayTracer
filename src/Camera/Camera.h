@@ -35,14 +35,14 @@ class Camera {
     void                          setRes(const Vector2& res);
 
  private:
-    Vector3                 _pos = Vector3(0, 0, 0);
+    Vector3                 _pos;
     std::array<Vector3, 3>  _axis;
-    float                   _fov = 90.0;
+    float                   _fov;
     Vector2                 _screenRes;
     Vector2                 _screenSize;
     Vector3                 _screenCenter;
     Vector3                 _screenCorner;
-    float                   _screenDist = 1;
+    float                   _screenDist;
 
     void     generateAxis(Vector3 const& target);
     void     generateScreen();

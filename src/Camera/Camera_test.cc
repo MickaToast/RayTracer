@@ -49,51 +49,50 @@ namespace rt {
         Camera cam = Camera(Vector3(0, 0, -1), Vector2(1080, 1080));
 
         Vector3 ray = cam.GenerateRay(Vector2(0, 0));
-        ASSERT_FLOAT_EQ(ray.getX(), -0.57744402);
-        ASSERT_FLOAT_EQ(ray.getY(), 0.57712692);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.57747984);
+        Vector3 cmp = Vector3(-1, 1, -1);
+        cmp.Normalize();
+        EXPECT_EQ(ray, cmp);
         ray = cam.GenerateRay(Vector2(540, 0));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.00090465625);
-        ASSERT_FLOAT_EQ(ray.getY(), 0.70682973);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.70738316);
+        cmp = Vector3(0, 1, -1);
+        cmp.Normalize();
+        EXPECT_EQ(ray, cmp);
         ray = cam.GenerateRay(Vector2(1080, 0));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.57758635);
-        ASSERT_FLOAT_EQ(ray.getY(), 0.57709843);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.57736588);
-
+        cmp = Vector3(1, 1, -1);
+        cmp.Normalize();
+        EXPECT_EQ(ray, cmp);
         ray = cam.GenerateRay(Vector2(0, 540));
-        ASSERT_FLOAT_EQ(ray.getX(), -0.70668918);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.0011315502);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.70752323);
+        cmp = Vector3(-1, 0, -1);
+        cmp.Normalize();
+        EXPECT_EQ(ray, cmp);
         ray = cam.GenerateRay(Vector2(540, 540));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.00055861467);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.000046133981);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.99999988);
+        cmp = Vector3(0, 0, -1);
+        cmp.Normalize();
+        EXPECT_EQ(ray, cmp);
         ray = cam.GenerateRay(Vector2(1080, 540));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.70734531);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.0010019129);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.70686752);
-
+        cmp = Vector3(1, 0, -1);
+        cmp.Normalize();
+        EXPECT_EQ(ray, cmp);
         ray = cam.GenerateRay(Vector2(0, 1080));
-        ASSERT_FLOAT_EQ(ray.getX(), -0.5770753);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.57756031);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.57741517);
+        cmp = Vector3(-1, -1, -1);
+        cmp.Normalize();
+        EXPECT_EQ(ray, cmp);
         ray = cam.GenerateRay(Vector2(540, 1080));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.00013966055);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.70760429);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.70660895);
+        cmp = Vector3(0, -1, -1);
+        cmp.Normalize();
+        EXPECT_EQ(ray, cmp);
         ray = cam.GenerateRay(Vector2(1080, 1080));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.5772121);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.57771367);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.57712483);
+        cmp = Vector3(1, -1, -1);
+        cmp.Normalize();
+        EXPECT_EQ(ray, cmp);
     }
 
     TEST(Camera, GenerateRay) {
-        Camera cam = Camera(Vector3(0, 1, 0), Vector3(0, 0, -1), Vector2(1080, 1080));
+        Camera cam = Camera(Vector3(0, 1, 0), Vector3(0, 0, -1),
+        Vector2(1080, 1080));
 
         Vector3 ray = cam.GenerateRay(Vector2(540, 540));
-        ASSERT_FLOAT_EQ(ray.getX(), 0.0010455832);
-        ASSERT_FLOAT_EQ(ray.getY(), -0.7080791);
-        ASSERT_FLOAT_EQ(ray.getZ(), -0.70613241);
+        Vector3 cmp = Vector3(0, -1, -1);
+        cmp.Normalize();
+        EXPECT_EQ(ray, cmp);
     }
 }  // namespace rt
