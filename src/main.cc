@@ -15,8 +15,12 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include <cstdlib>
+#include <ctime>
 #include <SFML/Graphics.hpp>
-#include "loader/OBJLoader.hh"
+#include "Loader/OBJLoader.h"
+#include "Camera/Camera.h"
+#include "Engine/Engine.h"
 
 int main(int argc, char **argv) {
     if (argc != 2) {
@@ -33,20 +37,27 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    std::cout << "DEBUG: Loaded " << loader.LoadedMeshes.size()
-    << " meshes" << std::endl;
-    std::cout << "DEBUG: Loaded " << loader.LoadedVertices.size()
-    << " vertices" << std::endl;
-    std::cout << "DEBUG: Loaded " << loader.LoadedIndices.size()
-    << " indices" << std::endl;
-    std::cout << "DEBUG: Loaded " << loader.LoadedMaterials.size()
-    << " materials" << std::endl;
-
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML Work!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "RayTracer 2.0");
+    window.setFramerateLimit(10);
+    rt::Engine engine(loader, rt::Camera(rt::Vector3(0, 0, -1), rt::Vector2(window.getSize().x, window.getSize().y)));
+    sf::Uint8* pixels = new sf::Uint8[window.getSize().x * window.getSize().y * 4];
+    sf::Texture texture;
+    texture.create(window.getSize().x, window.getSize().y);
+    sf::Sprite sprite(texture);
 
     while (window.isOpen()) {
+        std::vector<rt::Color> frame = engine.Generate(rt::Vector2(0, 0), rt::Vector2(window.getSize().x - 1, window.getSize().y - 1));
+
+        int i = 0;
+        for (rt::Color const& pixel : frame) {
+            pixels[i] = pixel.GetColor().rgba.r;
+            pixels[i + 1] = pixel.GetColor().rgba.g;
+            pixels[i + 2] = pixel.GetColor().rgba.b;
+            pixels[i + 3] = pixel.GetColor().rgba.a;
+            i += 4;
+        }
+        texture.update(pixels);
+
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
@@ -55,7 +66,7 @@ int main(int argc, char **argv) {
         }
 
         window.clear();
-        window.draw(shape);
+        window.draw(sprite);
         window.display();
     }
 

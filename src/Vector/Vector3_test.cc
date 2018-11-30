@@ -23,44 +23,44 @@ namespace rt {
     TEST(Vector3, initBasic) {
         Vector3 v = Vector3();
 
-        EXPECT_EQ(v.getX(), 0);
-        EXPECT_EQ(v.getY(), 0);
-        EXPECT_EQ(v.getZ(), 0);
+        EXPECT_EQ(v.GetX(), 0);
+        EXPECT_EQ(v.GetY(), 0);
+        EXPECT_EQ(v.GetZ(), 0);
     }
 
     TEST(Vector3, initBasic2) {
         Vector3 v = Vector3(3, 4, 5);
 
-        EXPECT_EQ(v.getX(), 3);
-        EXPECT_EQ(v.getY(), 4);
-        EXPECT_EQ(v.getZ(), 5);
+        EXPECT_EQ(v.GetX(), 3);
+        EXPECT_EQ(v.GetY(), 4);
+        EXPECT_EQ(v.GetZ(), 5);
     }
 
     TEST(Vector3, setX) {
         Vector3 v = Vector3();
 
         v.SetX(3);
-        EXPECT_EQ(v.getX(), 3);
-        EXPECT_EQ(v.getY(), 0);
-        EXPECT_EQ(v.getZ(), 0);
+        EXPECT_EQ(v.GetX(), 3);
+        EXPECT_EQ(v.GetY(), 0);
+        EXPECT_EQ(v.GetZ(), 0);
     }
 
     TEST(Vector3, setY) {
         Vector3 v = Vector3();
 
         v.SetY(4);
-        EXPECT_EQ(v.getX(), 0);
-        EXPECT_EQ(v.getY(), 4);
-        EXPECT_EQ(v.getZ(), 0);
+        EXPECT_EQ(v.GetX(), 0);
+        EXPECT_EQ(v.GetY(), 4);
+        EXPECT_EQ(v.GetZ(), 0);
     }
 
     TEST(Vector3, setZ) {
         Vector3 v = Vector3();
 
         v.SetZ(5);
-        EXPECT_EQ(v.getX(), 0);
-        EXPECT_EQ(v.getY(), 0);
-        EXPECT_EQ(v.getZ(), 5);
+        EXPECT_EQ(v.GetX(), 0);
+        EXPECT_EQ(v.GetY(), 0);
+        EXPECT_EQ(v.GetZ(), 5);
     }
 
     TEST(Vector3, operatorEgal) {
