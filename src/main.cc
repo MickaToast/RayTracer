@@ -15,8 +15,6 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#include <cstdlib>
-#include <ctime>
 #include <SFML/Graphics.hpp>
 #include "loader/OBJLoader.hh"
 
@@ -34,8 +32,6 @@ int main(int argc, char **argv) {
                      "find it or it was not an .obj file." << std::endl;
         return 1;
     }
-
-    std::srand(time(0));
 
     std::cout << "DEBUG: Loaded " << loader.LoadedMeshes.size()
     << " meshes" << std::endl;

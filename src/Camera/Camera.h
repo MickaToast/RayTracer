@@ -17,6 +17,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
+#include <random>
 #include <array>
 #include "../Vector/Vector3.h"
 #include "../Vector/Vector2.h"
@@ -28,21 +29,24 @@ class Camera {
     explicit Camera(Vector3 const& target, Vector2 const& res);
     virtual ~Camera(void);
 
-    Vector3  GenerateRay(Vector2 const &pos) const;
+    Vector3  GenerateRay(Vector2 const &pos);
 
     std::array<Vector3, 3> const& getAxis(void) const;
     Vector2 const&                getRes(void) const;
     void                          setRes(const Vector2& res);
 
  private:
-    Vector3                 _pos;
-    std::array<Vector3, 3>  _axis;
-    float                   _fov;
-    Vector2                 _screenRes;
-    Vector2                 _screenSize;
-    Vector3                 _screenCenter;
-    Vector3                 _screenCorner;
-    float                   _screenDist;
+    Vector3                               _pos;
+    std::array<Vector3, 3>                _axis;
+    float                                 _fov;
+    Vector2                               _screenRes;
+    Vector2                               _screenSize;
+    Vector3                               _screenCenter;
+    Vector3                               _screenCorner;
+    float                                 _screenDist;
+    std::mt19937                          _gen;
+    std::uniform_real_distribution<float> _dis;
+
 
     void     generateAxis(Vector3 const& target);
     void     generateScreen();

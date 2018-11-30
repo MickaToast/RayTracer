@@ -19,6 +19,5 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
-    std::srand(42);
     return RUN_ALL_TESTS();
 }

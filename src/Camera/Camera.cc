@@ -15,7 +15,6 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#include <random>
 #include <cstdlib>
 #include <cmath>
 #include "Camera.h"
@@ -23,14 +22,15 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     Camera::Camera(Vector3 const& pos, Vector3 const& target,
     Vector2 const& res): _pos(pos), _fov(90.0f), _screenRes(res),
-    _screenDist(1.f) {
+    _screenDist(1.f), _gen(std::random_device()()), _dis(0.f, 1.f) {
         _pos = pos;
         this->generateAxis(target);
         this->generateScreen();
     }
 
     Camera::Camera(Vector3 const& target, Vector2 const& res): _pos(Vector3()),
-     _fov(90.0f), _screenRes(res), _screenDist(1.f) {
+     _fov(90.0f), _screenRes(res), _screenDist(1.f),
+     _gen(std::random_device()()), _dis(0.f, 1.f) {
         this->generateAxis(target);
         this->generateScreen();
     }
@@ -38,15 +38,15 @@ namespace rt {
     Camera::~Camera(void) {
     }
 
-    Vector3 Camera::GenerateRay(Vector2 const &pos) const {
+    Vector3 Camera::GenerateRay(Vector2 const &pos) {
         #ifndef RT_TESTING_ENV
-        float Rx = static_cast<float>(std::rand()) / RAND_MAX;
-        float Ry = static_cast<float>(std::rand()) / RAND_MAX;
+        float Rx = _dis(_gen);
+        float Ry = _dis(_gen);
         #else
         float Rx = 0.0f;
         float Ry = 0.0f;
         #endif
-        
+
         Vector3 pixel = (_screenCorner + (_axis[0] * 2.f * ((pos.getX() + Rx)
         / _screenRes.getX()))) - (_axis[1] * 2.f * ((pos.getY() + Ry)
         / _screenRes.getY()));
