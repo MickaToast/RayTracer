@@ -17,28 +17,24 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
+#include <vector>
+#include "../Loader/OBJLoader.h"
+#include "../Camera/Camera.h"
+#include "../Vector/Vector2.h"
+#include "Color.h"
+
 namespace rt {
-class Vector2 {
- public:
-    Vector2(void);
-    Vector2(float X_, float Y);
-    ~Vector2(void);
+    class Engine {
+    public:
+        explicit            Engine(objl::Loader const& loader, Camera const& camera);
+        virtual             ~Engine();
 
-    bool    operator==(Vector2 const& other) const;
-    bool    operator!=(Vector2 const& other) const;
-    Vector2 operator+(Vector2 const& right) const;
-    Vector2 operator-(Vector2 const& right) const;
-    Vector2 operator*(float const& other) const;
-    Vector2 operator/(float const& other) const;
+        std::vector<Color>  Generate(Vector2 const& from, Vector2 const& to) const;
 
-    float const&    GetX(void) const;
-    void            SetX(float const& X);
-    float const&    GetY(void) const;
-    void            SetY(float const& X);
+    private:
+        Color               raytrace(Vector2 const& pixel) const;
 
- private:
-    float   _X;
-    float   _Y;
-};
-std::ostream& operator<<(std::ostream& os, Vector2 const& v);
+        objl::Loader _loader;
+        Camera _camera;
+    };
 }  // namespace rt

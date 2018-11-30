@@ -57,11 +57,11 @@ namespace rt {
     }
 
     std::ostream& operator<<(std::ostream& os, Vector2 const& v) {
-        os << "(" << v.getX() << "," << v.getY() << ")";
+        os << "(" << v.GetX() << "," << v.GetY() << ")";
         return os;
     }
 
-    float const& Vector2::getX(void) const {
+    float const& Vector2::GetX(void) const {
         return _X;
     }
 
@@ -69,7 +69,7 @@ namespace rt {
         _X = X;
     }
 
-    float const& Vector2::getY(void) const {
+    float const& Vector2::GetY(void) const {
         return _Y;
     }
 

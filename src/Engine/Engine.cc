@@ -15,30 +15,35 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#pragma once
+#include "Engine.h"
+#include "Color.h"
 
 namespace rt {
-class Vector2 {
- public:
-    Vector2(void);
-    Vector2(float X_, float Y);
-    ~Vector2(void);
+    Engine::Engine(objl::Loader const &loader, Camera const &camera) : _loader(loader), _camera(camera) {
+    }
 
-    bool    operator==(Vector2 const& other) const;
-    bool    operator!=(Vector2 const& other) const;
-    Vector2 operator+(Vector2 const& right) const;
-    Vector2 operator-(Vector2 const& right) const;
-    Vector2 operator*(float const& other) const;
-    Vector2 operator/(float const& other) const;
+    Engine::~Engine() {
+    }
 
-    float const&    GetX(void) const;
-    void            SetX(float const& X);
-    float const&    GetY(void) const;
-    void            SetY(float const& X);
+    std::vector<Color> Engine::Generate(const Vector2 &from, const Vector2 &to) const {
+        std::vector<Color> frame;
+        Vector2 current(from);
 
- private:
-    float   _X;
-    float   _Y;
-};
-std::ostream& operator<<(std::ostream& os, Vector2 const& v);
+        while (current != to) {
+            frame.emplace_back(raytrace(current));
+            current.SetX(current.GetX() + 1);
+            if (current.GetX() > to.GetX()) {
+                current.SetY(current.GetY() + 1);
+                current.SetX(from.GetX());
+            }
+        }
+        return frame;
+    }
+
+    Color Engine::raytrace(const rt::Vector2 &pixel) const {
+        Color color(0x000000ff); // Black color
+        //TODO: logic of raytracing a point will be here
+        //TODO: _camera.generateRay(pixel);
+        return color;
+    }
 }  // namespace rt
