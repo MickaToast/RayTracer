@@ -15,18 +15,19 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include <random>
 #include <cstdlib>
 #include <cmath>
 #include "Camera.h"
 
 namespace rt {
-    Camera::Camera(Vector3 const& pos, Vector3 const& target) {
+    Camera::Camera(Vector3 const& pos, Vector3 const& target, Vector2 const& res): _pos(pos), _screenRes(res) {
         _pos = pos;
         this->generateAxis(target);
         this->generateScreen();
     }
 
-    Camera::Camera(Vector3 const& target) {
+    Camera::Camera(Vector3 const& target, Vector2 const& res): _screenRes(res) {
         this->generateAxis(target);
         this->generateScreen();
     }
@@ -34,7 +35,7 @@ namespace rt {
     Camera::~Camera(void) {
     }
 
-    Vector3 Camera::generateRay(Vector2 const &pos) const {
+    Vector3 Camera::GenerateRay(Vector2 const &pos) const {
         float Rx = static_cast<float>(std::rand()) / RAND_MAX;
         float Ry = static_cast<float>(std::rand()) / RAND_MAX;
 

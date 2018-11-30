@@ -20,7 +20,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     TEST(Camera, initBasic) {
-        Camera cam = Camera(Vector3(0, 0, -1));
+        Camera cam = Camera(Vector3(0, 0, -1), Vector2(1920, 1080));
 
         EXPECT_EQ(cam.getAxis()[0], Vector3(1, 0, 0));
         EXPECT_EQ(cam.getAxis()[1], Vector3(0, 1, 0));
@@ -29,7 +29,7 @@ namespace rt {
     }
 
     TEST(Camera, initBasic2) {
-        Camera cam = Camera(Vector3(-1, 0, 0));
+        Camera cam = Camera(Vector3(-1, 0, 0), Vector2(1920, 1080));
 
         EXPECT_EQ(cam.getAxis()[0], Vector3(0, 0, -1));
         EXPECT_EQ(cam.getAxis()[1], Vector3(0, 1, 0));
@@ -38,63 +38,60 @@ namespace rt {
     }
 
     TEST(Camera, changingRes) {
-        Camera cam = Camera(Vector3(-1, 0, 0));
+        Camera cam = Camera(Vector3(-1, 0, 0), Vector2(1920, 1080));
 
         EXPECT_EQ(cam.getRes(), Vector2(1920, 1080));
         cam.setRes(Vector2(1080, 1080));
         EXPECT_EQ(cam.getRes(), Vector2(1080, 1080));
     }
 
-    TEST(Camera, generateRayBasic) {
-        Camera cam = Camera(Vector3(0, 0, -1));
+    TEST(Camera, GenerateRayBasic) {
+        Camera cam = Camera(Vector3(0, 0, -1), Vector2(1080, 1080));
 
-        cam.setRes(Vector2(1080, 1080));
-
-        Vector3 ray = cam.generateRay(Vector2(0, 0));
+        Vector3 ray = cam.GenerateRay(Vector2(0, 0));
         ASSERT_FLOAT_EQ(ray.getX(), -0.57744402);
         ASSERT_FLOAT_EQ(ray.getY(), 0.57712692);
         ASSERT_FLOAT_EQ(ray.getZ(), -0.57747984);
-        ray = cam.generateRay(Vector2(540, 0));
+        ray = cam.GenerateRay(Vector2(540, 0));
         ASSERT_FLOAT_EQ(ray.getX(), 0.00090465625);
         ASSERT_FLOAT_EQ(ray.getY(), 0.70682973);
         ASSERT_FLOAT_EQ(ray.getZ(), -0.70738316);
-        ray = cam.generateRay(Vector2(1080, 0));
+        ray = cam.GenerateRay(Vector2(1080, 0));
         ASSERT_FLOAT_EQ(ray.getX(), 0.57758635);
         ASSERT_FLOAT_EQ(ray.getY(), 0.57709843);
         ASSERT_FLOAT_EQ(ray.getZ(), -0.57736588);
 
-        ray = cam.generateRay(Vector2(0, 540));
+        ray = cam.GenerateRay(Vector2(0, 540));
         ASSERT_FLOAT_EQ(ray.getX(), -0.70668918);
         ASSERT_FLOAT_EQ(ray.getY(), -0.0011315502);
         ASSERT_FLOAT_EQ(ray.getZ(), -0.70752323);
-        ray = cam.generateRay(Vector2(540, 540));
+        ray = cam.GenerateRay(Vector2(540, 540));
         ASSERT_FLOAT_EQ(ray.getX(), 0.00055861467);
         ASSERT_FLOAT_EQ(ray.getY(), -0.000046133981);
         ASSERT_FLOAT_EQ(ray.getZ(), -0.99999988);
-        ray = cam.generateRay(Vector2(1080, 540));
+        ray = cam.GenerateRay(Vector2(1080, 540));
         ASSERT_FLOAT_EQ(ray.getX(), 0.70734531);
         ASSERT_FLOAT_EQ(ray.getY(), -0.0010019129);
         ASSERT_FLOAT_EQ(ray.getZ(), -0.70686752);
 
-        ray = cam.generateRay(Vector2(0, 1080));
+        ray = cam.GenerateRay(Vector2(0, 1080));
         ASSERT_FLOAT_EQ(ray.getX(), -0.5770753);
         ASSERT_FLOAT_EQ(ray.getY(), -0.57756031);
         ASSERT_FLOAT_EQ(ray.getZ(), -0.57741517);
-        ray = cam.generateRay(Vector2(540, 1080));
+        ray = cam.GenerateRay(Vector2(540, 1080));
         ASSERT_FLOAT_EQ(ray.getX(), 0.00013966055);
         ASSERT_FLOAT_EQ(ray.getY(), -0.70760429);
         ASSERT_FLOAT_EQ(ray.getZ(), -0.70660895);
-        ray = cam.generateRay(Vector2(1080, 1080));
+        ray = cam.GenerateRay(Vector2(1080, 1080));
         ASSERT_FLOAT_EQ(ray.getX(), 0.5772121);
         ASSERT_FLOAT_EQ(ray.getY(), -0.57771367);
         ASSERT_FLOAT_EQ(ray.getZ(), -0.57712483);
     }
 
-    TEST(Camera, generateRay) {
-        Camera cam = Camera(Vector3(0, 1, 0), Vector3(0, 0, -1));
+    TEST(Camera, GenerateRay) {
+        Camera cam = Camera(Vector3(0, 1, 0), Vector3(0, 0, -1), Vector2(1080, 1080));
 
-        cam.setRes(Vector2(1080, 1080));
-        Vector3 ray = cam.generateRay(Vector2(540, 540));
+        Vector3 ray = cam.GenerateRay(Vector2(540, 540));
         ASSERT_FLOAT_EQ(ray.getX(), 0.0010455832);
         ASSERT_FLOAT_EQ(ray.getY(), -0.7080791);
         ASSERT_FLOAT_EQ(ray.getZ(), -0.70613241);
