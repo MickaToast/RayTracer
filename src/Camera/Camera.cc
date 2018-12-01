@@ -46,10 +46,9 @@ namespace rt {
         float Rx = 0.0f;
         float Ry = 0.0f;
         #endif
-
-        Vector3<float> pixel = (_screenCorner + (_axis[0] * 2.f * ((pos.GetX() + Rx)
-        / _screenRes.GetX()))) - (_axis[1] * 2.f * ((pos.GetY() + Ry)
-        / _screenRes.GetY()));
+        
+        Vector3<float> pixel = (_screenCorner + (_axis[0] * _screenSize.GetX() * ((pos.GetX() + Rx) / _screenRes.GetX())))
+        - (_axis[1] * _screenSize.GetY() * ((pos.GetY() + Ry) / _screenRes.GetY()));
         Vector3<float> ray = pixel - _pos;
         ray.Normalize();
         return ray;
@@ -67,7 +66,7 @@ namespace rt {
     void Camera::generateScreen() {
       float screenWidth = 2.f * std::tan((_fov / 2.f) * M_PI / 180.f)
         * _screenDist;
-        _screenSize = Vector2<int>(screenWidth, screenWidth * _screenRes.GetY()
+        _screenSize = Vector2<float>(screenWidth, screenWidth * _screenRes.GetY()
         / _screenRes.GetX());
 
         _screenCenter = _pos + _axis[2] * _screenDist;
@@ -75,15 +74,15 @@ namespace rt {
         / 2.f)) + _axis[1] * (_screenSize.GetY() / 2.f);
     }
 
-    std::array<Vector3<float>, 3> const& Camera::getAxis(void) const {
+    std::array<Vector3<float>, 3> const& Camera::GetAxis(void) const {
         return _axis;
     }
 
-    Vector2<int> const& Camera::getRes(void) const {
+    Vector2<int> const& Camera::GetRes(void) const {
         return _screenRes;
     }
 
-    void Camera::setRes(const Vector2<int>& res) {
+    void Camera::SetRes(const Vector2<int>& res) {
         _screenRes = res;
         this->generateScreen();
     }

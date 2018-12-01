@@ -31,18 +31,18 @@ class Camera {
 
     Vector3<float>  GenerateRay(Vector2<int> const &pos);
 
-    std::array<Vector3<float>, 3> const& getAxis(void) const;
-    Vector2<int> const&                getRes(void) const;
-    void                          setRes(const Vector2<int>& res);
+    std::array<Vector3<float>, 3> const&  GetAxis(void) const;
+    Vector2<int> const&                   GetRes(void) const;
+    void                                  SetRes(const Vector2<int>& res);
 
  private:
-    Vector3<float>                               _pos;
-    std::array<Vector3<float>, 3>                _axis;
+    Vector3<float>                        _pos;
+    std::array<Vector3<float>, 3>         _axis;
     float                                 _fov;
-    Vector2<int>                               _screenRes;
-    Vector2<int>                               _screenSize;
-    Vector3<float>                               _screenCenter;
-    Vector3<float>                               _screenCorner;
+    Vector2<int>                          _screenRes;
+    Vector2<float>                        _screenSize;
+    Vector3<float>                        _screenCenter;
+    Vector3<float>                        _screenCorner;
     float                                 _screenDist;
     std::mt19937                          _gen;
     std::uniform_real_distribution<float> _dis;
