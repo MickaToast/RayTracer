@@ -32,6 +32,7 @@ namespace rt {
 
     class Color {
     public:
+        explicit        Color();
         explicit        Color(std::uint32_t hexcode);
         explicit        Color(Color_Component const& component);
         virtual         ~Color(void);

@@ -26,15 +26,12 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     class Engine {
     public:
-        explicit            Engine(objl::Loader const& loader, Camera const& camera);
-        virtual             ~Engine();
-
-        std::vector<Color>  Generate(Vector2 const& from, Vector2 const& to) const;
+        explicit        Engine(objl::Loader const& loader, Camera const& camera);
+        virtual         ~Engine();
+        Color           raytrace(Vector2<int> const& pixel) const;
 
     private:
-        Color               raytrace(Vector2 const& pixel) const;
-
-        objl::Loader _loader;
-        Camera _camera;
+        objl::Loader    _loader;
+        Camera          _camera;
     };
 }  // namespace rt

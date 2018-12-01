@@ -17,6 +17,10 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include "Color.h"
 
+rt::Color::Color() {
+    _color.hexcode = 0x00000000;
+}
+
 rt::Color::Color(std::uint32_t hexcode) {
     _color.hexcode = hexcode;
 }

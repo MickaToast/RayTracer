@@ -16,7 +16,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include "gtest/gtest.h"
-#include "Engine.h"
+#include "Dispatcher.h"
 #include "../Loader/OBJLoader.h"
 #include "../Camera/Camera.h"
 #include "../Vector/Vector2.h"
