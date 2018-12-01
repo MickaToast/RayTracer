@@ -22,5 +22,22 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Vector/Vector2.h"
 
 namespace rt {
-    //TODO
+    TEST(Dispatcher, start_and_stop) {
+        objl::Loader loader;
+        Engine engine = rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, -1),
+                                                      rt::Vector2<int>(10, 10)));
+        Dispatcher dispatcher(engine, Vector2<int>(10, 10));
+
+        dispatcher.Start();
+        std::this_thread::sleep_for(std::chrono::seconds(1)); // Make sure the dispatcher had time to generate frames
+        dispatcher.Stop();
+        std::vector<rt::Color> const& image = dispatcher.Flush();
+        bool empty = true;
+        for (auto const& pixel : image) {
+            if (pixel.GetColor().hexcode != 0x00000000) {
+                empty = false;
+            }
+        }
+        ASSERT_FALSE(empty);
+    }
 }  // namespace rt

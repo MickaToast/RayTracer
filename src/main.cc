@@ -48,6 +48,7 @@ int main(int argc, char **argv) {
     dispatcher.Start(); //Start to dispatch
 
     sf::Uint8* frame = new sf::Uint8[window.getSize().x * window.getSize().y * 4];
+    std::fill_n(frame, window.getSize().x * window.getSize().y * 4, 0xff); // Init with all component to 255
     sf::Texture texture;
     texture.create(window.getSize().x, window.getSize().y);
     sf::Sprite sprite(texture);
@@ -57,10 +58,10 @@ int main(int argc, char **argv) {
         std::vector<rt::Color> pixels = dispatcher.Flush();
 
         for (auto const& pixel : pixels) {
-            frame[i] = pixel.GetColor().rgba.r;
-            frame[i + 1] = pixel.GetColor().rgba.g;
-            frame[i + 2] = pixel.GetColor().rgba.b;
-            frame[i + 3] = pixel.GetColor().rgba.a;
+            rt::Color_Component const& components = pixel.GetColor();
+            frame[i] = components.rgba.r;
+            frame[i + 1] = components.rgba.g;
+            frame[i + 2] = components.rgba.b;
             i = i + 4;
         }
         texture.update(frame);

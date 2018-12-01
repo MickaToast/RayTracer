@@ -19,9 +19,10 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Dispatcher.h"
 
 namespace rt {
-    Dispatcher::Dispatcher(const Engine &engine, Vector2<int> const& res) : _running(false), _engine(engine), _res(res) {
-        _image.reserve(_res.GetY() * _res.GetX()); //TODO: store calculus
-        _image.resize(_res.GetY() * _res.GetX()); //TODO: store calculus
+    Dispatcher::Dispatcher(const Engine &engine, Vector2<int> const& res) : _running(false), _engine(engine), _res(res), _sample(0) {
+        std::size_t size = _res.GetY() * _res.GetX();
+        _image.reserve(size);
+        _image.resize(size);
     }
 
     Dispatcher::~Dispatcher() {
@@ -33,10 +34,11 @@ namespace rt {
         while (cores--) {
             _threads.emplace_back(std::thread(&Dispatcher::execute, this));
         }
-        std::cout << _threads.size() << std::endl;
+        std::cout << "Dispatching over " << _threads.size() << " threads..." << std::endl;
     }
 
     void Dispatcher::Stop() {
+        std::cout << "Shutting down threads..." << std::endl;
         _running = false;
         for (auto & thread : _threads) {
             thread.join();
@@ -45,14 +47,21 @@ namespace rt {
     }
 
     std::vector<Color> const& Dispatcher::Flush() {
-        std::size_t i = 0;
+        std::size_t i;
+        std::size_t size = _res.GetY() * _res.GetX();
 
         _buffer_mutex.lock();
         for (auto const& frame : _buffer) {
-            while (i < _res.GetY() * _res.GetX()) { //TODO: store calculus
-                _image[i] = frame[i]; //TODO: sum
+            i = 0;
+            float coef1 = _sample / (_sample + 1.f);
+            float coef2 = (_sample == 0 ? 1 : 1.f / (_sample + 1));
+            while (i < size) {
+                _image[i].SetRedComponent(_image[i].GetRedComponent() * coef1 + frame[i].GetRedComponent() * coef2);
+                _image[i].SetGreenComponent(_image[i].GetGreenComponent() * coef1 + frame[i].GetGreenComponent() * coef2);
+                _image[i].SetBlueComponent(_image[i].GetBlueComponent() * coef1 + frame[i].GetBlueComponent() * coef2);
                 i++;
             }
+            _sample++;
         }
         _buffer.clear();
         _buffer_mutex.unlock();
@@ -63,9 +72,10 @@ namespace rt {
         std::vector<Color> frame;
         Vector2<int> current(0, 0);
         std::size_t i;
+        std::size_t size = _res.GetY() * _res.GetX();
 
-        frame.reserve(_res.GetY() * _res.GetX()); //TODO: store calculus
-        frame.resize(_res.GetY() * _res.GetX()); //TODO: store calculus
+        frame.reserve(size);
+        frame.resize(size);
         while (_running) {
             current.SetX(0);
             current.SetY(0);

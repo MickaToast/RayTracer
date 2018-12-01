@@ -43,5 +43,6 @@ namespace rt {
         std::mutex                      _buffer_mutex;
         std::vector<std::vector<Color>> _buffer;
         std::vector<Color>              _image;
+        float                           _sample;
     };
 }  // namespace rt

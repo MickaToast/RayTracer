@@ -22,5 +22,10 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Vector/Vector2.h"
 
 namespace rt {
-    //TODO
+    TEST(Engine, raytrace) {
+        objl::Loader loader;
+        Engine engine = rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, -1),
+                                      rt::Vector2<int>(10, 10)));
+        ASSERT_EQ(engine.raytrace(Vector2<int>(0, 0)).GetColor().hexcode, 0xff0000ff); // Red color
+    }
 }  // namespace rt
