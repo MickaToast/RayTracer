@@ -15,27 +15,30 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#include <thread>
-#include "Engine.h"
-#include "Color.h"
+#pragma once
+
+#include "Mesh.h"
+#include "../Vector/Vector3.h"
 
 namespace rt {
-    Engine::Engine(objl::Loader const &loader, Camera const &camera) : _loader(loader), _camera(camera), _t(Vector3<float>(.9, -.5, -1), Vector3<float>(0, .5, -1), Vector3<float>(-.9, -.5, -1)) {
-    }
+class Triangle : public Mesh {
+ public:
+    Triangle(Vector3<float> const& v1, Vector3<float> const& v2, Vector3<float> const& v3);
+    Triangle(Vector3<float> const& v1, Vector3<float> const& v2, Vector3<float> const& v3, objl::Material const& material);
+    ~Triangle();
 
-    Engine::~Engine() {
-    }
+    virtual Intersection const  Intersect(Ray const& ray);
+    virtual Ray const           Refract(Ray const& ray);
+    virtual Ray const           Reflect(Ray const& ray);
 
-    Color Engine::raytrace(rt::Vector2<int> const& pixel) {
-        Color red(0xff0000ff); // Red color
-        Color black(0x00000000); // Red color
-        //TODO: logic of raytracing a point will be here
-        //TODO: _camera.generateRay(pixel);
-        Ray const ray = _camera.GenerateRay(pixel);
-        Intersection inter = _t.Intersect(ray);
-        if (inter.Intersect) {
-            return red;
-        }
-        return black;
-    }
+ private:
+    Vector3<float>  _v1;
+    Vector3<float>  _v2;
+    Vector3<float>  _v3;
+    Vector3<float>  _edge1;
+    Vector3<float>  _edge2;
+    float           _epsilon;
+
+    void    generateCharacteristics();
+};
 }  // namespace rt

@@ -21,6 +21,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <array>
 #include "../Vector/Vector3.h"
 #include "../Vector/Vector2.h"
+#include "../Engine/Tools.h"
 
 namespace rt {
 class Camera {
@@ -29,7 +30,7 @@ class Camera {
     explicit Camera(Vector3<float> const& target, Vector2<int> const& res);
     virtual ~Camera(void);
 
-    Vector3<float>  GenerateRay(Vector2<int> const &pos);
+    Ray const  GenerateRay(Vector2<int> const &pos);
 
     std::array<Vector3<float>, 3> const&  GetAxis(void) const;
     Vector2<int> const&                   GetRes(void) const;

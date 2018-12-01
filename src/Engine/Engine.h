@@ -21,17 +21,20 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Loader/OBJLoader.h"
 #include "../Camera/Camera.h"
 #include "../Vector/Vector2.h"
+#include "../Vector/Vector3.h"
 #include "Color.h"
 
+#include "../Mesh/Triangle.h"
 namespace rt {
     class Engine {
     public:
         explicit        Engine(objl::Loader const& loader, Camera const& camera);
         virtual         ~Engine();
-        Color           raytrace(Vector2<int> const& pixel) const;
+        Color           raytrace(Vector2<int> const& pixel);
 
     private:
         objl::Loader    _loader;
         Camera          _camera;
+        Triangle        _t;
     };
 }  // namespace rt

@@ -15,27 +15,24 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#include <thread>
-#include "Engine.h"
-#include "Color.h"
+#pragma once
+
+#include "../Vector/Vector3.h"
 
 namespace rt {
-    Engine::Engine(objl::Loader const &loader, Camera const &camera) : _loader(loader), _camera(camera), _t(Vector3<float>(.9, -.5, -1), Vector3<float>(0, .5, -1), Vector3<float>(-.9, -.5, -1)) {
-    }
+    struct Ray {
+        Ray(): Origin(), Direction() {};
+        Ray(Vector3<float> const& origin, Vector3<float> const& dir): Origin(origin), Direction(dir) {};
 
-    Engine::~Engine() {
-    }
+        Vector3<float>  Origin;
+        Vector3<float>  Direction;
+    };
 
-    Color Engine::raytrace(rt::Vector2<int> const& pixel) {
-        Color red(0xff0000ff); // Red color
-        Color black(0x00000000); // Red color
-        //TODO: logic of raytracing a point will be here
-        //TODO: _camera.generateRay(pixel);
-        Ray const ray = _camera.GenerateRay(pixel);
-        Intersection inter = _t.Intersect(ray);
-        if (inter.Intersect) {
-            return red;
-        }
-        return black;
-    }
+    struct Intersection {
+        Intersection(): Intersect(false), Point() {};
+        Intersection(bool intersect, Vector3<float> const& point): Intersect(intersect), Point(point) {};
+
+        bool            Intersect;
+        Vector3<float>  Point;
+    };
 }  // namespace rt
