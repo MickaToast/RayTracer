@@ -70,15 +70,14 @@ namespace rt {
     void Dispatcher::execute() {
         std::vector<Color> frame;
         Vector2<int> current(0, 0);
-        std::size_t i;
         std::size_t size = _res.GetY() * _res.GetX();
 
         frame.reserve(size);
         frame.resize(size);
         while (_running) {
+            std::size_t i = 0;
             current.SetX(0);
             current.SetY(0);
-            i = 0;
             while (current.GetY() < _res.GetY() - 1 || current.GetX() < _res.GetX() - 1) {
                 frame[i] = this->_engine.raytrace(current);
                 current.SetX(current.GetX() + 1);
