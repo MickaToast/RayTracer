@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
     window.setFramerateLimit(144);
 
     rt::Dispatcher dispatcher(rt::Engine(loader, rt::Camera(
-            rt::Vector3<float>(0, 0, 5),
+            rt::Vector3<float>(0, 0, 3),
             rt::Vector3<float>(0, 0, -1),
             rt::Vector2<int>(window.getSize().x, window.getSize().y))),
             rt::Vector2<int>(window.getSize().x, window.getSize().y));

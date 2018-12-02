@@ -55,9 +55,14 @@ namespace rt {
             if (inter.Intersect) {
                 Vector3<float> dist = inter.Point - _camera.GetPos();
                 if (min == -1 || dist.Norm() < min) {
-                    color.SetRedComponent(_triangles[i].GetMaterial().Ka.X * 255);
-                    color.SetGreenComponent(_triangles[i].GetMaterial().Ka.Y * 255);
-                    color.SetBlueComponent(_triangles[i].GetMaterial().Ka.Z * 255);
+                    float angle = ray.Direction.Angle(_triangles[i].GetNormal());
+                    if (angle > 90.f) {
+                        angle = 180.f - angle;
+                    }
+                    float coef = (-1.f / 90.f) * angle + 1.f;
+                    color.SetRedComponent(_triangles[i].GetMaterial().Ka.X * 255 * coef);
+                    color.SetGreenComponent(_triangles[i].GetMaterial().Ka.Y * 255 * coef);
+                    color.SetBlueComponent(_triangles[i].GetMaterial().Ka.Z * 255 * coef);
                 }
             }
         }

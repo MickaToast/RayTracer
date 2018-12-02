@@ -49,6 +49,10 @@ namespace rt {
             return (std::sqrt(std::pow(this->_X, 2) + std::pow(this->_Y, 2) + std::pow(_Z, 2)));
         }
 
+        T   Angle(Vector3<T> const & other) const {
+            return std::acos(this->Dot(other) / (this->Norm() * other.Norm())) * 180.f / M_PI;
+        }
+
         void    Normalize(void) {
             float norm = this->Norm();
             this->_X = this->_X / norm;

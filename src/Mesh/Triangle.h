@@ -33,11 +33,13 @@ class Triangle : public Mesh {
 
    Vector3<float> const&   GetEdge1() const;
    Vector3<float> const&   GetEdge2() const;
+   Vector3<float> const&   GetNormal() const;
 
  private:
     Vector3<float>  _v1;
     Vector3<float>  _v2;
     Vector3<float>  _v3;
+    Vector3<float>  _normal;
     Vector3<float>  _edge1;
     Vector3<float>  _edge2;
     float           _epsilon;

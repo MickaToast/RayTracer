@@ -138,4 +138,14 @@ namespace rt {
         v.Normalize();
         ASSERT_EQ(v.Norm(), 1);
     }
+
+    TEST(Vector3, Angle) {
+        Vector3<float> v = Vector3<float>(0, 0, 1);
+        Vector3<float> w = Vector3<float>(0, 1, 0);
+        Vector3<float> u = Vector3<float>(1, 0, 0);
+        Vector3<float> u2 = Vector3<float>(1, 1, 0);
+
+        ASSERT_EQ(v.Angle(w), 90);
+        ASSERT_EQ(u.Angle(u2), 45);
+    }
 }  // namespace rt
