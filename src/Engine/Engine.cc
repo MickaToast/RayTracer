@@ -26,7 +26,7 @@ namespace rt {
     Engine::~Engine() {
     }
 
-    Color Engine::raytrace(const rt::Vector2<int> &pixel) const {
+    Color Engine::raytrace(const rt::Vector2<int> &pixel) {
         Color color(0xff0000ff); // Red color
         //TODO: logic of raytracing a point will be here
         //TODO: _camera.generateRay(pixel);

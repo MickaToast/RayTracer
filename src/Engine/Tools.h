@@ -17,22 +17,22 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
-#include <vector>
-#include "../Loader/OBJLoader.h"
-#include "../Camera/Camera.h"
-#include "../Vector/Vector2.h"
 #include "../Vector/Vector3.h"
-#include "Color.h"
 
 namespace rt {
-    class Engine {
-    public:
-        explicit        Engine(objl::Loader const& loader, Camera const& camera);
-        virtual         ~Engine();
-        Color           raytrace(Vector2<int> const& pixel);
+    struct Ray {
+        Ray(): Origin(), Direction() {};
+        Ray(Vector3<float> const& origin, Vector3<float> const& dir): Origin(origin), Direction(dir) {};
 
-    private:
-        objl::Loader    _loader;
-        Camera          _camera;
+        Vector3<float>  Origin;
+        Vector3<float>  Direction;
+    };
+
+    struct Intersection {
+        Intersection(): Intersect(false), Point() {};
+        Intersection(bool intersect, Vector3<float> const& point): Intersect(intersect), Point(point) {};
+
+        bool            Intersect;
+        Vector3<float>  Point;
     };
 }  // namespace rt

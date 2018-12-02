@@ -17,39 +17,17 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
-#include <random>
-#include <array>
-#include "../Vector/Vector3.h"
-#include "../Vector/Vector2.h"
 #include "../Engine/Tools.h"
+#include "../Loader/OBJLoader.h"
 
 namespace rt {
-class Camera {
+class Mesh {
  public:
-    Camera(Vector3<float> const& pos, Vector3<float> const& target, Vector2<int> const& res);
-    explicit Camera(Vector3<float> const& target, Vector2<int> const& res);
-    virtual ~Camera(void);
+    virtual Intersection const  Intersect(Ray const& ray) = 0;
+    virtual Ray const           Refract(Ray const& ray) = 0;
+    virtual Ray const           Reflect(Ray const& ray) = 0;
 
-    Ray const  GenerateRay(Vector2<int> const &pos);
-
-    std::array<Vector3<float>, 3> const&  GetAxis(void) const;
-    Vector2<int> const&                   GetRes(void) const;
-    void                                  SetRes(const Vector2<int>& res);
-
- private:
-    Vector3<float>                        _pos;
-    std::array<Vector3<float>, 3>         _axis;
-    float                                 _fov;
-    Vector2<int>                          _screenRes;
-    Vector2<float>                        _screenSize;
-    Vector3<float>                        _screenCenter;
-    Vector3<float>                        _screenCorner;
-    float                                 _screenDist;
-    std::mt19937                          _gen;
-    std::uniform_real_distribution<float> _dis;
-
-
-    void     generateAxis(Vector3<float> const& target);
-    void     generateScreen();
+ protected:
+    objl::Material  _material;
 };
 }  // namespace rt

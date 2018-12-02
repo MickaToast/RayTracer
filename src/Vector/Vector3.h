@@ -17,6 +17,8 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
+#include <cmath>
+#include <iostream>
 #include "Vector2.h"
 
 namespace rt {
@@ -89,4 +91,10 @@ namespace rt {
     private:
         T   _Z;
     };
+
+    template <class T>
+    std::ostream& operator<<(std::ostream& out, const Vector3<T>& v) {
+        std::cout << "(" << v.GetX() << ", " << v.GetY() << ", " << v.GetZ() << ")";
+        return out;
+    }
 }  // namespace rt

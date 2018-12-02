@@ -38,7 +38,7 @@ namespace rt {
     Camera::~Camera(void) {
     }
 
-    Vector3<float> Camera::GenerateRay(Vector2<int> const &pos) {
+    Ray const Camera::GenerateRay(Vector2<int> const &pos) {
         #ifndef RT_TESTING_ENV
         float Rx = _dis(_gen);
         float Ry = _dis(_gen);
@@ -49,8 +49,9 @@ namespace rt {
         
         Vector3<float> pixel = (_screenCorner + (_axis[0] * _screenSize.GetX() * ((pos.GetX() + Rx) / _screenRes.GetX())))
         - (_axis[1] * _screenSize.GetY() * ((pos.GetY() + Ry) / _screenRes.GetY()));
-        Vector3<float> ray = pixel - _pos;
-        ray.Normalize();
+        Vector3<float> dir = pixel - _pos;
+        dir.Normalize();
+        Ray ray(_pos, dir);
         return ray;
     }
 

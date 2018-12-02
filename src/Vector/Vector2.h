@@ -17,6 +17,8 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
+#include <iostream>
+
 namespace rt {
     template <class T>
     class Vector2 {
@@ -69,4 +71,10 @@ namespace rt {
         T   _X;
         T   _Y;
     };
+
+    template <class T>
+    std::ostream& operator<<(std::ostream& out, const Vector2<T>& v) {
+        std::cout << "(" << v.GetX() << ", " << v.GetY() << ")";
+        return out;
+    }
 }  // namespace rt

@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
     }
 
     sf::RenderWindow window(sf::VideoMode(1080, 720), "RayTracer 2.0");
-    window.setFramerateLimit(10);
+    window.setFramerateLimit(144);
 
     rt::Dispatcher dispatcher(rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, -1),
             rt::Vector2<int>(window.getSize().x, window.getSize().y))),

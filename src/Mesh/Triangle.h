@@ -17,39 +17,31 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
-#include <random>
-#include <array>
+#include "Mesh.h"
 #include "../Vector/Vector3.h"
-#include "../Vector/Vector2.h"
-#include "../Engine/Tools.h"
 
 namespace rt {
-class Camera {
+class Triangle : public Mesh {
  public:
-    Camera(Vector3<float> const& pos, Vector3<float> const& target, Vector2<int> const& res);
-    explicit Camera(Vector3<float> const& target, Vector2<int> const& res);
-    virtual ~Camera(void);
+    Triangle(Vector3<float> const& v1, Vector3<float> const& v2, Vector3<float> const& v3);
+    Triangle(Vector3<float> const& v1, Vector3<float> const& v2, Vector3<float> const& v3, objl::Material const& material);
+    ~Triangle();
 
-    Ray const  GenerateRay(Vector2<int> const &pos);
+    virtual Intersection const  Intersect(Ray const& ray);
+    virtual Ray const           Refract(Ray const& ray);
+    virtual Ray const           Reflect(Ray const& ray);
 
-    std::array<Vector3<float>, 3> const&  GetAxis(void) const;
-    Vector2<int> const&                   GetRes(void) const;
-    void                                  SetRes(const Vector2<int>& res);
+   Vector3<float> const&   GetEdge1() const;
+   Vector3<float> const&   GetEdge2() const;
 
  private:
-    Vector3<float>                        _pos;
-    std::array<Vector3<float>, 3>         _axis;
-    float                                 _fov;
-    Vector2<int>                          _screenRes;
-    Vector2<float>                        _screenSize;
-    Vector3<float>                        _screenCenter;
-    Vector3<float>                        _screenCorner;
-    float                                 _screenDist;
-    std::mt19937                          _gen;
-    std::uniform_real_distribution<float> _dis;
+    Vector3<float>  _v1;
+    Vector3<float>  _v2;
+    Vector3<float>  _v3;
+    Vector3<float>  _edge1;
+    Vector3<float>  _edge2;
+    float           _epsilon;
 
-
-    void     generateAxis(Vector3<float> const& target);
-    void     generateScreen();
+    void    generateCharacteristics();
 };
 }  // namespace rt
