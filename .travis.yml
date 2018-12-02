@@ -8,14 +8,16 @@ addons:
       - libsfml-dev
       - libgtest-dev
       - cmake
+      - lcov
 before_install:
-  - "cd /usr/src/gtest"
-  - "sudo cmake CMakeLists.txt"
-  - "sudo make"
-  - "sudo cp *.a /usr/lib"
-  - "cd -"
+  - pip install --user cpp-coveralls
+  - cd /usr/src/gtest
+  - sudo cmake CMakeLists.txt
+  - sudo make
+  - sudo cp *.a /usr/lib
+  - cd -
 script:
-  - "mkdir cmake-build-debug && cd cmake-build-debug"
-  - "cmake .. && make && ./runTests"
+  - mkdir cmake-build-debug && cd cmake-build-debug
+  - cmake .. && make && ./runTests
 after_success:
-  - "../coverage.sh"
+  - ../coverage.sh
