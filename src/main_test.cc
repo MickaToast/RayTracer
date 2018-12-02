@@ -16,7 +16,6 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <gtest/gtest.h>
-#include "Mesh/Triangle.h"
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);

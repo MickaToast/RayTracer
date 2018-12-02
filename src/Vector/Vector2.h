@@ -17,6 +17,8 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
+#include <iostream>
+
 namespace rt {
     template <class T>
     class Vector2 {
