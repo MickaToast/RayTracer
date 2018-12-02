@@ -1,5 +1,6 @@
 # RayTracer
 [![Build Status](https://travis-ci.com/MickaToast/RayTracer.svg?token=ZoqAX5iqiYxpkVoJ5TEr&branch=master)](https://travis-ci.com/MickaToast/RayTracer)
+[![Coverage Status](https://coveralls.io/repos/github/MickaToast/RayTracer/badge.svg)](https://coveralls.io/github/MickaToast/RayTracer)
 
 ## How to launch
 
