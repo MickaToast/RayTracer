@@ -24,7 +24,6 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Vector/Vector3.h"
 #include "Color.h"
 
-#include "../Mesh/Triangle.h"
 namespace rt {
     class Engine {
     public:
@@ -35,6 +34,5 @@ namespace rt {
     private:
         objl::Loader    _loader;
         Camera          _camera;
-        Triangle        _t;
     };
 }  // namespace rt

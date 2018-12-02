@@ -20,10 +20,5 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
-    rt::Triangle t = rt::Triangle(
-        rt::Vector3<float>(),
-        rt::Vector3<float>(),
-        rt::Vector3<float>()
-        );
     return RUN_ALL_TESTS();
 }

@@ -20,22 +20,16 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Color.h"
 
 namespace rt {
-    Engine::Engine(objl::Loader const &loader, Camera const &camera) : _loader(loader), _camera(camera), _t(Vector3<float>(.9, -.5, -1), Vector3<float>(0, .5, -1), Vector3<float>(-.9, -.5, -1)) {
+    Engine::Engine(objl::Loader const &loader, Camera const &camera) : _loader(loader), _camera(camera) {
     }
 
     Engine::~Engine() {
     }
 
-    Color Engine::raytrace(rt::Vector2<int> const& pixel) {
-        Color red(0xff0000ff); // Red color
-        Color black(0x00000000); // Red color
+    Color Engine::raytrace(const rt::Vector2<int> &pixel) {
+        Color color(0xff0000ff); // Red color
         //TODO: logic of raytracing a point will be here
         //TODO: _camera.generateRay(pixel);
-        Ray const ray = _camera.GenerateRay(pixel);
-        Intersection inter = _t.Intersect(ray);
-        if (inter.Intersect) {
-            return red;
-        }
-        return black;
+        return color;
     }
 }  // namespace rt
