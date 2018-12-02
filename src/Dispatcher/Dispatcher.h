@@ -15,21 +15,34 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#include <thread>
-#include "Engine.h"
-#include "Color.h"
+#pragma once
+
+#include <atomic>
+#include <mutex>
+#include <future>
+#include "../Engine/Engine.h"
+#include "../Vector/Vector2.h"
 
 namespace rt {
-    Engine::Engine(objl::Loader const &loader, Camera const &camera) : _loader(loader), _camera(camera) {
-    }
+    class Dispatcher {
+    public:
+        explicit                        Dispatcher(Engine const& engine, Vector2<int> const& res);
+        virtual                         ~Dispatcher();
 
-    Engine::~Engine() {
-    }
+        void                            Start(void);
+        void                            Stop(void);
+        std::vector<Color> const&       Flush(void);
 
-    Color Engine::raytrace(const rt::Vector2<int> &pixel) const {
-        Color color(0xff0000ff); // Red color
-        //TODO: logic of raytracing a point will be here
-        //TODO: _camera.generateRay(pixel);
-        return color;
-    }
+    private:
+        void                            execute(void);
+
+        bool                            _running;
+        Engine                          _engine;
+        Vector2<int>                    _res;
+        std::vector<std::thread>        _threads;
+        std::mutex                      _buffer_mutex;
+        std::vector<std::vector<Color>> _buffer;
+        std::vector<Color>              _image;
+        float                           _sample;
+    };
 }  // namespace rt

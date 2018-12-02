@@ -17,6 +17,10 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include "Color.h"
 
+rt::Color::Color() {
+    _color.hexcode = 0x00000000;
+}
+
 rt::Color::Color(std::uint32_t hexcode) {
     _color.hexcode = hexcode;
 }
@@ -33,4 +37,36 @@ rt::Color_Component rt::Color::GetColor() const {
 
 void rt::Color::SetColor(const rt::Color_Component &component) {
     _color = component;
+}
+
+std::uint8_t const& rt::Color::GetRedComponent() const {
+    return _color.rgba.r;
+}
+
+void rt::Color::SetRedComponent(std::uint8_t value) {
+    _color.rgba.r = value;
+}
+
+std::uint8_t const& rt::Color::GetBlueComponent() const {
+    return _color.rgba.b;
+}
+
+void rt::Color::SetBlueComponent(std::uint8_t value) {
+    _color.rgba.b = value;
+}
+
+std::uint8_t const& rt::Color::GetGreenComponent() const {
+    return _color.rgba.g;
+}
+
+void rt::Color::SetGreenComponent(std::uint8_t value) {
+    _color.rgba.g = value;
+}
+
+std::uint8_t const& rt::Color::GetAlphaComponent() const {
+    return _color.rgba.a;
+}
+
+void rt::Color::SetAlphaComponent(std::uint8_t value) {
+    _color.rgba.a = value;
 }

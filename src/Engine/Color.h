@@ -32,12 +32,21 @@ namespace rt {
 
     class Color {
     public:
-        explicit        Color(std::uint32_t hexcode);
-        explicit        Color(Color_Component const& component);
-        virtual         ~Color(void);
+        explicit            Color();
+        explicit            Color(std::uint32_t hexcode);
+        explicit            Color(Color_Component const& component);
+        virtual             ~Color(void);
 
-        Color_Component GetColor() const;
-        void            SetColor(Color_Component const& component);
+        Color_Component     GetColor() const;
+        void                SetColor(Color_Component const& component);
+        std::uint8_t const& GetRedComponent() const;
+        void                SetRedComponent(std::uint8_t value);
+        std::uint8_t const& GetBlueComponent() const;
+        void                SetBlueComponent(std::uint8_t value);
+        std::uint8_t const& GetGreenComponent() const;
+        void                SetGreenComponent(std::uint8_t value);
+        std::uint8_t const& GetAlphaComponent() const;
+        void                SetAlphaComponent(std::uint8_t value);
 
     private:
         Color_Component _color;

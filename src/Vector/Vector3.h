@@ -17,36 +17,76 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
+#include "Vector2.h"
+
 namespace rt {
-class Vector3 {
- public:
-    Vector3(void);
-    Vector3(float X, float Y, float Z);
-    ~Vector3(void);
+    template <class T>
+    class Vector3 : public Vector2<T> {
+    public:
+        Vector3(void) : _Z(0) {
+            this->_X = 0;
+            this->_Y = 0;
+        };
+        Vector3(T X, T Y, T Z) : _Z(Z) {
+            this->_X = X;
+            this->_Y = Y;
+        };
+        virtual ~Vector3(void) {};
 
-    Vector3 Cross(Vector3 const& other) const;
-    float   Dot(Vector3 const& other) const;
-    float   Norm(void) const;
-    void    Normalize(void);
+        Vector3<T> Cross(Vector3<T> const& other) const {
+            return Vector3<T>(this->_Y * other._Z - _Z * other._Y,
+                           _Z * other._X - this->_X * other._Z,
+                           this->_X * other._Y - this->_Y * other._X);
+        }
 
-    bool    operator==(Vector3 const& other) const;
-    bool    operator!=(Vector3 const& other) const;
-    Vector3 operator+(Vector3 const& right) const;
-    Vector3 operator-(Vector3 const& right) const;
-    Vector3 operator*(float const& other) const;
-    Vector3 operator/(float const& other) const;
+        T   Dot(Vector3<T> const& other) const {
+            return (this->_X * other._X) + (this->_Y * other._Y) + (_Z * other._Z);
+        }
 
-    float const&    GetX(void) const;
-    void            SetX(float const& X);
-    float const&    GetY(void) const;
-    void            SetY(float const& X);
-    float const&    GetZ(void) const;
-    void            SetZ(float const& X);
+        T   Norm(void) const {
+            return (std::sqrt(std::pow(this->_X, 2) + std::pow(this->_Y, 2) + std::pow(_Z, 2)));
+        }
 
- private:
-    float   _X;
-    float   _Y;
-    float   _Z;
-};
-std::ostream& operator<<(std::ostream& os, Vector3 const& v);
+        void    Normalize(void) {
+            float norm = this->Norm();
+            this->_X = this->_X / norm;
+            this->_Y = this->_Y / norm;
+            _Z = _Z / norm;
+        }
+
+        bool    operator==(Vector3 const& other) const {
+            return (this->_X == other._X && this->_Y == other._Y && _Z == other._Z);
+        }
+
+        bool    operator!=(Vector3 const& other) const {
+            return (this->_X != other._X || this->_Y != other._Y || _Z != other._Z);
+        }
+
+        Vector3 operator+(Vector3 const& right) const {
+            return Vector3(this->_X + right._X, this->_Y + right._Y, _Z + right._Z);
+        }
+
+        Vector3 operator-(Vector3 const& right) const {
+            return Vector3(this->_X - right._X, this->_Y - right._Y, _Z - right._Z);
+        }
+
+        Vector3 operator*(T const& other) const {
+            return Vector3(this->_X * other, this->_Y * other, _Z * other);
+        }
+
+        Vector3 operator/(T const& other) const {
+            return Vector3(this->_X / other, this->_Y / other, _Z / other);
+        }
+        
+        T const&    GetZ(void) const {
+            return _Z;
+        }
+
+        void        SetZ(T const& Z) {
+            _Z = Z;
+        }
+
+    private:
+        T   _Z;
+    };
 }  // namespace rt

@@ -25,30 +25,30 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
 class Camera {
  public:
-    Camera(Vector3 const& pos, Vector3 const& target, Vector2 const& res);
-    explicit Camera(Vector3 const& target, Vector2 const& res);
+    Camera(Vector3<float> const& pos, Vector3<float> const& target, Vector2<int> const& res);
+    explicit Camera(Vector3<float> const& target, Vector2<int> const& res);
     virtual ~Camera(void);
 
-    Vector3  GenerateRay(Vector2 const &pos);
+    Vector3<float>  GenerateRay(Vector2<int> const &pos);
 
-    std::array<Vector3, 3> const& getAxis(void) const;
-    Vector2 const&                getRes(void) const;
-    void                          setRes(const Vector2& res);
+    std::array<Vector3<float>, 3> const&  GetAxis(void) const;
+    Vector2<int> const&                   GetRes(void) const;
+    void                                  SetRes(const Vector2<int>& res);
 
  private:
-    Vector3                               _pos;
-    std::array<Vector3, 3>                _axis;
+    Vector3<float>                        _pos;
+    std::array<Vector3<float>, 3>         _axis;
     float                                 _fov;
-    Vector2                               _screenRes;
-    Vector2                               _screenSize;
-    Vector3                               _screenCenter;
-    Vector3                               _screenCorner;
+    Vector2<int>                          _screenRes;
+    Vector2<float>                        _screenSize;
+    Vector3<float>                        _screenCenter;
+    Vector3<float>                        _screenCorner;
     float                                 _screenDist;
     std::mt19937                          _gen;
     std::uniform_real_distribution<float> _dis;
 
 
-    void     generateAxis(Vector3 const& target);
+    void     generateAxis(Vector3<float> const& target);
     void     generateScreen();
 };
 }  // namespace rt

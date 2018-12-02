@@ -18,27 +18,55 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #pragma once
 
 namespace rt {
-class Vector2 {
- public:
-    Vector2(void);
-    Vector2(float X_, float Y);
-    ~Vector2(void);
+    template <class T>
+    class Vector2 {
+    public:
+        Vector2(void) : _X(0), _Y(0) {};
+        Vector2(T X, T Y) : _X(X), _Y(Y) {};
+        virtual ~Vector2(void) {};
 
-    bool    operator==(Vector2 const& other) const;
-    bool    operator!=(Vector2 const& other) const;
-    Vector2 operator+(Vector2 const& right) const;
-    Vector2 operator-(Vector2 const& right) const;
-    Vector2 operator*(float const& other) const;
-    Vector2 operator/(float const& other) const;
+        bool    operator==(Vector2<T> const& other) const {
+            return (_X == other._X && _Y == other._Y);
+        }
 
-    float const&    GetX(void) const;
-    void            SetX(float const& X);
-    float const&    GetY(void) const;
-    void            SetY(float const& X);
+        bool    operator!=(Vector2<T> const& other) const {
+            return (_X != other._X || _Y != other._Y);
+        }
 
- private:
-    float   _X;
-    float   _Y;
-};
-std::ostream& operator<<(std::ostream& os, Vector2 const& v);
+        Vector2<T> operator+(Vector2<T> const& right) const {
+            return Vector2<T>(_X + right._X, _Y + right._Y);
+        }
+
+        Vector2<T> operator-(Vector2<T> const& right) const {
+            return Vector2<T>(_X - right._X, _Y - right._Y);
+        }
+
+        Vector2<T> operator*(T const& other) const {
+            return Vector2<T>(_X * other, _Y * other);
+        }
+
+        Vector2<T> operator/(T const& other) const {
+            return Vector2<T>(_X / other, _Y / other);
+        }
+
+        T const&    GetX(void) const {
+            return _X;
+        }
+
+        void        SetX(T const& X) {
+            _X = X;
+        }
+
+        T const&    GetY(void) const {
+            return _Y;
+        }
+
+        void        SetY(T const& Y) {
+            _Y = Y;
+        }
+
+    protected:
+        T   _X;
+        T   _Y;
+    };
 }  // namespace rt

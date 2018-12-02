@@ -21,6 +21,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Loader/OBJLoader.h"
 #include "Camera/Camera.h"
 #include "Engine/Engine.h"
+#include "Dispatcher/Dispatcher.h"
 
 int main(int argc, char **argv) {
     if (argc != 2) {
@@ -31,43 +32,51 @@ int main(int argc, char **argv) {
     objl::Loader loader;
 
     std::cout << "Loading scene " << argv[1] << "..." << std::endl;
-    if (!loader.LoadFile(argv[1])) {
+    if (0 && !loader.LoadFile(argv[1])) { //TODO: remove 0
         std::cerr << "Failed to load file. May have failed to "
                      "find it or it was not an .obj file." << std::endl;
         return 1;
     }
 
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "RayTracer 2.0");
+    sf::RenderWindow window(sf::VideoMode(1080, 720), "RayTracer 2.0");
     window.setFramerateLimit(10);
-    rt::Engine engine(loader, rt::Camera(rt::Vector3(0, 0, -1), rt::Vector2(window.getSize().x, window.getSize().y)));
-    sf::Uint8* pixels = new sf::Uint8[window.getSize().x * window.getSize().y * 4];
+
+    rt::Dispatcher dispatcher(rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, -1),
+            rt::Vector2<int>(window.getSize().x, window.getSize().y))),
+            rt::Vector2<int>(window.getSize().x, window.getSize().y));
+
+    dispatcher.Start(); //Start to dispatch
+
+    sf::Uint8* frame = new sf::Uint8[window.getSize().x * window.getSize().y * 4];
+    std::fill_n(frame, window.getSize().x * window.getSize().y * 4, 0xff); // Init with all component to 255
     sf::Texture texture;
     texture.create(window.getSize().x, window.getSize().y);
     sf::Sprite sprite(texture);
 
     while (window.isOpen()) {
-        std::vector<rt::Color> frame = engine.Generate(rt::Vector2(0, 0), rt::Vector2(window.getSize().x - 1, window.getSize().y - 1));
+        std::size_t i = 0;
+        std::vector<rt::Color> pixels = dispatcher.Flush();
 
-        int i = 0;
-        for (rt::Color const& pixel : frame) {
-            pixels[i] = pixel.GetColor().rgba.r;
-            pixels[i + 1] = pixel.GetColor().rgba.g;
-            pixels[i + 2] = pixel.GetColor().rgba.b;
-            pixels[i + 3] = pixel.GetColor().rgba.a;
-            i += 4;
+        for (auto const& pixel : pixels) {
+            rt::Color_Component const& components = pixel.GetColor();
+            frame[i] = components.rgba.r;
+            frame[i + 1] = components.rgba.g;
+            frame[i + 2] = components.rgba.b;
+            i = i + 4;
         }
-        texture.update(pixels);
-
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
-        }
+        texture.update(frame);
 
         window.clear();
         window.draw(sprite);
         window.display();
+
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                dispatcher.Stop();
+                window.close();
+            }
+        }
     }
 
     return 0;

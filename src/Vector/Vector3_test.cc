@@ -21,7 +21,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     TEST(Vector3, initBasic) {
-        Vector3 v = Vector3();
+        Vector3<float> v = Vector3<float>();
 
         EXPECT_EQ(v.GetX(), 0);
         EXPECT_EQ(v.GetY(), 0);
@@ -29,7 +29,7 @@ namespace rt {
     }
 
     TEST(Vector3, initBasic2) {
-        Vector3 v = Vector3(3, 4, 5);
+        Vector3<float> v = Vector3<float>(3, 4, 5);
 
         EXPECT_EQ(v.GetX(), 3);
         EXPECT_EQ(v.GetY(), 4);
@@ -37,7 +37,7 @@ namespace rt {
     }
 
     TEST(Vector3, setX) {
-        Vector3 v = Vector3();
+        Vector3<float> v = Vector3<float>();
 
         v.SetX(3);
         EXPECT_EQ(v.GetX(), 3);
@@ -46,7 +46,7 @@ namespace rt {
     }
 
     TEST(Vector3, setY) {
-        Vector3 v = Vector3();
+        Vector3<float> v = Vector3<float>();
 
         v.SetY(4);
         EXPECT_EQ(v.GetX(), 0);
@@ -55,7 +55,7 @@ namespace rt {
     }
 
     TEST(Vector3, setZ) {
-        Vector3 v = Vector3();
+        Vector3<float> v = Vector3<float>();
 
         v.SetZ(5);
         EXPECT_EQ(v.GetX(), 0);
@@ -64,8 +64,8 @@ namespace rt {
     }
 
     TEST(Vector3, operatorEgal) {
-        Vector3 v = Vector3();
-        Vector3 w = Vector3(1, 2, 3);
+        Vector3<float> v = Vector3<float>();
+        Vector3<float> w = Vector3<float>(1, 2, 3);
 
         EXPECT_FALSE(v == w);
         v.SetX(1);
@@ -75,8 +75,8 @@ namespace rt {
     }
 
     TEST(Vector3, operatorNotEgal) {
-        Vector3 v = Vector3();
-        Vector3 w = Vector3(1, 2, 3);
+        Vector3<float> v = Vector3<float>();
+        Vector3<float> w = Vector3<float>(1, 2, 3);
 
         EXPECT_TRUE(v != w);
         v.SetX(1);
@@ -86,53 +86,53 @@ namespace rt {
     }
 
     TEST(Vector3, operatorPlus) {
-        Vector3 v = Vector3(1, 2, 3);
-        Vector3 w = Vector3(4, 5, 6);
+        Vector3<float> v = Vector3<float>(1, 2, 3);
+        Vector3<float> w = Vector3<float>(4, 5, 6);
 
-        EXPECT_EQ(v + w, Vector3(5, 7, 9));
+        EXPECT_EQ(v + w, Vector3<float>(5, 7, 9));
     }
 
     TEST(Vector3, operatorMinus) {
-        Vector3 v = Vector3(1, 2, 3);
-        Vector3 w = Vector3(4, 5, 6);
+        Vector3<float> v = Vector3<float>(1, 2, 3);
+        Vector3<float> w = Vector3<float>(4, 5, 6);
 
-        EXPECT_EQ(v - w, Vector3(-3, -3, -3));
+        EXPECT_EQ(v - w, Vector3<float>(-3, -3, -3));
     }
 
     TEST(Vector3, operatorMultiplication) {
-        Vector3 v = Vector3(1, 2, 3);
+        Vector3<float> v = Vector3<float>(1, 2, 3);
 
-        EXPECT_EQ(v * 6, Vector3(6, 12, 18));
+        EXPECT_EQ(v * 6, Vector3<float>(6, 12, 18));
     }
 
     TEST(Vector3, operatorDivision) {
-        Vector3 v = Vector3(1, 2, 3);
+        Vector3<float> v = Vector3<float>(1, 2, 3);
 
-        EXPECT_EQ(v / 2, Vector3(0.5, 1, 1.5));
+        EXPECT_EQ(v / 2, Vector3<float>(0.5, 1, 1.5));
     }
 
     TEST(Vector3, CrossProduct) {
-        Vector3 v = Vector3(1, 2, 3);
-        Vector3 w = Vector3(4, 5, 6);
+        Vector3<float> v = Vector3<float>(1, 2, 3);
+        Vector3<float> w = Vector3<float>(4, 5, 6);
 
-        EXPECT_EQ(v.Cross(w), Vector3(-3, 6, -3));
+        EXPECT_EQ(v.Cross(w), Vector3<float>(-3, 6, -3));
     }
 
     TEST(Vector3, DotProduct) {
-        Vector3 v = Vector3(1, 2, 3);
-        Vector3 w = Vector3(4, 5, 6);
+        Vector3<float> v = Vector3<float>(1, 2, 3);
+        Vector3<float> w = Vector3<float>(4, 5, 6);
 
         EXPECT_EQ(v.Dot(w), 32);
     }
 
     TEST(Vector3, Norm) {
-        Vector3 v = Vector3(2, 3, 2);
+        Vector3<float> v = Vector3<float>(2, 3, 2);
 
         ASSERT_NEAR(v.Norm(), std::sqrt(17), 0.0000001);
     }
 
     TEST(Vector3, Normalize) {
-        Vector3 v = Vector3(2, 3, 2);
+        Vector3<float> v = Vector3<float>(2, 3, 2);
 
         ASSERT_NEAR(v.Norm(), std::sqrt(17), 0.0000001);
         v.Normalize();

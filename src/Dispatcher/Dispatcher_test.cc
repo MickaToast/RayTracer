@@ -16,16 +16,28 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include "gtest/gtest.h"
-#include "Engine.h"
+#include "Dispatcher.h"
 #include "../Loader/OBJLoader.h"
 #include "../Camera/Camera.h"
 #include "../Vector/Vector2.h"
 
 namespace rt {
-    TEST(Engine, raytrace) {
+    TEST(Dispatcher, start_and_stop) {
         objl::Loader loader;
         Engine engine = rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, -1),
-                                      rt::Vector2<int>(10, 10)));
-        ASSERT_EQ(engine.raytrace(Vector2<int>(0, 0)).GetColor().hexcode, 0xff0000ff); // Red color
+                                                      rt::Vector2<int>(10, 10)));
+        Dispatcher dispatcher(engine, Vector2<int>(10, 10));
+
+        dispatcher.Start();
+        std::this_thread::sleep_for(std::chrono::seconds(1)); // Make sure the dispatcher had time to generate frames
+        dispatcher.Stop();
+        std::vector<rt::Color> const& image = dispatcher.Flush();
+        bool empty = true;
+        for (auto const& pixel : image) {
+            if (pixel.GetColor().hexcode != 0x00000000) {
+                empty = false;
+            }
+        }
+        ASSERT_FALSE(empty);
     }
 }  // namespace rt
