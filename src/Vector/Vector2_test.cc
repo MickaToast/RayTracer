@@ -15,6 +15,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include <iostream>
 #include "gtest/gtest.h"
 #include "Vector2.h"
 
@@ -93,5 +94,10 @@ namespace rt {
         Vector2<int> v = Vector2<int>(4, 2);
 
         EXPECT_EQ(v / 2, Vector2<int>(2, 1));
+    }
+
+    TEST(Vector2_int, Display) {
+        Vector2<int> v = Vector2<int>(4, 2);
+        std::cout << v << std::endl;
     }
 }  // namespace rt
