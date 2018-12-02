@@ -98,7 +98,7 @@ namespace rt {
 
     template <class T>
     std::ostream& operator<<(std::ostream& out, const Vector3<T>& v) {
-        std::cout << "(" << v.GetX() << ", " << v.GetY() << ", " << v.GetZ() << ")";
+        out << "(" << v.GetX() << ", " << v.GetY() << ", " << v.GetZ() << ")";
         return out;
     }
 }  // namespace rt

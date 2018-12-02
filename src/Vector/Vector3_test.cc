@@ -15,6 +15,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include <sstream>
 #include <cmath>
 #include <iostream>
 #include "gtest/gtest.h"
@@ -152,6 +153,9 @@ namespace rt {
 
     TEST(Vector3, Display) {
         Vector3<float> v = Vector3<float>(0, 0, 1);
-        std::cout << v << std::endl;
+        std::stringstream ss1;
+
+        ss1 << v;
+        ASSERT_EQ(ss1.str(), "(0, 0, 1)");
     }
 }  // namespace rt

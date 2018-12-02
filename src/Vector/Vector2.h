@@ -74,7 +74,7 @@ namespace rt {
 
     template <class T>
     std::ostream& operator<<(std::ostream& out, const Vector2<T>& v) {
-        std::cout << "(" << v.GetX() << ", " << v.GetY() << ")";
+        out << "(" << v.GetX() << ", " << v.GetY() << ")";
         return out;
     }
 }  // namespace rt

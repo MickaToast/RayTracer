@@ -46,11 +46,11 @@ namespace rt {
     }
 
     Color Engine::raytrace(const rt::Vector2<int> &pixel) {
-        Color color(0x00000000);
+        Color color = Color();
         float min = -1;
         Intersection inter;
         Ray ray = _camera.GenerateRay(pixel);
-        for (int i = 0; i < _triangles.size(); i++) { //TODO: KDTree
+        for (int i = 0; i < _triangles.size(); ++i) { //TODO: KDTree
             inter = _triangles[i].Intersect(ray);
             if (inter.Intersect) {
                 Vector3<float> dist = inter.Point - _camera.GetPos();
@@ -60,10 +60,10 @@ namespace rt {
                     if (angle > 90.f) {
                         angle = 180.f - angle;
                     }
-                    float coef = (-1.f / 90.f) * angle + 1.f;
-                    color.SetRedComponent(_triangles[i].GetMaterial().Ka.X * 255 * coef);
-                    color.SetGreenComponent(_triangles[i].GetMaterial().Ka.Y * 255 * coef);
-                    color.SetBlueComponent(_triangles[i].GetMaterial().Ka.Z * 255 * coef);
+                    float coef = ((-1.f / 90.f) * angle + 1.f) * 255.f;
+                    color.SetRedComponent(_triangles[i].GetMaterial().Ka.X * coef);
+                    color.SetGreenComponent(_triangles[i].GetMaterial().Ka.Y * coef);
+                    color.SetBlueComponent(_triangles[i].GetMaterial().Ka.Z * coef);
                 }
             }
         }
