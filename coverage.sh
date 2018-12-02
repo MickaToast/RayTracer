@@ -3,7 +3,7 @@
 #
 # MIT License
 #
-# Copyright (c) 2017-2018 Thibault Martinez and Simon Ninon
+# Copyright (c) 2017-2018 Charles Fraïssé and Michaël Leclerc
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,11 @@ echo "Merging coverage tracefiles."
 lcov --add-tracefile coverage_base.info --add-tracefile coverage_test.info --output-file coverage_merge.info
 
 echo "Removing unwanted files from coverage."
+<<<<<<< HEAD
 lcov --remove coverage_merge.info "*_test.cc" "*/Loader/*" "/usr/*" -o coverage.info
+=======
+lcov --remove coverage_merge.info "`pwd`/external/*" "`pwd`/test/*" "/usr/*" "*_test.cc" -o coverage.info
+>>>>>>> feat(coverage): removing _test.cc files
 
 echo "Uploading coverage."
 coveralls --no-gcov --lcov-file coverage.info
