@@ -21,15 +21,52 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     Engine::Engine(objl::Loader const &loader, Camera const &camera) : _loader(loader), _camera(camera) {
+        for (int i = 0; i < _loader.LoadedVertices.size(); i += 3) {
+            _triangles.push_back(Triangle(
+                Vector3<float>(
+                    _loader.LoadedVertices[i].Position.X,
+                    _loader.LoadedVertices[i].Position.Y,
+                    _loader.LoadedVertices[i].Position.Z
+                ),
+                Vector3<float>(
+                    _loader.LoadedVertices[i + 1].Position.X,
+                    _loader.LoadedVertices[i + 1].Position.Y,
+                    _loader.LoadedVertices[i + 1].Position.Z
+                ),
+                Vector3<float>(
+                    _loader.LoadedVertices[i + 2].Position.X,
+                    _loader.LoadedVertices[i + 2].Position.Y,
+                    _loader.LoadedVertices[i + 2].Position.Z
+                )
+            ));
+        }
     }
 
     Engine::~Engine() {
     }
 
     Color Engine::raytrace(const rt::Vector2<int> &pixel) {
-        Color color(0xff0000ff); // Red color
-        //TODO: logic of raytracing a point will be here
-        //TODO: _camera.generateRay(pixel);
+        Color color = Color();
+        float min = -1;
+        Intersection inter;
+        Ray ray = _camera.GenerateRay(pixel);
+        for (int i = 0; i < _triangles.size(); ++i) { //TODO: KDTree
+            inter = _triangles[i].Intersect(ray);
+            if (inter.Intersect) {
+                Vector3<float> dist = inter.Point - _camera.GetPos();
+                if (min == -1 || dist.Norm() < min) {
+                    min = dist.Norm();
+                    float angle = ray.Direction.Angle(_triangles[i].GetNormal());
+                    if (angle > 90.f) {
+                        angle = 180.f - angle;
+                    }
+                    float coef = ((-1.f / 90.f) * angle + 1.f) * 255.f;
+                    color.SetRedComponent(_triangles[i].GetMaterial().Ka.X * coef);
+                    color.SetGreenComponent(_triangles[i].GetMaterial().Ka.Y * coef);
+                    color.SetBlueComponent(_triangles[i].GetMaterial().Ka.Z * coef);
+                }
+            }
+        }
         return color;
     }
 }  // namespace rt

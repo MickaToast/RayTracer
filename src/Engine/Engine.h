@@ -20,6 +20,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <vector>
 #include "../Loader/OBJLoader.h"
 #include "../Camera/Camera.h"
+#include "../Mesh/Triangle.h"
 #include "../Vector/Vector2.h"
 #include "../Vector/Vector3.h"
 #include "Color.h"
@@ -32,7 +33,8 @@ namespace rt {
         Color           raytrace(Vector2<int> const& pixel);
 
     private:
-        objl::Loader    _loader;
-        Camera          _camera;
+        objl::Loader            _loader;
+        Camera                  _camera;
+        std::vector<Triangle>   _triangles;
     };
 }  // namespace rt

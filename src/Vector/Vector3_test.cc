@@ -15,7 +15,9 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include <sstream>
 #include <cmath>
+#include <iostream>
 #include "gtest/gtest.h"
 #include "Vector3.h"
 
@@ -137,5 +139,23 @@ namespace rt {
         ASSERT_NEAR(v.Norm(), std::sqrt(17), 0.0000001);
         v.Normalize();
         ASSERT_EQ(v.Norm(), 1);
+    }
+
+    TEST(Vector3, Angle) {
+        Vector3<float> v = Vector3<float>(0, 0, 1);
+        Vector3<float> w = Vector3<float>(0, 1, 0);
+        Vector3<float> u = Vector3<float>(1, 0, 0);
+        Vector3<float> u2 = Vector3<float>(1, 1, 0);
+
+        ASSERT_EQ(v.Angle(w), 90);
+        ASSERT_EQ(u.Angle(u2), 45);
+    }
+
+    TEST(Vector3, Display) {
+        Vector3<float> v = Vector3<float>(0, 0, 1);
+        std::stringstream ss1;
+
+        ss1 << v;
+        ASSERT_EQ(ss1.str(), "(0, 0, 1)");
     }
 }  // namespace rt

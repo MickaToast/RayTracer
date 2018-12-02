@@ -27,6 +27,7 @@ namespace rt {
         EXPECT_EQ(cam. GetAxis()[1], Vector3<float>(0, 1, 0));
         EXPECT_EQ(cam. GetAxis()[2], Vector3<float>(0, 0, -1));
         EXPECT_EQ(cam. GetRes(), Vector2<int>(1920, 1080));
+        EXPECT_EQ(cam. GetPos(), Vector3<float>(0, 0, 0));
     }
 
     TEST(Camera, initBasic2) {

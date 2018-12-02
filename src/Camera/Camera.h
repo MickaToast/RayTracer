@@ -34,6 +34,7 @@ class Camera {
 
     std::array<Vector3<float>, 3> const&  GetAxis(void) const;
     Vector2<int> const&                   GetRes(void) const;
+    Vector3<float> const&                 GetPos(void) const;
     void                                  SetRes(const Vector2<int>& res);
 
  private:
