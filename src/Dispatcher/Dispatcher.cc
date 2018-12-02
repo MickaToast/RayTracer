@@ -47,12 +47,11 @@ namespace rt {
     }
 
     std::vector<Color> const& Dispatcher::Flush() {
-        std::size_t i;
         std::size_t size = _res.GetY() * _res.GetX();
 
         _buffer_mutex.lock();
         for (auto const& frame : _buffer) {
-            i = 0;
+            std::size_t i = 0;
             float coef1 = _sample / (_sample + 1.f);
             float coef2 = (_sample == 0 ? 1 : 1.f / (_sample + 1));
             while (i < size) {
