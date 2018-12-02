@@ -25,7 +25,7 @@ namespace rt {
             Vector3<float>(),
             Vector3<float>(1, 1, 1),
             Vector3<float>(2, 2, 2)
-            );
+        );
 
         EXPECT_EQ(t.GetEdge1(), Vector3<float>(1, 1, 1));
         EXPECT_EQ(t.GetEdge2(), Vector3<float>(2, 2, 2));
@@ -37,7 +37,7 @@ namespace rt {
             Vector3<float>(1, 1, 1),
             Vector3<float>(2, 2, 2),
             objl::Material()
-            );
+        );
 
         EXPECT_EQ(t.GetEdge1(), Vector3<float>(1, 1, 1));
         EXPECT_EQ(t.GetEdge2(), Vector3<float>(2, 2, 2));
@@ -49,11 +49,11 @@ namespace rt {
             Vector3<float>(1, -1, -1),
             Vector3<float>(1, 1, -1),
             Vector3<float>(-1, -1, -1)
-            );
+        );
 
         Intersection inter = t.Intersect(cam.GenerateRay(Vector2<int>(960, 540)));
         EXPECT_TRUE(inter.Intersect);
-        EXPECT_EQ(Vector3<float>(0, 0, -1), inter.Point);
+        EXPECT_EQ(inter.Point, Vector3<float>(0, 0, -1));
         inter = t.Intersect(cam.GenerateRay(Vector2<int>(0, 0)));
         EXPECT_FALSE(inter.Intersect);
     }
@@ -63,7 +63,7 @@ namespace rt {
             Vector3<float>(),
             Vector3<float>(1, 1, 1),
             Vector3<float>(2, 2, 2)
-            );
+        );
         t.Refract(Ray()); //TODO
     }
 
@@ -72,7 +72,26 @@ namespace rt {
             Vector3<float>(),
             Vector3<float>(1, 1, 1),
             Vector3<float>(2, 2, 2)
-            );
+        );
         t.Reflect(Ray()); //TODO
+    }
+
+    TEST(Triangle, MaterialRetrieving) {
+        Triangle t = Triangle(
+            Vector3<float>(),
+            Vector3<float>(1, 1, 1),
+            Vector3<float>(2, 2, 2)
+        );
+        objl::Material mat = t.GetMaterial();
+        EXPECT_EQ(mat.Ka, objl::Vector3(0, 1, 0));
+    }
+
+    TEST(Triangle, GetNormal) {
+        Triangle t = Triangle(
+            Vector3<float>(),
+            Vector3<float>(0, 0, -1),
+            Vector3<float>(1, 0, 0)
+        );
+        EXPECT_EQ(t.GetNormal(), Vector3<float>(0, -1, 0));
     }
 }  // namespace rt

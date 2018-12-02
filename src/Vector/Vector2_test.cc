@@ -88,4 +88,10 @@ namespace rt {
 
         EXPECT_EQ(v * 6, Vector2<int>(6, 12));
     }
+
+    TEST(Vector2_int, operatorDivision) {
+        Vector2<int> v = Vector2<int>(4, 2);
+
+        EXPECT_EQ(v / 2, Vector2<int>(2, 1));
+    }
 }  // namespace rt

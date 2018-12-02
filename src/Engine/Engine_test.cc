@@ -24,8 +24,14 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     TEST(Engine, raytrace) {
         objl::Loader loader;
-        Engine engine = rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, -1),
-                                      rt::Vector2<int>(10, 10)));
-        ASSERT_EQ(engine.raytrace(Vector2<int>(0, 0)).GetColor().hexcode, 0xff0000ff); // Red color
+        if (!loader.LoadFile("../scenes/icosahedron.obj")) {
+            std::cerr << "Failed to load file. May have failed to "
+                     "find it or it was not an .obj file." << std::endl;
+            ASSERT_TRUE(false);
+        }
+        Engine engine = rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, 3),
+                                                    rt::Vector3<float>(0, 0, -1),
+                                                    rt::Vector2<int>(160, 90)));
+        ASSERT_EQ(engine.raytrace(Vector2<int>(0, 0)).GetColor().hexcode, 0x00000000);
     }
 }  // namespace rt

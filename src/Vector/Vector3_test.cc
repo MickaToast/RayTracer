@@ -16,6 +16,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <cmath>
+#include <iostream>
 #include "gtest/gtest.h"
 #include "Vector3.h"
 
@@ -147,5 +148,10 @@ namespace rt {
 
         ASSERT_EQ(v.Angle(w), 90);
         ASSERT_EQ(u.Angle(u2), 45);
+    }
+
+    TEST(Vector3, Display) {
+        Vector3<float> v = Vector3<float>(0, 0, 1);
+        std::cout << v << std::endl;
     }
 }  // namespace rt

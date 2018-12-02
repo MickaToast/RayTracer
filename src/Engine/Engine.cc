@@ -46,11 +46,11 @@ namespace rt {
     }
 
     Color Engine::raytrace(const rt::Vector2<int> &pixel) {
-        Color color(0x000000ff); // Red color
+        Color color(0x00000000);
         float min = -1;
         Intersection inter;
         Ray ray = _camera.GenerateRay(pixel);
-        for (int i = 0; i < _triangles.size(); i++) {
+        for (int i = 0; i < _triangles.size(); i++) { //TODO: KDTree
             inter = _triangles[i].Intersect(ray);
             if (inter.Intersect) {
                 Vector3<float> dist = inter.Point - _camera.GetPos();
