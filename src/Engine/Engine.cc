@@ -55,6 +55,7 @@ namespace rt {
             if (inter.Intersect) {
                 Vector3<float> dist = inter.Point - _camera.GetPos();
                 if (min == -1 || dist.Norm() < min) {
+                    min = dist.Norm();
                     float angle = ray.Direction.Angle(_triangles[i].GetNormal());
                     if (angle > 90.f) {
                         angle = 180.f - angle;
