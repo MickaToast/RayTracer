@@ -20,7 +20,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     Triangle::Triangle(Vector3<float> const& v1, Vector3<float> const& v2,
     Vector3<float> const& v3): _v1(v1), _v2(v2), _v3(v3) {
-        _material.Ka = objl::Vector3(.259, .525, .957);
+        _material.Ka = objl::Vector3(0, 1, 0);
         _material.Kd = objl::Vector3(0.75, 0.75, 0.75);
         _material.Ks = objl::Vector3(0.5, 0.5, 0.5);
         _material.illum = 0;

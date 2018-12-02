@@ -32,16 +32,18 @@ int main(int argc, char **argv) {
     objl::Loader loader;
 
     std::cout << "Loading scene " << argv[1] << "..." << std::endl;
-    if (0 && !loader.LoadFile(argv[1])) { //TODO: remove 0
+    if (!loader.LoadFile(argv[1])) {
         std::cerr << "Failed to load file. May have failed to "
                      "find it or it was not an .obj file." << std::endl;
         return 1;
     }
 
-    sf::RenderWindow window(sf::VideoMode(1080, 720), "RayTracer 2.0");
+    sf::RenderWindow window(sf::VideoMode(1600, 900), "RayTracer 2.0");
     window.setFramerateLimit(144);
 
-    rt::Dispatcher dispatcher(rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, -1),
+    rt::Dispatcher dispatcher(rt::Engine(loader, rt::Camera(
+            rt::Vector3<float>(0, 0, 5),
+            rt::Vector3<float>(0, 0, -1),
             rt::Vector2<int>(window.getSize().x, window.getSize().y))),
             rt::Vector2<int>(window.getSize().x, window.getSize().y));
 

@@ -15,26 +15,11 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#pragma once
-
-#include <vector>
-#include "../Loader/OBJLoader.h"
-#include "../Camera/Camera.h"
-#include "../Mesh/Triangle.h"
-#include "../Vector/Vector2.h"
-#include "../Vector/Vector3.h"
-#include "Color.h"
+#include "Mesh.h"
 
 namespace rt {
-    class Engine {
-    public:
-        explicit        Engine(objl::Loader const& loader, Camera const& camera);
-        virtual         ~Engine();
-        Color           raytrace(Vector2<int> const& pixel);
-
-    private:
-        objl::Loader            _loader;
-        Camera                  _camera;
-        std::vector<Triangle>   _triangles;
-    };
+    objl::Material const&  Mesh::GetMaterial() const {
+        return _material;
+    }
+    
 }  // namespace rt

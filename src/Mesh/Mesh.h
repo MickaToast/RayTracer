@@ -27,6 +27,7 @@ class Mesh {
     virtual Ray const           Refract(Ray const& ray) = 0;
     virtual Ray const           Reflect(Ray const& ray) = 0;
 
+    objl::Material const&  GetMaterial() const;
  protected:
     objl::Material  _material;
 };

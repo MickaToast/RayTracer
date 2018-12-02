@@ -83,6 +83,10 @@ namespace rt {
         return _screenRes;
     }
 
+    Vector3<float> const& Camera::GetPos(void) const {
+        return _pos;
+    }
+
     void Camera::SetRes(const Vector2<int>& res) {
         _screenRes = res;
         this->generateScreen();

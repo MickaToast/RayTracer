@@ -7,6 +7,7 @@ set(SOURCE_FILES    src/Camera/Camera.cc
                     src/Dispatcher/Dispatcher.cc
                     src/Engine/Color.cc
                     src/Engine/Engine.cc
+                    src/Mesh/Mesh.cc
                     src/Mesh/Triangle.cc
                     src/Loader/OBJLoader.cc)
 add_executable(RayTracer ${SOURCE_FILES} src/main.cc)

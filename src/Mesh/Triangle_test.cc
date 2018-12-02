@@ -50,9 +50,12 @@ namespace rt {
             Vector3<float>(1, 1, -1),
             Vector3<float>(-1, -1, -1)
             );
-        Intersection inter = t.Intersect(cam.GenerateRay(Vector2<int>(960, 540)));
 
+        Intersection inter = t.Intersect(cam.GenerateRay(Vector2<int>(960, 540)));
         EXPECT_TRUE(inter.Intersect);
+        EXPECT_EQ(Vector3<float>(0, 0, -1), inter.Point);
+        inter = t.Intersect(cam.GenerateRay(Vector2<int>(0, 0)));
+        EXPECT_FALSE(inter.Intersect);
     }
 
     TEST(Triangle, Refraction) {
