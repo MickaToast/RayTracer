@@ -29,6 +29,7 @@ set(TEST_FILES  src/main_test.cc
                 src/Dispatcher/Dispatcher_test.cc
                 src/Engine/Color_test.cc
                 src/Engine/Engine_test.cc
+                src/Mesh/Triangle_test.cc
                 src/Vector/Vector2_test.cc
                 src/Vector/Vector3_test.cc)
 add_executable(runTests ${SOURCE_FILES} ${TEST_FILES})

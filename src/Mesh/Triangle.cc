@@ -64,12 +64,20 @@ namespace rt {
     }
 
     Ray const Triangle::Refract(Ray const& ray) {
-        return Ray();
+        return Ray(); //TODO
     }
 
     Ray const Triangle::Reflect(Ray const& ray) {
-        return Ray();
+        return Ray(); //TODO
     }
+
+   Vector3<float> const& Triangle::GetEdge1() const {
+       return _edge1;
+   }
+
+   Vector3<float> const& Triangle::GetEdge2() const {
+       return _edge2;
+   }
 
     void Triangle::generateCharacteristics() {
         _edge1 = _v2 - _v1;

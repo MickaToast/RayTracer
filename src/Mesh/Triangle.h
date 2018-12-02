@@ -31,6 +31,9 @@ class Triangle : public Mesh {
     virtual Ray const           Refract(Ray const& ray);
     virtual Ray const           Reflect(Ray const& ray);
 
+   Vector3<float> const&   GetEdge1() const;
+   Vector3<float> const&   GetEdge2() const;
+
  private:
     Vector3<float>  _v1;
     Vector3<float>  _v2;
