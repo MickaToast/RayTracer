@@ -19,5 +19,5 @@ before_install:
 script:
   - mkdir cmake-build-debug && cd cmake-build-debug
   - cmake .. && make && ./runTests
-after_success:
+after_script:
   - ../coverage.sh
