@@ -31,5 +31,6 @@ set(TEST_FILES  src/main_test.cc
                 src/Vector/Vector2_test.cc
                 src/Vector/Vector3_test.cc)
 add_executable(runTests ${SOURCE_FILES} ${TEST_FILES})
-target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)
+target_compile_options(runTests PUBLIC -fprofile-arcs -ftest-coverage)
+target_link_libraries(runTests ${GTEST_LIBRARIES} pthread gcov)
 target_compile_definitions(runTests PUBLIC RT_TESTING_ENV)
