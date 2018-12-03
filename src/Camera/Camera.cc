@@ -21,14 +21,14 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     Camera::Camera(Vector3<float> const& pos, Vector3<float> const& target,
-    Vector2<int> const& res): _pos(pos), _fov(90.0f), _screenRes(res),
+    Vector2<unsigned int> const& res): _pos(pos), _fov(90.0f), _screenRes(res),
     _screenDist(1.f), _gen(std::random_device()()), _dis(0.f, 1.f) {
         _pos = pos;
         this->generateAxis(target);
         this->generateScreen();
     }
 
-    Camera::Camera(Vector3<float> const& target, Vector2<int> const& res): _pos(Vector3<float>()),
+    Camera::Camera(Vector3<float> const& target, Vector2<unsigned int> const& res): _pos(Vector3<float>()),
      _fov(90.0f), _screenRes(res), _screenDist(1.f),
      _gen(std::random_device()()), _dis(0.f, 1.f) {
         this->generateAxis(target);
@@ -38,7 +38,7 @@ namespace rt {
     Camera::~Camera(void) {
     }
 
-    Ray const Camera::GenerateRay(Vector2<int> const &pos) {
+    Ray const Camera::GenerateRay(Vector2<unsigned int> const &pos) {
         #ifndef RT_TESTING_ENV
         float Rx = _dis(_gen);
         float Ry = _dis(_gen);
@@ -79,7 +79,7 @@ namespace rt {
         return _axis;
     }
 
-    Vector2<int> const& Camera::GetRes(void) const {
+    Vector2<unsigned int> const& Camera::GetRes(void) const {
         return _screenRes;
     }
 
@@ -87,7 +87,7 @@ namespace rt {
         return _pos;
     }
 
-    void Camera::SetRes(const Vector2<int>& res) {
+    void Camera::SetRes(const Vector2<unsigned int>& res) {
         _screenRes = res;
         this->generateScreen();
     }

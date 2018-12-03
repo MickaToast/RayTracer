@@ -30,7 +30,7 @@ namespace rt {
     public:
         explicit        Engine(objl::Loader const& loader, Camera const& camera);
         virtual         ~Engine();
-        Color           raytrace(Vector2<int> const& pixel);
+        Color           raytrace(Vector2<unsigned int> const& pixel);
 
     private:
         objl::Loader            _loader;

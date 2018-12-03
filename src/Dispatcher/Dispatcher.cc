@@ -19,7 +19,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Dispatcher.h"
 
 namespace rt {
-    Dispatcher::Dispatcher(const Engine &engine, Vector2<int> const& res) : _running(false), _engine(engine), _res(res), _sample(0) {
+    Dispatcher::Dispatcher(const Engine &engine, Vector2<unsigned int> const& res) : _running(false), _engine(engine), _res(res), _sample(0) {
         std::size_t size = _res.GetY() * _res.GetX();
         _image.reserve(size);
         _image.resize(size);
@@ -60,16 +60,20 @@ namespace rt {
                 _image[i].SetBlueComponent(_image[i].GetBlueComponent() * coef1 + frame[i].GetBlueComponent() * coef2);
                 i++;
             }
-            _sample++;
+            _sample = _sample + 1;
         }
         _buffer.clear();
         _buffer_mutex.unlock();
         return _image;
     }
 
+    float Dispatcher::GetNumberOfProcessed() const {
+        return _sample;
+    }
+
     void Dispatcher::execute() {
         std::vector<Color> frame;
-        Vector2<int> current(0, 0);
+        Vector2<unsigned int> current(0, 0);
         std::size_t size = _res.GetY() * _res.GetX();
 
         frame.reserve(size);

@@ -31,9 +31,9 @@ namespace rt {
         }
         Engine engine = rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, 3),
                                                     rt::Vector3<float>(0, 0, -1),
-                                                    rt::Vector2<int>(160, 90)));
-        ASSERT_EQ(engine.raytrace(Vector2<int>(0, 0)).GetColor().hexcode, 0x00000000);
-        ASSERT_EQ(engine.raytrace(Vector2<int>(80, 45)).GetColor().hexcode, 0x00c30000);
-        ASSERT_EQ(engine.raytrace(Vector2<int>(65, 35)).GetColor().hexcode, 0x00400000);
+                                                    rt::Vector2<unsigned int>(160, 90)));
+        ASSERT_EQ(engine.raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
+        ASSERT_EQ(engine.raytrace(Vector2<unsigned int>(80, 45)).GetColor().hexcode, 0x00c30000);
+        ASSERT_EQ(engine.raytrace(Vector2<unsigned int>(65, 35)).GetColor().hexcode, 0x00400000);
     }
 }  // namespace rt

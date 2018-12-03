@@ -12,3 +12,18 @@
 ```bash
 cmake .. && make && ./RayTracer scene.obj
 ```
+
+# Validation tests
+* Make sure to have image-magic installed
+* Make sure to build Raytracer in cmake-build-debug
+
+## How to create a test
+Create a directory in validation_test with the name of the scene (it must match the name of the scene).
+Create test files inside the directory with the following name format: `<width>x<height>_<number_of_frame_to_render>_<difference_threshold>`
+Then, follow the next point in order to generate the test.
+
+## How to regenerate tests
+Go in validation_test directory and launch `./regenerate.sh`
+
+## How to test
+Go in validation_test directory and launch `./test.sh`

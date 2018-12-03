@@ -4,12 +4,17 @@ compiler:
   - gcc
 addons:
   apt:
+    sources:
+      - ubuntu-toolchain-r-test
     packages:
+      - g++-7
       - libsfml-dev
       - libgtest-dev
       - cmake
       - lcov
+      - imagemagick
 before_install:
+  - export CXX=/usr/bin/g++-7
   - pip install --user cpp-coveralls
   - cd /usr/src/gtest
   - sudo cmake CMakeLists.txt
@@ -19,5 +24,7 @@ before_install:
 script:
   - mkdir cmake-build-debug && cd cmake-build-debug
   - cmake .. && make && ./runTests
+  - cd $TRAVIS_BUILD_DIR/validation_test && ./test.sh
 after_script:
-  - ../coverage.sh
+  - cd $TRAVIS_BUILD_DIR/cmake-build-debug
+  - $TRAVIS_BUILD_DIR/coverage.sh

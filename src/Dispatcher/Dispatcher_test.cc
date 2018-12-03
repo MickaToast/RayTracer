@@ -30,13 +30,14 @@ namespace rt {
             ASSERT_TRUE(false);
         }
         Engine engine = rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, -1),
-                                                      rt::Vector2<int>(160, 90)));
-        Dispatcher dispatcher(engine, Vector2<int>(160, 90));
-
+                                                      rt::Vector2<unsigned int>(160, 90)));
+        Dispatcher dispatcher(engine, Vector2<unsigned int>(160, 90));
+        std::vector<rt::Color> image;
         dispatcher.Start();
-        std::this_thread::sleep_for(std::chrono::seconds(1)); // Make sure the dispatcher had time to generate frames
+        while (dispatcher.GetNumberOfProcessed() == 0) { // Make sure the dispatcher had time to generate frames
+            image = dispatcher.Flush();
+        }
         dispatcher.Stop();
-        std::vector<rt::Color> const& image = dispatcher.Flush();
         bool empty = true;
         for (auto const& pixel : image) {
             if (pixel.GetColor().hexcode != 0x00000000) {
