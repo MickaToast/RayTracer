@@ -43,7 +43,7 @@ namespace rt {
         Intersection ret;
         Vector3<float> pvec = ray.Direction.Cross(_edge2);
         float det = _edge1.Dot(pvec);
-        if (det < _epsilon) {
+        if (std::abs(det) < _epsilon) {
             ret.Intersect = false;
             return ret;
         }
@@ -60,6 +60,10 @@ namespace rt {
             return ret;
         }
         float t = _edge2.Dot(qvec) / det;
+        if (t < 0.f) {
+            ret.Intersect = false;
+            return ret;
+        }
         ret.Intersect = true;
         ret.Point = ray.Origin + ray.Direction * t;
         return ret;
@@ -96,6 +100,18 @@ namespace rt {
        );
    }
 
+   Vector3<float> const& Triangle::GetV1() const {
+       return _v1;
+   }
+
+   Vector3<float> const& Triangle::GetV2() const {
+       return _v2;
+   }
+
+   Vector3<float> const& Triangle::GetV3() const {
+       return _v3;
+   }
+
    Vector3<float> const& Triangle::GetEdge1() const {
        return _edge1;
    }
@@ -107,6 +123,11 @@ namespace rt {
    Vector3<float> const& Triangle::GetNormal() const {
        return _normal;
    }
+   
+   bool  Triangle::operator==(Triangle const& other) const {
+       return (_v1 == other.GetV1() && _v2 == other.GetV2() && _v3 == other.GetV3());
+   }
+
 
     void Triangle::generateCharacteristics() {
         _edge1 = _v2 - _v1;

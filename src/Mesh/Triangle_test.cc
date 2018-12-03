@@ -29,6 +29,9 @@ namespace rt {
 
         EXPECT_EQ(t.GetEdge1(), Vector3<float>(1, 1, 1));
         EXPECT_EQ(t.GetEdge2(), Vector3<float>(2, 2, 2));
+        EXPECT_EQ(t.GetV1(), Vector3<float>());
+        EXPECT_EQ(t.GetV2(), Vector3<float>(1, 1, 1));
+        EXPECT_EQ(t.GetV3(), Vector3<float>(2, 2, 2));
     }
 
     TEST(Triangle, initBasic2) {
@@ -56,6 +59,30 @@ namespace rt {
         EXPECT_EQ(inter.Point, Vector3<float>(0, 0, -1));
         inter = t.Intersect(cam.GenerateRay(Vector2<unsigned int>(0, 0)));
         EXPECT_FALSE(inter.Intersect);
+
+        Triangle t2 = Triangle(
+            Vector3<float>(),
+            Vector3<float>(1, 0, 0),
+            Vector3<float>(0, 1, 0)
+        );
+        EXPECT_TRUE(t2.Intersect(Ray(
+            Vector3<float>(.3, .3, 1),
+            Vector3<float>(0, 0, -1)            
+        )).Intersect);
+        EXPECT_FALSE(t2.Intersect(Ray(
+            Vector3<float>(.3, .3, 1),
+            Vector3<float>(0, 0, 1)            
+        )).Intersect);
+                
+        Triangle t3 = Triangle(
+            Vector3<float>(0, 0, -1),
+            Vector3<float>(3, 0, -1),
+            Vector3<float>(0, 0, 0)
+        );
+        EXPECT_FALSE(t3.Intersect(Ray(
+            Vector3<float>(1.5, 3, -0.5),
+            Vector3<float>(0, 1, 0)
+        )).Intersect);
     }
 
     TEST(Triangle, Refraction) {
@@ -104,5 +131,19 @@ namespace rt {
         EXPECT_EQ(t.GetMinMaxX(), Vector2<float>(1, 5));
         EXPECT_EQ(t.GetMinMaxY(), Vector2<float>(-3, 4));
         EXPECT_EQ(t.GetMinMaxZ(), Vector2<float>(-8, 2));
+    }
+
+    TEST(Triangle, GetMinMax) {
+        Triangle t = Triangle(
+            Vector3<float>(1, 4, -5),
+            Vector3<float>(5, -3, 2),
+            Vector3<float>(2, 3, -8)
+        );
+        Triangle t2 = Triangle(
+            Vector3<float>(1, 4, -5),
+            Vector3<float>(5, -3, 2),
+            Vector3<float>(2, 3, -8)
+        );
+        EXPECT_TRUE(t == t2);
     }
 }  // namespace rt

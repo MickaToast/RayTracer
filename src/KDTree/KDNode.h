@@ -19,28 +19,18 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <vector>
 #include "../Mesh/Triangle.h"
-#include "../Engine/Tools.h"
+#include "KDBox.h"
 
 namespace rt {
-class KDBox {
+class KDNode {
  public:
-    KDBox(std::vector<Triangle> const& triangles);
-    ~KDBox();
-
-    bool    Intersect(Ray const& ray);
-
-    Vector2<float> const&           GetX() const;
-    Vector2<float> const&           GetY() const;
-    Vector2<float> const&           GetZ() const;
-    std::vector<Triangle> const&    GetTriangles() const;
+    KDNode();
+    ~KDNode();
 
  private:
-    Vector2<float>          _x;  // Containing Xmin and Xmax
-    Vector2<float>          _y;  // Containing Ymin and Ymax
-    Vector2<float>          _z;  // Containing Zmin and Zmax
-    std::vector<Triangle>   _triangles;  // Containing the 12 triangles constituting the box
-
-    void    setMinMax(std::vector<Triangle> const& triangles);
-    void    generateTriangles();
+    KDBox                   _box;
+    KDNode*                 _left;
+    KDNode*                 _right;
+    std::vector<Triangle>   _triangles;
 };
 }  // namespace rt

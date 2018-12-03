@@ -20,9 +20,19 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     KDBox::KDBox(std::vector<Triangle> const& triangles) {
         this->setMinMax(triangles);
+        this->generateTriangles();
     }
 
     KDBox::~KDBox() {
+    }
+
+    bool KDBox::Intersect(Ray const& ray) {
+        for (std::size_t i = 0; i < _triangles.size(); ++i) {
+            if (_triangles[i].Intersect(ray).Intersect) {
+                return true;
+            }
+        }
+        return false;
     }
 
     Vector2<float> const& KDBox::GetX() const {
@@ -35,6 +45,10 @@ namespace rt {
 
     Vector2<float> const& KDBox::GetZ() const {
         return _z;
+    }
+
+    std::vector<Triangle> const& KDBox::GetTriangles() const{
+        return _triangles;
     }
 
     void KDBox::setMinMax(std::vector<Triangle> const& triangles) {
@@ -55,5 +69,28 @@ namespace rt {
                 if (z.GetY() > _z.GetY()) _z.SetY(z.GetY());
             }
         }
+    }
+
+    void KDBox::generateTriangles() {
+        Vector3<float> A = Vector3<float>(_x.GetX(), _y.GetX(), _z.GetY());
+        Vector3<float> B = Vector3<float>(_x.GetX(), _y.GetX(), _z.GetX());
+        Vector3<float> C = Vector3<float>(_x.GetY(), _y.GetX(), _z.GetX());
+        Vector3<float> D = Vector3<float>(_x.GetY(), _y.GetX(), _z.GetY());
+        Vector3<float> E = Vector3<float>(_x.GetY(), _y.GetY(), _z.GetY());
+        Vector3<float> F = Vector3<float>(_x.GetX(), _y.GetY(), _z.GetY());
+        Vector3<float> G = Vector3<float>(_x.GetX(), _y.GetY(), _z.GetX());
+        Vector3<float> H = Vector3<float>(_x.GetY(), _y.GetY(), _z.GetX());
+        _triangles.push_back(Triangle(B, C, A));
+        _triangles.push_back(Triangle(A, C, D));
+        _triangles.push_back(Triangle(A, D, F));
+        _triangles.push_back(Triangle(F, D, E));
+        _triangles.push_back(Triangle(F, E, G));
+        _triangles.push_back(Triangle(G, E, H));
+        _triangles.push_back(Triangle(G, H, B));
+        _triangles.push_back(Triangle(B, H, C));
+        _triangles.push_back(Triangle(B, A, G));
+        _triangles.push_back(Triangle(G, A, F));
+        _triangles.push_back(Triangle(D, C, E));
+        _triangles.push_back(Triangle(E, C, H));
     }
 }  // namespace rt
