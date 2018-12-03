@@ -7,6 +7,7 @@ set(SOURCE_FILES    src/Camera/Camera.cc
                     src/Dispatcher/Dispatcher.cc
                     src/Engine/Color.cc
                     src/Engine/Engine.cc
+                    src/KDTree/KDBox.cc
                     src/Mesh/Mesh.cc
                     src/Mesh/Triangle.cc
                     src/Loader/OBJLoader.cc)
@@ -35,6 +36,7 @@ set(TEST_FILES  src/main_test.cc
                 src/Dispatcher/Dispatcher_test.cc
                 src/Engine/Color_test.cc
                 src/Engine/Engine_test.cc
+                src/KDTree/KDBox_test.cc
                 src/Mesh/Triangle_test.cc
                 src/Vector/Vector2_test.cc
                 src/Vector/Vector3_test.cc)
