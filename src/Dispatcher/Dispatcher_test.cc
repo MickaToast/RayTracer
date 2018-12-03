@@ -29,7 +29,8 @@ namespace rt {
                      "find it or it was not an .obj file." << std::endl;
             ASSERT_TRUE(false);
         }
-        Engine engine = rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, -1),
+        Engine engine = rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, 3),
+                                                      rt::Vector3<float>(0, 0, -1),
                                                       rt::Vector2<unsigned int>(160, 90)));
         Dispatcher dispatcher(engine, Vector2<unsigned int>(160, 90));
         std::vector<rt::Color> image;
