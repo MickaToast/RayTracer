@@ -136,7 +136,6 @@ namespace rt {
        return (_v1 == other.GetV1() && _v2 == other.GetV2() && _v3 == other.GetV3());
    }
 
-
     void Triangle::generateCharacteristics() {
         _edge1 = _v2 - _v1;
         _edge2 = _v3 - _v1;

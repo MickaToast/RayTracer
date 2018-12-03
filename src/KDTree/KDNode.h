@@ -44,6 +44,5 @@ class KDNode {
     KDNode*                 _left;
     KDNode*                 _right;
     std::vector<Triangle>   _triangles;
-
 };
 }  // namespace rt
