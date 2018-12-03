@@ -65,7 +65,7 @@ namespace rt {
     }
 
     void Camera::generateScreen() {
-      float screenWidth = 2.f * std::tan((_fov / 2.f) * M_PI / 180.f)
+      float screenWidth = 2.f * std::tan((_fov / 2.f) * static_cast<float>(M_PI) / 180.f)
         * _screenDist;
         _screenSize = Vector2<float>(screenWidth, screenWidth * _screenRes.GetY()
         / _screenRes.GetX());
