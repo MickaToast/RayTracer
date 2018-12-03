@@ -38,3 +38,7 @@ cmake-build-debug/
 
 # Created Visual Studio Code directory
 .vscode/
+
+# Created validation_test files
+validation_test/output.bpm
+validation_test/**/difference.bpm

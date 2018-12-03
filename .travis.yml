@@ -12,6 +12,7 @@ addons:
       - libgtest-dev
       - cmake
       - lcov
+      - imagemagick
 before_install:
   - export CXX=/usr/bin/g++-7
   - pip install --user cpp-coveralls
@@ -23,5 +24,6 @@ before_install:
 script:
   - mkdir cmake-build-debug && cd cmake-build-debug
   - cmake .. && make && ./runTests
+  - cd ../validation_test && ./test.sh
 after_script:
   - ../coverage.sh

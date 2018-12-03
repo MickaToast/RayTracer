@@ -12,3 +12,8 @@
 ```bash
 cmake .. && make && ./RayTracer scene.obj
 ```
+
+## How to regenerate validation tests
+1. Make sure to build RayTracer in cmake-build-debug
+2. `cd validation_test`
+3. `./regenerate.sh`
