@@ -94,4 +94,15 @@ namespace rt {
         );
         EXPECT_EQ(t.GetNormal(), Vector3<float>(0, -1, 0));
     }
+
+    TEST(Triangle, GetMinMax) {
+        Triangle t = Triangle(
+            Vector3<float>(1, 4, -5),
+            Vector3<float>(5, -3, 2),
+            Vector3<float>(2, 3, -8)
+        );
+        EXPECT_EQ(t.GetMinMaxX(), Vector2<float>(1, 5));
+        EXPECT_EQ(t.GetMinMaxY(), Vector2<float>(-3, 4));
+        EXPECT_EQ(t.GetMinMaxZ(), Vector2<float>(-8, 2));
+    }
 }  // namespace rt

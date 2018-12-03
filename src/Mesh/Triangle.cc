@@ -15,7 +15,9 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include <algorithm>
 #include "Triangle.h"
+#include "../Vector/Vector2.h"
 
 namespace rt {
     Triangle::Triangle(Vector3<float> const& v1, Vector3<float> const& v2,
@@ -72,6 +74,27 @@ namespace rt {
         (void)ray;
         return Ray(); //TODO
     }
+
+   Vector2<float> const Triangle::GetMinMaxX() const {
+       return Vector2<float>(
+           std::min(_v1.GetX(), std::min(_v2.GetX(), _v3.GetX())),
+           std::max(_v1.GetX(), std::max(_v2.GetX(), _v3.GetX()))
+       );
+   }
+
+   Vector2<float> const Triangle::GetMinMaxY() const {
+       return Vector2<float>(
+           std::min(_v1.GetY(), std::min(_v2.GetY(), _v3.GetY())),
+           std::max(_v1.GetY(), std::max(_v2.GetY(), _v3.GetY()))
+       );
+   }
+
+   Vector2<float> const Triangle::GetMinMaxZ() const {
+       return Vector2<float>(
+           std::min(_v1.GetZ(), std::min(_v2.GetZ(), _v3.GetZ())),
+           std::max(_v1.GetZ(), std::max(_v2.GetZ(), _v3.GetZ()))
+       );
+   }
 
    Vector3<float> const& Triangle::GetEdge1() const {
        return _edge1;
