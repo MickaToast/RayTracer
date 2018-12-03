@@ -24,6 +24,7 @@ before_install:
 script:
   - mkdir cmake-build-debug && cd cmake-build-debug
   - cmake .. && make && ./runTests
-  - cd ../validation_test && ./test.sh
+  - cd $TRAVIS_BUILD_DIR/validation_test && ./test.sh
 after_script:
-  - ../coverage.sh
+  - cd $TRAVIS_BUILD_DIR/cmake-build-debug
+  - TRAVIS_BUILD_DIR/coverage.sh
