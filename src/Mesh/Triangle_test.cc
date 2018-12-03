@@ -133,7 +133,7 @@ namespace rt {
         EXPECT_EQ(t.GetMinMaxZ(), Vector2<float>(-8, 2));
     }
 
-    TEST(Triangle, GetMinMax) {
+    TEST(Triangle, EqualOperator) {
         Triangle t = Triangle(
             Vector3<float>(1, 4, -5),
             Vector3<float>(5, -3, 2),
