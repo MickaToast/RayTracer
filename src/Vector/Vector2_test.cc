@@ -98,7 +98,7 @@ namespace rt {
     }
 
     TEST(Vector2, Display) {
-        Vector2<float> v = Vector2<float>( 0, 1);
+        Vector2<float> v = Vector2<float>(0, 1);
         std::stringstream ss1;
 
         ss1 << v;

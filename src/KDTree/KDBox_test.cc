@@ -18,9 +18,8 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "gtest/gtest.h"
 #include "KDBox.h"
 
-
 namespace rt {
-    TEST(KDBox, init) {
+    TEST(KDBox, MinMax) {
         std::vector<Triangle> triangles;
         triangles.push_back(
             Triangle(
@@ -40,5 +39,134 @@ namespace rt {
         EXPECT_EQ(box.GetX(), Vector2<float>(0, 3));
         EXPECT_EQ(box.GetY(), Vector2<float>(0, 1));
         EXPECT_EQ(box.GetZ(), Vector2<float>(-1, 0));
+    }
+
+    TEST(KDBox, Triangles) {
+        std::vector<Triangle> triangles;
+        triangles.push_back(
+            Triangle(
+                Vector3<float>(0, 0.5, -0.5),
+                Vector3<float>(1.5, 0.5, 0),
+                Vector3<float>(1.5, 0, -0.5)
+            )
+        );
+        triangles.push_back(
+            Triangle(
+                Vector3<float>(3, 0.5, -0.5),
+                Vector3<float>(1.5, 0.5, -1),
+                Vector3<float>(1.5, 1, -0.5)
+            )
+        );
+        KDBox box = KDBox(triangles);
+        std::vector<Triangle> boxTriangles = box.GetTriangles();
+        EXPECT_EQ(boxTriangles.size(), 12);
+        EXPECT_EQ(boxTriangles[0], Triangle(
+            Vector3<float>(0, 0, -1),
+            Vector3<float>(3, 0, -1),
+            Vector3<float>(0, 0, 0)
+        ));
+        EXPECT_EQ(boxTriangles[1], Triangle(
+            Vector3<float>(0, 0, 0),
+            Vector3<float>(3, 0, -1),
+            Vector3<float>(3, 0, 0)
+        ));
+        EXPECT_EQ(boxTriangles[2], Triangle(
+            Vector3<float>(0, 0, 0),
+            Vector3<float>(3, 0, 0),
+            Vector3<float>(0, 1, 0)
+        ));
+        EXPECT_EQ(boxTriangles[3], Triangle(
+            Vector3<float>(0, 1, 0),
+            Vector3<float>(3, 0, 0),
+            Vector3<float>(3, 1, 0)
+        ));
+        EXPECT_EQ(boxTriangles[4], Triangle(
+            Vector3<float>(0, 1, 0),
+            Vector3<float>(3, 1, 0),
+            Vector3<float>(0, 1, -1)
+        ));
+        EXPECT_EQ(boxTriangles[5], Triangle(
+            Vector3<float>(0, 1, -1),
+            Vector3<float>(3, 1, 0),
+            Vector3<float>(3, 1, -1)
+        ));
+        EXPECT_EQ(boxTriangles[6], Triangle(
+            Vector3<float>(0, 1, -1),
+            Vector3<float>(3, 1, -1),
+            Vector3<float>(0, 0, -1)
+        ));
+        EXPECT_EQ(boxTriangles[7], Triangle(
+            Vector3<float>(0, 0, -1),
+            Vector3<float>(3, 1, -1),
+            Vector3<float>(3, 0, -1)
+        ));
+        EXPECT_EQ(boxTriangles[8], Triangle(
+            Vector3<float>(0, 0, -1),
+            Vector3<float>(0, 0, 0),
+            Vector3<float>(0, 1, -1)
+        ));
+        EXPECT_EQ(boxTriangles[9], Triangle(
+            Vector3<float>(0, 1, -1),
+            Vector3<float>(0, 0, 0),
+            Vector3<float>(0, 1, 0)
+        ));
+        EXPECT_EQ(boxTriangles[10], Triangle(
+            Vector3<float>(3, 0, 0),
+            Vector3<float>(3, 0, -1),
+            Vector3<float>(3, 1, 0)
+        ));
+        EXPECT_EQ(boxTriangles[11], Triangle(
+            Vector3<float>(3, 1, 0),
+            Vector3<float>(3, 0, -1),
+            Vector3<float>(3, 1, -1)
+        ));
+    }
+
+    TEST(KDBox, Intersection) {
+        std::vector<Triangle> triangles;
+        triangles.push_back(
+            Triangle(
+                Vector3<float>(0, 0.5, -0.5),
+                Vector3<float>(1.5, 0.5, 0),
+                Vector3<float>(1.5, 0, -0.5)
+            )
+        );
+        triangles.push_back(
+            Triangle(
+                Vector3<float>(3, 0.5, -0.5),
+                Vector3<float>(1.5, 0.5, -1),
+                Vector3<float>(1.5, 1, -0.5)
+            )
+        );
+        KDBox box = KDBox(triangles);
+
+        EXPECT_TRUE(box.Intersect(Ray(
+            Vector3<float>(1.5, 0.5, 3),
+            Vector3<float>(0, 0, -1)
+        )));
+        EXPECT_TRUE(box.Intersect(Ray(
+            Vector3<float>(1.5, 0.5, -3),
+            Vector3<float>(0, 0, 1)
+        )));
+        EXPECT_TRUE(box.Intersect(Ray(
+            Vector3<float>(5, 0.5, -0.5),
+            Vector3<float>(-1, 0, 0)
+        )));
+        EXPECT_TRUE(box.Intersect(Ray(
+            Vector3<float>(-3, 0.5, -0.5),
+            Vector3<float>(1, 0, 0)
+        )));
+        EXPECT_TRUE(box.Intersect(Ray(
+            Vector3<float>(1.5, 3, -0.5),
+            Vector3<float>(0, -1, 0)
+        )));
+        EXPECT_TRUE(box.Intersect(Ray(
+            Vector3<float>(1.5, -3, -0.5),
+            Vector3<float>(0, 1, 0)
+        )));
+        EXPECT_FALSE(box.Intersect(Ray(
+            Vector3<float>(1.5, 3, -0.5),
+            Vector3<float>(0, 1, 0)
+        )));
     }
 }  // namespace rt
