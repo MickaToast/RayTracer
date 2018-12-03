@@ -20,6 +20,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <SFML/Graphics.hpp>
 #include <cstring>
 #include <regex>
+#include "Loader/Bitmap.h"
 #include "Loader/OBJLoader.h"
 #include "Camera/Camera.h"
 #include "Engine/Engine.h"
@@ -27,9 +28,9 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 int main(int argc, char **argv) {
     if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " scene.obj" << std::endl;
-        std::cerr << "Usage: " << argv[0] << " scene.obj 1980x1080" << std::endl;
-        std::cerr << "Usage: " << argv[0] << " scene.obj 1980x1080 --output-image 5" << std::endl;
+        std::cerr << "Usage 1: " << argv[0] << " scene.obj" << std::endl;
+        std::cerr << "Usage 2: " << argv[0] << " scene.obj 1980x1080" << std::endl;
+        std::cerr << "Usage 3: " << argv[0] << " scene.obj 1980x1080 --output-image 5" << std::endl;
         return 1;
     }
 
@@ -61,9 +62,18 @@ int main(int argc, char **argv) {
         std::size_t num_frames = std::stoul(argv[4]);
         while (dispatcher.GetNumberOfProcessed() < num_frames) {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            dispatcher.Flush();
         }
         dispatcher.Stop();
-        //TODO: Write dispatcher.Flush() to image file
+        bitmap_image bitmap(res.GetX(), res.GetY());
+        std::vector<rt::Color> const& image = dispatcher.Flush();
+        std::size_t i = 0;
+        std::size_t size = res.GetY() * res.GetX();
+        while (i < size) {
+            bitmap.set_pixel(i % res.GetX(), i / res.GetY(), image[i].GetColor().rgba.r, image[i].GetColor().rgba.g, image[i].GetColor().rgba.b);
+            i++;
+        }
+        bitmap.save_image("output.bpm");
     } else {
         sf::RenderWindow window(sf::VideoMode(res.GetX(), res.GetY()), "RayTracer 2.0");
         window.setFramerateLimit(144);
