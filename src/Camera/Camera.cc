@@ -47,8 +47,8 @@ namespace rt {
         float Ry = 0.0f;
         #endif
         
-        Vector3<float> pixel = (_screenCorner + (_axis[0] * _screenSize.GetX() * ((pos.GetX() + Rx) / _screenRes.GetX())))
-        - (_axis[1] * _screenSize.GetY() * ((pos.GetY() + Ry) / _screenRes.GetY()));
+        Vector3<float> pixel = (_screenCorner + (_axis[0] * _screenSize.X * ((pos.X + Rx) / _screenRes.X)))
+        - (_axis[1] * _screenSize.Y * ((pos.Y + Ry) / _screenRes.Y));
         Vector3<float> dir = pixel - _pos;
         dir.Normalize();
         Ray ray(_pos, dir);
@@ -67,12 +67,12 @@ namespace rt {
     void Camera::generateScreen() {
       float screenWidth = 2.f * std::tan((_fov / 2.f) * static_cast<float>(M_PI) / 180.f)
         * _screenDist;
-        _screenSize = Vector2<float>(screenWidth, screenWidth * _screenRes.GetY()
-        / _screenRes.GetX());
+        _screenSize = Vector2<float>(screenWidth, screenWidth * _screenRes.Y
+        / _screenRes.X);
 
         _screenCenter = _pos + _axis[2] * _screenDist;
-        _screenCorner = (_screenCenter - _axis[0] * (_screenSize.GetX()
-        / 2.f)) + _axis[1] * (_screenSize.GetY() / 2.f);
+        _screenCorner = (_screenCenter - _axis[0] * (_screenSize.X
+        / 2.f)) + _axis[1] * (_screenSize.Y / 2.f);
     }
 
     std::array<Vector3<float>, 3> const& Camera::GetAxis(void) const {

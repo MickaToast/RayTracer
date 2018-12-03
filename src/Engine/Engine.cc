@@ -45,7 +45,7 @@ namespace rt {
             ));
         }
         std::cout << "Creating KDTree for " << triangles.size() << " triangles." << std::endl;
-        _KDTree = KDNode(triangles);
+        _KDTree = KDNode(triangles, triangles.size());
         std::cout << "KDTree created." << std::endl;
     }
 

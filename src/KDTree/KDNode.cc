@@ -21,35 +21,33 @@ namespace rt {
     KDNode::KDNode() : _box() {
     }
 
-    KDNode::KDNode(std::vector<Triangle> const& triangles): _box(triangles) {
+    KDNode::KDNode(std::vector<Triangle> const& triangles, std::size_t const& totalSize): _box(triangles) {
         _left = nullptr;
         _right = nullptr;
-        if (triangles.size() > std::max(24.f, triangles.size() / 100.f)) {
+        std::size_t size = triangles.size();
+        if (size > std::max(24.f, totalSize / 2000.f)) {
             std::vector<Triangle> tleft;
             std::vector<Triangle> tright;
             Vector3<float> midpoint;
-            for (std::size_t i = 0; i < triangles.size(); ++i) {
-                midpoint = midpoint + triangles[i].GetMidPoint() / static_cast<float>(triangles.size());
+            for (std::size_t i = 0; i < size; ++i) {
+                midpoint = midpoint + triangles[i].GetMidPoint() / static_cast<float>(size);
             }
             std::size_t axis = _box.GetLongestAxis();
-            float midpointX = midpoint.GetX();
-            float midpointY = midpoint.GetY();
-            float midpointZ = midpoint.GetZ();
-            for (std::size_t i = 0; i < triangles.size(); ++i) {
+            for (std::size_t i = 0; i < size; ++i) {
                 switch (axis) {
                     case 0:
-                        triangles[i].GetMidPoint().GetX() > midpointX ? tright.push_back(triangles[i]) : tleft.push_back(triangles[i]);
+                        triangles[i].GetMidPoint().X > midpoint.X ? tright.push_back(triangles[i]) : tleft.push_back(triangles[i]);
                         break;
                     case 1:
-                        triangles[i].GetMidPoint().GetY() > midpointY ? tright.push_back(triangles[i]) : tleft.push_back(triangles[i]);
+                        triangles[i].GetMidPoint().Y > midpoint.Y ? tright.push_back(triangles[i]) : tleft.push_back(triangles[i]);
                         break;
                     case 2:
-                        triangles[i].GetMidPoint().GetZ() > midpointZ ? tright.push_back(triangles[i]) : tleft.push_back(triangles[i]);
+                        triangles[i].GetMidPoint().Z > midpoint.Z ? tright.push_back(triangles[i]) : tleft.push_back(triangles[i]);
                         break;
                 }
             }
-            _left = new KDNode(tleft);
-            _right = new KDNode(tright);
+            _left = new KDNode(tleft, totalSize);
+            _right = new KDNode(tright, totalSize);
         } else {
             _triangles = triangles;
         }

@@ -23,30 +23,30 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     template <class T>
-    class Vector3 : public Vector2<T> {
+    struct Vector3 : public Vector2<T> {
     public:
-        Vector3(void) : _Z(0) {
-            this->_X = 0;
-            this->_Y = 0;
+        Vector3(void) : Z(0) {
+            this->X = 0;
+            this->Y = 0;
         };
-        Vector3(T X, T Y, T Z) : _Z(Z) {
-            this->_X = X;
-            this->_Y = Y;
+        Vector3(T _X, T _Y, T _Z) : Z(_Z) {
+            this->X = _X;
+            this->Y = _Y;
         };
         virtual ~Vector3(void) {};
 
         Vector3<T> Cross(Vector3<T> const& other) const {
-            return Vector3<T>(this->_Y * other._Z - _Z * other._Y,
-                           _Z * other._X - this->_X * other._Z,
-                           this->_X * other._Y - this->_Y * other._X);
+            return Vector3<T>(this->Y * other.Z - Z * other.Y,
+                           Z * other.X - this->X * other.Z,
+                           this->X * other.Y - this->Y * other.X);
         }
 
         T   Dot(Vector3<T> const& other) const {
-            return (this->_X * other._X) + (this->_Y * other._Y) + (_Z * other._Z);
+            return (this->X * other.X) + (this->Y * other.Y) + (Z * other.Z);
         }
 
         T   Norm(void) const {
-            return (std::sqrt(std::pow(this->_X, 2) + std::pow(this->_Y, 2) + std::pow(_Z, 2)));
+            return (std::sqrt(std::pow(this->X, 2) + std::pow(this->Y, 2) + std::pow(Z, 2)));
         }
 
         T   Angle(Vector3<T> const & other) const {
@@ -55,50 +55,41 @@ namespace rt {
 
         void    Normalize(void) {
             float norm = this->Norm();
-            this->_X = this->_X / norm;
-            this->_Y = this->_Y / norm;
-            _Z = _Z / norm;
+            this->X = this->X / norm;
+            this->Y = this->Y / norm;
+            Z = Z / norm;
         }
 
         bool    operator==(Vector3 const& other) const {
-            return (this->_X == other._X && this->_Y == other._Y && _Z == other._Z);
+            return (this->X == other.X && this->Y == other.Y && Z == other.Z);
         }
 
         bool    operator!=(Vector3 const& other) const {
-            return (this->_X != other._X || this->_Y != other._Y || _Z != other._Z);
+            return (this->X != other.X || this->Y != other.Y || Z != other.Z);
         }
 
         Vector3 operator+(Vector3 const& right) const {
-            return Vector3(this->_X + right._X, this->_Y + right._Y, _Z + right._Z);
+            return Vector3(this->X + right.X, this->Y + right.Y, Z + right.Z);
         }
 
         Vector3 operator-(Vector3 const& right) const {
-            return Vector3(this->_X - right._X, this->_Y - right._Y, _Z - right._Z);
+            return Vector3(this->X - right.X, this->Y - right.Y, Z - right.Z);
         }
 
         Vector3 operator*(T const& other) const {
-            return Vector3(this->_X * other, this->_Y * other, _Z * other);
+            return Vector3(this->X * other, this->Y * other, Z * other);
         }
 
         Vector3 operator/(T const& other) const {
-            return Vector3(this->_X / other, this->_Y / other, _Z / other);
-        }
-        
-        T const&    GetZ(void) const {
-            return _Z;
+            return Vector3(this->X / other, this->Y / other, Z / other);
         }
 
-        void        SetZ(T const& Z) {
-            _Z = Z;
-        }
-
-    private:
-        T   _Z;
+        T   Z;
     };
 
     template <class T>
     std::ostream& operator<<(std::ostream& out, const Vector3<T>& v) {
-        out << "(" << v.GetX() << ", " << v.GetY() << ", " << v.GetZ() << ")";
+        out << "(" << v.X << ", " << v.Y << ", " << v.Z << ")";
         return out;
     }
 }  // namespace rt
