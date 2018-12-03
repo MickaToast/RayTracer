@@ -100,6 +100,14 @@ namespace rt {
        );
    }
 
+   Vector3<float> const Triangle::GetMidPoint() const {
+       return Vector3<float>(
+            (this->GetMinMaxX().GetX() + this->GetMinMaxX().GetY()) / 2.f,
+            (this->GetMinMaxY().GetX() + this->GetMinMaxY().GetY()) / 2.f,
+            (this->GetMinMaxZ().GetX() + this->GetMinMaxZ().GetY()) / 2.f
+        );
+   }
+
    Vector3<float> const& Triangle::GetV1() const {
        return _v1;
    }

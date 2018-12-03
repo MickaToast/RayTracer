@@ -45,6 +45,53 @@ namespace rt {
         EXPECT_EQ(box.GetZ(), Vector2<float>(-1, 0));
     }
 
+    TEST(KDBox, LongestAxisX) {
+        std::vector<Triangle> triangles;
+        feedVector(triangles);
+        KDBox box = KDBox(triangles);
+        EXPECT_EQ(box.GetLongestAxis(), 0);
+    }
+
+    TEST(KDBox, LongestAxisY) {
+        std::vector<Triangle> triangles;
+        triangles.push_back(
+            Triangle(
+                Vector3<float>(0, 7.5, -0.5),
+                Vector3<float>(1.5, 0.5, 0),
+                Vector3<float>(1.5, 0, -0.5)
+            )
+        );
+        triangles.push_back(
+            Triangle(
+                Vector3<float>(3, 0.5, -0.5),
+                Vector3<float>(1.5, -0.5, -1),
+                Vector3<float>(1.5, 1, -0.5)
+            )
+        );
+        KDBox box = KDBox(triangles);
+        EXPECT_EQ(box.GetLongestAxis(), 1);
+    }
+
+    TEST(KDBox, LongestAxisZ) {
+        std::vector<Triangle> triangles;
+        triangles.push_back(
+            Triangle(
+                Vector3<float>(0, 3.5, -10.5),
+                Vector3<float>(1.5, 0.5, 0),
+                Vector3<float>(1.5, 0, -0.5)
+            )
+        );
+        triangles.push_back(
+            Triangle(
+                Vector3<float>(3, 0.5, -0.5),
+                Vector3<float>(1.5, -0.5, -1),
+                Vector3<float>(1.5, 1, 20.5)
+            )
+        );
+        KDBox box = KDBox(triangles);
+        EXPECT_EQ(box.GetLongestAxis(), 2);
+    }
+
     TEST(KDBox, Triangles) {
         std::vector<Triangle> triangles;
         feedVector(triangles);

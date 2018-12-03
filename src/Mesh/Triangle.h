@@ -34,6 +34,7 @@ class Triangle : public Mesh {
    Vector2<float> const    GetMinMaxX() const;
    Vector2<float> const    GetMinMaxY() const;
    Vector2<float> const    GetMinMaxZ() const;
+   Vector3<float> const    GetMidPoint() const;
    Vector3<float> const&   GetV1() const;
    Vector3<float> const&   GetV2() const;
    Vector3<float> const&   GetV3() const;

@@ -97,8 +97,8 @@ namespace rt {
         EXPECT_EQ(v / 2, Vector2<int>(2, 1));
     }
 
-    TEST(Vector2, Display) {
-        Vector2<float> v = Vector2<float>(0, 1);
+    TEST(Vector2_int, Display) {
+        Vector2<int> v = Vector2<int>(0, 1);
         std::stringstream ss1;
 
         ss1 << v;

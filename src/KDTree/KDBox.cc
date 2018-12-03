@@ -18,6 +18,9 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "KDBox.h"
 
 namespace rt {
+    KDBox::KDBox() {
+    }
+
     KDBox::KDBox(std::vector<Triangle> const& triangles) {
         this->setMinMax(triangles);
         this->generateTriangles();
@@ -49,6 +52,14 @@ namespace rt {
 
     std::vector<Triangle> const& KDBox::GetTriangles() const{
         return _triangles;
+    }
+
+    std::size_t KDBox::GetLongestAxis() const {
+        float xDiff = _x.GetY() - _x.GetX();
+        float yDiff = _y.GetY() - _y.GetX();
+        float zDiff = _z.GetY() - _z.GetX();
+        float max = std::max(xDiff, std::max(yDiff, zDiff)); 
+        return max == xDiff ? 0 : max == yDiff ? 1 : 2;
     }
 
     void KDBox::setMinMax(std::vector<Triangle> const& triangles) {

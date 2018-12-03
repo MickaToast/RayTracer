@@ -8,6 +8,7 @@ set(SOURCE_FILES    src/Camera/Camera.cc
                     src/Engine/Color.cc
                     src/Engine/Engine.cc
                     src/KDTree/KDBox.cc
+                    src/KDTree/KDNode.cc
                     src/Mesh/Mesh.cc
                     src/Mesh/Triangle.cc
                     src/Loader/OBJLoader.cc)
