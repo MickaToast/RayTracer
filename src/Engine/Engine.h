@@ -17,10 +17,9 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
-#include <vector>
-#include "../Loader/OBJLoader.h"
 #include "../Camera/Camera.h"
-#include "../Mesh/Triangle.h"
+#include "../Loader/OBJLoader.h"
+#include "../KDTree/KDNode.h"
 #include "../Vector/Vector2.h"
 #include "../Vector/Vector3.h"
 #include "Color.h"
@@ -33,8 +32,8 @@ namespace rt {
         Color           raytrace(Vector2<unsigned int> const& pixel);
 
     private:
-        objl::Loader            _loader;
-        Camera                  _camera;
-        std::vector<Triangle>   _triangles;
+        objl::Loader    _loader;
+        Camera          _camera;
+        KDNode          _KDTree;
     };
 }  // namespace rt

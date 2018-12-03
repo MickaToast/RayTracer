@@ -133,6 +133,15 @@ namespace rt {
         EXPECT_EQ(t.GetMinMaxZ(), Vector2<float>(-8, 2));
     }
 
+    TEST(Triangle, GetMidPoint) {
+        Triangle t = Triangle(
+            Vector3<float>(1, 4, -5),
+            Vector3<float>(5, -3, 2),
+            Vector3<float>(2, 3, -8)
+        );
+        EXPECT_EQ(t.GetMidPoint(), Vector3<float>(3, .5, -3));
+    }
+
     TEST(Triangle, EqualOperator) {
         Triangle t = Triangle(
             Vector3<float>(1, 4, -5),

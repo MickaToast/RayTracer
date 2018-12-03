@@ -19,18 +19,31 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <vector>
 #include "../Mesh/Triangle.h"
+#include "../Engine/Color.h"
 #include "KDBox.h"
 
 namespace rt {
+struct KDTreeIntersection {
+    KDTreeIntersection(): Intersect(false), color(Color()) {};
+    KDTreeIntersection(bool intersect, Color const& c): Intersect(intersect), color(c) {};
+
+    bool    Intersect;
+    Color   color;
+};
+
 class KDNode {
  public:
     KDNode();
+    KDNode(std::vector<Triangle> const& triangles);
     ~KDNode();
+
+    KDTreeIntersection Raytrace(Ray const& ray, Vector3<float> const& camPos);
 
  private:
     KDBox                   _box;
     KDNode*                 _left;
     KDNode*                 _right;
     std::vector<Triangle>   _triangles;
+
 };
 }  // namespace rt

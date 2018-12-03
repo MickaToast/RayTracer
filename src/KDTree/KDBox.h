@@ -20,10 +20,12 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <vector>
 #include "../Mesh/Triangle.h"
 #include "../Engine/Tools.h"
+#include "../Engine/Color.h"
 
 namespace rt {
 class KDBox {
  public:
+    KDBox();
     KDBox(std::vector<Triangle> const& triangles);
     ~KDBox();
 
@@ -33,6 +35,7 @@ class KDBox {
     Vector2<float> const&           GetY() const;
     Vector2<float> const&           GetZ() const;
     std::vector<Triangle> const&    GetTriangles() const;
+    std::size_t                     GetLongestAxis() const;
 
  private:
     Vector2<float>          _x;  // Containing Xmin and Xmax

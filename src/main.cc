@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
         res.SetY(std::stoul(split[1]));
     }
 
-    rt::Dispatcher dispatcher(rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, 3),
+    rt::Dispatcher dispatcher(rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, 120),
                                                             rt::Vector3<float>(0, 0, -1),
                                                             res)),
                               res);
