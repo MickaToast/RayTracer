@@ -44,17 +44,17 @@ namespace rt {
     }
 
     TEST(Triangle, Intersection) {
-        Camera cam = Camera(Vector3<float>(0, 0, 0), Vector3<float>(0, 0, -1), Vector2<int>(1920, 1080));
+        Camera cam = Camera(Vector3<float>(0, 0, 0), Vector3<float>(0, 0, -1), Vector2<unsigned int>(1920, 1080));
         Triangle t = Triangle(
             Vector3<float>(1, -1, -1),
             Vector3<float>(1, 1, -1),
             Vector3<float>(-1, -1, -1)
         );
 
-        Intersection inter = t.Intersect(cam.GenerateRay(Vector2<int>(960, 540)));
+        Intersection inter = t.Intersect(cam.GenerateRay(Vector2<unsigned int>(960, 540)));
         EXPECT_TRUE(inter.Intersect);
         EXPECT_EQ(inter.Point, Vector3<float>(0, 0, -1));
-        inter = t.Intersect(cam.GenerateRay(Vector2<int>(0, 0)));
+        inter = t.Intersect(cam.GenerateRay(Vector2<unsigned int>(0, 0)));
         EXPECT_FALSE(inter.Intersect);
     }
 

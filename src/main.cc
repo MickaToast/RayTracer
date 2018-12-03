@@ -18,14 +18,18 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <cstdlib>
 #include <ctime>
 #include <SFML/Graphics.hpp>
+#include <cstring>
+#include <regex>
 #include "Loader/OBJLoader.h"
 #include "Camera/Camera.h"
 #include "Engine/Engine.h"
 #include "Dispatcher/Dispatcher.h"
 
 int main(int argc, char **argv) {
-    if (argc != 2) {
+    if (argc < 2) {
         std::cerr << "Usage: " << argv[0] << " scene.obj" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " scene.obj 1980x1080" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " scene.obj 1980x1080 --output-image 5" << std::endl;
         return 1;
     }
 
@@ -38,48 +42,62 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    sf::RenderWindow window(sf::VideoMode(1600, 900), "RayTracer 2.0");
-    window.setFramerateLimit(144);
+    rt::Vector2<unsigned int> res(1600, 900);
+    if (argc >= 3) {
+        std::string s{argv[2]};
+        std::regex regex{R"([\sx]+)"};
+        std::sregex_token_iterator it{s.begin(), s.end(), regex, -1};
+        std::vector<std::string> split{it, {}};
+        res.SetX(std::stoul(split[0]));
+        res.SetY(std::stoul(split[1]));
+    }
 
-    rt::Dispatcher dispatcher(rt::Engine(loader, rt::Camera(
-            rt::Vector3<float>(0, 0, 3),
-            rt::Vector3<float>(0, 0, -1),
-            rt::Vector2<int>(window.getSize().x, window.getSize().y))),
-            rt::Vector2<int>(window.getSize().x, window.getSize().y));
-
+    rt::Dispatcher dispatcher(rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, 3),
+                                                            rt::Vector3<float>(0, 0, -1),
+                                                            res)),
+                              res);
     dispatcher.Start(); //Start to dispatch
-
-    sf::Uint8* frame = new sf::Uint8[window.getSize().x * window.getSize().y * 4];
-    std::fill_n(frame, window.getSize().x * window.getSize().y * 4, 0xff); // Init with all component to 255
-    sf::Texture texture;
-    texture.create(window.getSize().x, window.getSize().y);
-    sf::Sprite sprite(texture);
-
-    while (window.isOpen()) {
-        std::size_t i = 0;
-        std::vector<rt::Color> pixels = dispatcher.Flush();
-
-        for (auto const& pixel : pixels) {
-            rt::Color_Component const& components = pixel.GetColor();
-            frame[i] = components.rgba.r;
-            frame[i + 1] = components.rgba.g;
-            frame[i + 2] = components.rgba.b;
-            i = i + 4;
+    if (argc == 5 && std::strcmp(argv[3], "--output-image") == 0) {
+        std::size_t num_frames = std::stoul(argv[4]);
+        while (dispatcher.GetNumberOfProcessed() < num_frames) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
-        texture.update(frame);
+        dispatcher.Stop();
+        //TODO: Write dispatcher.Flush() to image file
+    } else {
+        sf::RenderWindow window(sf::VideoMode(res.GetX(), res.GetY()), "RayTracer 2.0");
+        window.setFramerateLimit(144);
+        sf::Uint8* frame = new sf::Uint8[window.getSize().x * window.getSize().y * 4];
+        std::fill_n(frame, window.getSize().x * window.getSize().y * 4, 0xff); // Init with all component to 255
+        sf::Texture texture;
+        texture.create(window.getSize().x, window.getSize().y);
+        sf::Sprite sprite(texture);
 
-        window.clear();
-        window.draw(sprite);
-        window.display();
+        while (window.isOpen()) {
+            std::size_t i = 0;
+            std::vector<rt::Color> pixels = dispatcher.Flush();
 
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                dispatcher.Stop();
-                window.close();
+            for (auto const& pixel : pixels) {
+                rt::Color_Component const& components = pixel.GetColor();
+                frame[i] = components.rgba.r;
+                frame[i + 1] = components.rgba.g;
+                frame[i + 2] = components.rgba.b;
+                i = i + 4;
+            }
+            texture.update(frame);
+
+            window.clear();
+            window.draw(sprite);
+            window.display();
+
+            sf::Event event;
+            while (window.pollEvent(event)) {
+                if (event.type == sf::Event::Closed) {
+                    window.close();
+                    dispatcher.Stop();
+                }
             }
         }
     }
-
     return 0;
 }

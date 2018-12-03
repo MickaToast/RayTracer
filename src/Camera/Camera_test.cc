@@ -21,68 +21,68 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     TEST(Camera, initBasic) {
-        Camera cam = Camera(Vector3<float>(0, 0, -1), Vector2<int>(1920, 1080));
+        Camera cam = Camera(Vector3<float>(0, 0, -1), Vector2<unsigned int>(1920, 1080));
 
         EXPECT_EQ(cam. GetAxis()[0], Vector3<float>(1, 0, 0));
         EXPECT_EQ(cam. GetAxis()[1], Vector3<float>(0, 1, 0));
         EXPECT_EQ(cam. GetAxis()[2], Vector3<float>(0, 0, -1));
-        EXPECT_EQ(cam. GetRes(), Vector2<int>(1920, 1080));
+        EXPECT_EQ(cam. GetRes(), Vector2<unsigned int>(1920, 1080));
         EXPECT_EQ(cam. GetPos(), Vector3<float>(0, 0, 0));
     }
 
     TEST(Camera, initBasic2) {
-        Camera cam = Camera(Vector3<float>(-1, 0, 0), Vector2<int>(1920, 1080));
+        Camera cam = Camera(Vector3<float>(-1, 0, 0), Vector2<unsigned int>(1920, 1080));
 
         EXPECT_EQ(cam. GetAxis()[0], Vector3<float>(0, 0, -1));
         EXPECT_EQ(cam. GetAxis()[1], Vector3<float>(0, 1, 0));
         EXPECT_EQ(cam. GetAxis()[2], Vector3<float>(-1, 0, 0));
-        EXPECT_EQ(cam. GetRes(), Vector2<int>(1920, 1080));
+        EXPECT_EQ(cam. GetRes(), Vector2<unsigned int>(1920, 1080));
     }
 
     TEST(Camera, changingRes) {
-        Camera cam = Camera(Vector3<float>(-1, 0, 0), Vector2<int>(1920, 1080));
+        Camera cam = Camera(Vector3<float>(-1, 0, 0), Vector2<unsigned int>(1920, 1080));
 
-        EXPECT_EQ(cam. GetRes(), Vector2<int>(1920, 1080));
-        cam.SetRes(Vector2<int>(1080, 1080));
-        EXPECT_EQ(cam. GetRes(), Vector2<int>(1080, 1080));
+        EXPECT_EQ(cam. GetRes(), Vector2<unsigned int>(1920, 1080));
+        cam.SetRes(Vector2<unsigned int>(1080, 1080));
+        EXPECT_EQ(cam. GetRes(), Vector2<unsigned int>(1080, 1080));
     }
 
     TEST(Camera, GenerateRayBasic) {
-        Camera cam = Camera(Vector3<float>(0, 0, -1), Vector2<int>(1080, 1080));
+        Camera cam = Camera(Vector3<float>(0, 0, -1), Vector2<unsigned int>(1080, 1080));
 
-        Ray ray = cam.GenerateRay(Vector2<int>(0, 0));
+        Ray ray = cam.GenerateRay(Vector2<unsigned int>(0, 0));
         Vector3<float> cmp = Vector3<float>(-1, 1, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(540, 0));
+        ray = cam.GenerateRay(Vector2<unsigned int>(540, 0));
         cmp = Vector3<float>(0, 1, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(1080, 0));
+        ray = cam.GenerateRay(Vector2<unsigned int>(1080, 0));
         cmp = Vector3<float>(1, 1, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(0, 540));
+        ray = cam.GenerateRay(Vector2<unsigned int>(0, 540));
         cmp = Vector3<float>(-1, 0, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(540, 540));
+        ray = cam.GenerateRay(Vector2<unsigned int>(540, 540));
         cmp = Vector3<float>(0, 0, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(1080, 540));
+        ray = cam.GenerateRay(Vector2<unsigned int>(1080, 540));
         cmp = Vector3<float>(1, 0, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(0, 1080));
+        ray = cam.GenerateRay(Vector2<unsigned int>(0, 1080));
         cmp = Vector3<float>(-1, -1, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(540, 1080));
+        ray = cam.GenerateRay(Vector2<unsigned int>(540, 1080));
         cmp = Vector3<float>(0, -1, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(1080, 1080));
+        ray = cam.GenerateRay(Vector2<unsigned int>(1080, 1080));
         cmp = Vector3<float>(1, -1, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
@@ -90,9 +90,9 @@ namespace rt {
 
     TEST(Camera, GenerateRay) {
         Camera cam = Camera(Vector3<float>(0, 1, 0), Vector3<float>(0, 0, -1),
-        Vector2<int>(1080, 1080));
+        Vector2<unsigned int>(1080, 1080));
 
-        Ray ray = cam.GenerateRay(Vector2<int>(540, 540));
+        Ray ray = cam.GenerateRay(Vector2<unsigned int>(540, 540));
         Vector3<float> cmp = Vector3<float>(0, -1, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
@@ -100,41 +100,41 @@ namespace rt {
 
     TEST(Camera, GenerateRayFHD) {
         Camera cam = Camera(Vector3<float>(0, 0, 0), Vector3<float>(0, 0, -1),
-        Vector2<int>(1920, 1080));
+        Vector2<unsigned int>(1920, 1080));
 
-        Ray ray = cam.GenerateRay(Vector2<int>(0, 0));
+        Ray ray = cam.GenerateRay(Vector2<unsigned int>(0, 0));
         Vector3<float> cmp = Vector3<float>(-1, 0.5625, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(960, 0));
+        ray = cam.GenerateRay(Vector2<unsigned int>(960, 0));
         cmp = Vector3<float>(0, 0.5625, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(1920, 0));
+        ray = cam.GenerateRay(Vector2<unsigned int>(1920, 0));
         cmp = Vector3<float>(1, 0.5625, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(0, 540));
+        ray = cam.GenerateRay(Vector2<unsigned int>(0, 540));
         cmp = Vector3<float>(-1, 0, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(960, 540));
+        ray = cam.GenerateRay(Vector2<unsigned int>(960, 540));
         cmp = Vector3<float>(0, 0, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(1920, 540));
+        ray = cam.GenerateRay(Vector2<unsigned int>(1920, 540));
         cmp = Vector3<float>(1, 0, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(0, 1080));
+        ray = cam.GenerateRay(Vector2<unsigned int>(0, 1080));
         cmp = Vector3<float>(-1, -0.5625, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(960, 1080));
+        ray = cam.GenerateRay(Vector2<unsigned int>(960, 1080));
         cmp = Vector3<float>(0, -0.5625, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);
-        ray = cam.GenerateRay(Vector2<int>(1920, 1080));
+        ray = cam.GenerateRay(Vector2<unsigned int>(1920, 1080));
         cmp = Vector3<float>(1, -0.5625, -1);
         cmp.Normalize();
         EXPECT_EQ(ray.Direction, cmp);

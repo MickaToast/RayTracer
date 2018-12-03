@@ -26,23 +26,24 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     class Dispatcher {
     public:
-        explicit                        Dispatcher(Engine const& engine, Vector2<int> const& res);
+        explicit                        Dispatcher(Engine const& engine, Vector2<unsigned int> const& res);
         virtual                         ~Dispatcher();
 
         void                            Start(void);
         void                            Stop(void);
         std::vector<Color> const&       Flush(void);
+        float                           GetNumberOfProcessed(void) const;
 
     private:
         void                            execute(void);
 
         bool                            _running;
         Engine                          _engine;
-        Vector2<int>                    _res;
+        Vector2<unsigned int>           _res;
         std::vector<std::thread>        _threads;
         std::mutex                      _buffer_mutex;
         std::vector<std::vector<Color>> _buffer;
         std::vector<Color>              _image;
-        float                           _sample;
+        std::atomic<float>              _sample;
     };
 }  // namespace rt

@@ -45,7 +45,7 @@ namespace rt {
     Engine::~Engine() {
     }
 
-    Color Engine::raytrace(const rt::Vector2<int> &pixel) {
+    Color Engine::raytrace(const rt::Vector2<unsigned int> &pixel) {
         Color color = Color();
         float min = -1;
         Intersection inter;

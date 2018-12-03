@@ -26,22 +26,22 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
 class Camera {
  public:
-    Camera(Vector3<float> const& pos, Vector3<float> const& target, Vector2<int> const& res);
-    explicit Camera(Vector3<float> const& target, Vector2<int> const& res);
+    Camera(Vector3<float> const& pos, Vector3<float> const& target, Vector2<unsigned int> const& res);
+    explicit Camera(Vector3<float> const& target, Vector2<unsigned int> const& res);
     virtual ~Camera(void);
 
-    Ray const  GenerateRay(Vector2<int> const &pos);
+    Ray const  GenerateRay(Vector2<unsigned int> const &pos);
 
     std::array<Vector3<float>, 3> const&  GetAxis(void) const;
-    Vector2<int> const&                   GetRes(void) const;
+    Vector2<unsigned int> const&          GetRes(void) const;
     Vector3<float> const&                 GetPos(void) const;
-    void                                  SetRes(const Vector2<int>& res);
+    void                                  SetRes(const Vector2<unsigned int>& res);
 
  private:
     Vector3<float>                        _pos;
     std::array<Vector3<float>, 3>         _axis;
     float                                 _fov;
-    Vector2<int>                          _screenRes;
+    Vector2<unsigned int>                 _screenRes;
     Vector2<float>                        _screenSize;
     Vector3<float>                        _screenCenter;
     Vector3<float>                        _screenCorner;
