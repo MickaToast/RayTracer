@@ -41,4 +41,5 @@ cmake-build-debug/
 
 # Created validation_test files
 validation_test/output.bpm
-validation_test/**/difference.bpm
+validation_test/**/output.jpg
+validation_test/**/difference.jpg
