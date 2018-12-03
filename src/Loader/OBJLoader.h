@@ -150,7 +150,6 @@ namespace objl
     {
         Material()
         {
-            name;
             Ns = 0.0f;
             Ni = 0.0f;
             d = 0.0f;
@@ -274,7 +273,7 @@ namespace objl
                     {
                         out.push_back(temp);
                         temp.clear();
-                        i += (int)token.size() - 1;
+                        i += static_cast<int>(token.size() - 1);
                     }
                     else
                     {
@@ -533,10 +532,10 @@ namespace objl
                     // Add Indices
                     for (int i = 0; i < int(iIndices.size()); i++)
                     {
-                        unsigned int indnum = (unsigned int)((Vertices.size()) - vVerts.size()) + iIndices[i];
+                        unsigned int indnum = static_cast<unsigned int>((Vertices.size()) - vVerts.size()) + iIndices[i];
                         Indices.push_back(indnum);
 
-                        indnum = (unsigned int)((LoadedVertices.size()) - vVerts.size()) + iIndices[i];
+                        indnum = static_cast<unsigned int>((LoadedVertices.size()) - vVerts.size()) + iIndices[i];
                         LoadedIndices.push_back(indnum);
 
                     }
@@ -587,7 +586,7 @@ namespace objl
 
                     if (temp.size() != 1)
                     {
-                        for (int i = 0; i < temp.size() - 1; i++)
+                        for (std::size_t i = 0; i < temp.size() - 1; i++)
                         {
                             pathtomat += temp[i] + "/";
                         }
@@ -624,13 +623,13 @@ namespace objl
             file.close();
 
             // Set Materials for each Mesh
-            for (int i = 0; i < MeshMatNames.size(); i++)
+            for (std::size_t i = 0; i < MeshMatNames.size(); i++)
             {
                 std::string matname = MeshMatNames[i];
 
                 // Find corresponding material name in loaded materials
                 // when found copy material variables into mesh material
-                for (int j = 0; j < LoadedMaterials.size(); j++)
+                for (std::size_t j = 0; j < LoadedMaterials.size(); j++)
                 {
                     if (LoadedMaterials[j].name == matname)
                     {
@@ -798,7 +797,7 @@ namespace objl
             while (true)
             {
                 // For every vertex
-                for (int i = 0; i < int(tVerts.size()); i++)
+                for (std::size_t i = 0; i < tVerts.size(); i++)
                 {
                     // pPrev = the previous vertex in the list
                     Vertex pPrev;
@@ -884,7 +883,8 @@ namespace objl
                     }
 
                     // If Vertex is not an interior vertex
-                    float angle = math::AngleBetweenV3(pPrev.Position - pCur.Position, pNext.Position - pCur.Position) * (180 / 3.14159265359);
+                    float angle = math::AngleBetweenV3(pPrev.Position - pCur.Position, pNext.Position - pCur.Position) * (180.f /
+                            static_cast<float>(M_PI));
                     if (angle <= 0 && angle >= 180)
                         continue;
 

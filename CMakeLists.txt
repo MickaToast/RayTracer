@@ -12,6 +12,11 @@ set(SOURCE_FILES    src/Camera/Camera.cc
                     src/Loader/OBJLoader.cc)
 add_executable(RayTracer ${SOURCE_FILES} src/main.cc)
 
+target_compile_options(RayTracer PUBLIC
+        -W -Wall -Wextra -Werror -Wuninitialized -Wduplicated-cond
+        -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wold-style-cast
+        -Wuseless-cast -Wdouble-promotion -Wshadow)
+
 # Detect and add SFML
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 find_package(SFML 2 REQUIRED system graphics window network audio)
@@ -34,6 +39,8 @@ set(TEST_FILES  src/main_test.cc
                 src/Vector/Vector2_test.cc
                 src/Vector/Vector3_test.cc)
 add_executable(runTests ${SOURCE_FILES} ${TEST_FILES})
-target_compile_options(runTests PUBLIC -fprofile-arcs -ftest-coverage)
+target_compile_options(runTests PUBLIC -W -Wall -Wextra -Werror -Wuninitialized -Wduplicated-cond
+        -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wold-style-cast
+        -Wuseless-cast -Wdouble-promotion -Wshadow -fprofile-arcs -ftest-coverage)
 target_link_libraries(runTests ${GTEST_LIBRARIES} pthread gcov)
 target_compile_definitions(runTests PUBLIC RT_TESTING_ENV)

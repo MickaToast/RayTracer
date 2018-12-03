@@ -21,7 +21,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     Engine::Engine(objl::Loader const &loader, Camera const &camera) : _loader(loader), _camera(camera) {
-        for (int i = 0; i < _loader.LoadedVertices.size(); i += 3) {
+        for (std::size_t i = 0; i < _loader.LoadedVertices.size(); i += 3) {
             _triangles.push_back(Triangle(
                 Vector3<float>(
                     _loader.LoadedVertices[i].Position.X,
@@ -50,7 +50,7 @@ namespace rt {
         float min = -1;
         Intersection inter;
         Ray ray = _camera.GenerateRay(pixel);
-        for (int i = 0; i < _triangles.size(); ++i) { //TODO: KDTree
+        for (std::size_t i = 0; i < _triangles.size(); ++i) { //TODO: KDTree
             inter = _triangles[i].Intersect(ray);
             if (inter.Intersect) {
                 Vector3<float> dist = inter.Point - _camera.GetPos();

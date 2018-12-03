@@ -50,7 +50,7 @@ namespace rt {
         }
 
         T   Angle(Vector3<T> const & other) const {
-            return std::acos(this->Dot(other) / (this->Norm() * other.Norm())) * 180.f / M_PI;
+            return std::acos(this->Dot(other) / (this->Norm() * other.Norm())) * 180.f / static_cast<float>(M_PI);
         }
 
         void    Normalize(void) {

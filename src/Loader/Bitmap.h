@@ -588,7 +588,7 @@ public:
 
     inline unsigned char* data()
     {
-        return const_cast<unsigned char*>(data_.data());
+        return data_.data();
     }
 
     inline void bgr_to_rgb()
@@ -1297,7 +1297,7 @@ private:
 
     inline unsigned char* end()
     {
-        return const_cast<unsigned char*>(data() + data_.size());
+        return data() + data_.size();
     }
 
     struct bitmap_file_header
@@ -1664,9 +1664,9 @@ inline rgb_t make_colour(const unsigned int& red, const unsigned int& green, con
 template <typename OutputIterator>
 inline void generate_colours(const std::size_t& steps, const rgb_t c0, const rgb_t& c1, OutputIterator out)
 {
-    double dr = ((double)c1.red   -  (double)c0.red   ) / steps;
-    double dg = ((double)c1.green -  (double)c0.green ) / steps;
-    double db = ((double)c1.blue  -  (double)c0.blue  ) / steps;
+    double dr = (static_cast<double>(c1.red)   -  static_cast<double>(c0.red)   ) / steps;
+    double dg = (static_cast<double>(c1.green) -  static_cast<double>(c0.green) ) / steps;
+    double db = (static_cast<double>(c1.blue)  -  static_cast<double>(c0.blue)  ) / steps;
 
     for (std::size_t i = 0; i < steps; ++i)
     {

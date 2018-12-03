@@ -53,7 +53,7 @@ namespace rt {
         }
         Vector3<float> qvec = tvec.Cross(_edge1);
         float v = ray.Direction.Dot(qvec);
-        if (v < 0.0 || u + v > det) {
+        if (v < 0.f || u + v > det) {
             ret.Intersect = false;
             return ret;
         }
@@ -64,10 +64,12 @@ namespace rt {
     }
 
     Ray const Triangle::Refract(Ray const& ray) {
+        (void)ray;
         return Ray(); //TODO
     }
 
     Ray const Triangle::Reflect(Ray const& ray) {
+        (void)ray;
         return Ray(); //TODO
     }
 
