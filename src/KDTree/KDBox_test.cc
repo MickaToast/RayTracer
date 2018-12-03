@@ -19,8 +19,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "KDBox.h"
 
 namespace rt {
-    TEST(KDBox, MinMax) {
-        std::vector<Triangle> triangles;
+    void feedVector(std::vector<Triangle> &triangles) {
         triangles.push_back(
             Triangle(
                 Vector3<float>(0, 0.5, -0.5),
@@ -35,6 +34,11 @@ namespace rt {
                 Vector3<float>(1.5, 1, -0.5)
             )
         );
+    }
+
+    TEST(KDBox, MinMax) {
+        std::vector<Triangle> triangles;
+        feedVector(triangles);
         KDBox box = KDBox(triangles);
         EXPECT_EQ(box.GetX(), Vector2<float>(0, 3));
         EXPECT_EQ(box.GetY(), Vector2<float>(0, 1));
@@ -43,20 +47,7 @@ namespace rt {
 
     TEST(KDBox, Triangles) {
         std::vector<Triangle> triangles;
-        triangles.push_back(
-            Triangle(
-                Vector3<float>(0, 0.5, -0.5),
-                Vector3<float>(1.5, 0.5, 0),
-                Vector3<float>(1.5, 0, -0.5)
-            )
-        );
-        triangles.push_back(
-            Triangle(
-                Vector3<float>(3, 0.5, -0.5),
-                Vector3<float>(1.5, 0.5, -1),
-                Vector3<float>(1.5, 1, -0.5)
-            )
-        );
+        feedVector(triangles);
         KDBox box = KDBox(triangles);
         std::vector<Triangle> boxTriangles = box.GetTriangles();
         EXPECT_EQ(boxTriangles.size(), 12);
@@ -124,20 +115,7 @@ namespace rt {
 
     TEST(KDBox, Intersection) {
         std::vector<Triangle> triangles;
-        triangles.push_back(
-            Triangle(
-                Vector3<float>(0, 0.5, -0.5),
-                Vector3<float>(1.5, 0.5, 0),
-                Vector3<float>(1.5, 0, -0.5)
-            )
-        );
-        triangles.push_back(
-            Triangle(
-                Vector3<float>(3, 0.5, -0.5),
-                Vector3<float>(1.5, 0.5, -1),
-                Vector3<float>(1.5, 1, -0.5)
-            )
-        );
+        feedVector(triangles);
         KDBox box = KDBox(triangles);
 
         EXPECT_TRUE(box.Intersect(Ray(
