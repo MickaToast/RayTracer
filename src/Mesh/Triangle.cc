@@ -81,30 +81,30 @@ namespace rt {
 
    Vector2<float> const Triangle::GetMinMaxX() const {
        return Vector2<float>(
-           std::min(_v1.GetX(), std::min(_v2.GetX(), _v3.GetX())),
-           std::max(_v1.GetX(), std::max(_v2.GetX(), _v3.GetX()))
+           std::min(_v1.X, std::min(_v2.X, _v3.X)),
+           std::max(_v1.X, std::max(_v2.X, _v3.X))
        );
    }
 
    Vector2<float> const Triangle::GetMinMaxY() const {
        return Vector2<float>(
-           std::min(_v1.GetY(), std::min(_v2.GetY(), _v3.GetY())),
-           std::max(_v1.GetY(), std::max(_v2.GetY(), _v3.GetY()))
+           std::min(_v1.Y, std::min(_v2.Y, _v3.Y)),
+           std::max(_v1.Y, std::max(_v2.Y, _v3.Y))
        );
    }
 
    Vector2<float> const Triangle::GetMinMaxZ() const {
        return Vector2<float>(
-           std::min(_v1.GetZ(), std::min(_v2.GetZ(), _v3.GetZ())),
-           std::max(_v1.GetZ(), std::max(_v2.GetZ(), _v3.GetZ()))
+           std::min(_v1.Z, std::min(_v2.Z, _v3.Z)),
+           std::max(_v1.Z, std::max(_v2.Z, _v3.Z))
        );
    }
 
    Vector3<float> const Triangle::GetMidPoint() const {
        return Vector3<float>(
-            (this->GetMinMaxX().GetX() + this->GetMinMaxX().GetY()) / 2.f,
-            (this->GetMinMaxY().GetX() + this->GetMinMaxY().GetY()) / 2.f,
-            (this->GetMinMaxZ().GetX() + this->GetMinMaxZ().GetY()) / 2.f
+            (this->GetMinMaxX().X + this->GetMinMaxX().Y) / 2.f,
+            (this->GetMinMaxY().X + this->GetMinMaxY().Y) / 2.f,
+            (this->GetMinMaxZ().X + this->GetMinMaxZ().Y) / 2.f
         );
    }
 

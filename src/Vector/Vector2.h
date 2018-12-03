@@ -21,60 +21,43 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     template <class T>
-    class Vector2 {
+    struct Vector2 {
     public:
-        Vector2(void) : _X(0), _Y(0) {};
-        Vector2(T X, T Y) : _X(X), _Y(Y) {};
+        Vector2(void) : X(0), Y(0) {};
+        Vector2(T _X, T _Y) : X(_X), Y(_Y) {};
         virtual ~Vector2(void) {};
 
         bool    operator==(Vector2<T> const& other) const {
-            return (_X == other._X && _Y == other._Y);
+            return (X == other.X && Y == other.Y);
         }
 
         bool    operator!=(Vector2<T> const& other) const {
-            return (_X != other._X || _Y != other._Y);
+            return (X != other.X || Y != other.Y);
         }
 
         Vector2<T> operator+(Vector2<T> const& right) const {
-            return Vector2<T>(_X + right._X, _Y + right._Y);
+            return Vector2<T>(X + right.X, Y + right.Y);
         }
 
         Vector2<T> operator-(Vector2<T> const& right) const {
-            return Vector2<T>(_X - right._X, _Y - right._Y);
+            return Vector2<T>(X - right.X, Y - right.Y);
         }
 
         Vector2<T> operator*(T const& other) const {
-            return Vector2<T>(_X * other, _Y * other);
+            return Vector2<T>(X * other, Y * other);
         }
 
         Vector2<T> operator/(T const& other) const {
-            return Vector2<T>(_X / other, _Y / other);
+            return Vector2<T>(X / other, Y / other);
         }
 
-        T const&    GetX(void) const {
-            return _X;
-        }
-
-        void        SetX(T const& X) {
-            _X = X;
-        }
-
-        T const&    GetY(void) const {
-            return _Y;
-        }
-
-        void        SetY(T const& Y) {
-            _Y = Y;
-        }
-
-    protected:
-        T   _X;
-        T   _Y;
+        T   X;
+        T   Y;
     };
 
     template <class T>
     std::ostream& operator<<(std::ostream& out, const Vector2<T>& v) {
-        out << "(" << v.GetX() << ", " << v.GetY() << ")";
+        out << "(" << v.X << ", " << v.Y << ")";
         return out;
     }
 }  // namespace rt

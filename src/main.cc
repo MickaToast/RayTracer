@@ -49,11 +49,11 @@ int main(int argc, char **argv) {
         std::regex regex{R"([\sx]+)"};
         std::sregex_token_iterator it{s.begin(), s.end(), regex, -1};
         std::vector<std::string> split{it, {}};
-        res.SetX(std::stoul(split[0]));
-        res.SetY(std::stoul(split[1]));
+        res.X = std::stoul(split[0]);
+        res.Y = std::stoul(split[1]);
     }
 
-    rt::Dispatcher dispatcher(rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, 120),
+    rt::Dispatcher dispatcher(rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, 10),
                                                             rt::Vector3<float>(0, 0, -1),
                                                             res)),
                               res);
@@ -65,17 +65,17 @@ int main(int argc, char **argv) {
             dispatcher.Flush();
         }
         dispatcher.Stop();
-        bitmap_image bitmap(res.GetX(), res.GetY());
+        bitmap_image bitmap(res.X, res.Y);
         std::vector<rt::Color> const& image = dispatcher.Flush();
         std::size_t i = 0;
-        std::size_t size = res.GetY() * res.GetX();
+        std::size_t size = res.Y * res.X;
         while (i < size) {
-            bitmap.set_pixel(i % res.GetX(), i / res.GetY(), image[i].GetColor().rgba.r, image[i].GetColor().rgba.g, image[i].GetColor().rgba.b);
+            bitmap.set_pixel(i % res.X, i / res.Y, image[i].GetColor().rgba.r, image[i].GetColor().rgba.g, image[i].GetColor().rgba.b);
             i++;
         }
         bitmap.save_image("output.bpm");
     } else {
-        sf::RenderWindow window(sf::VideoMode(res.GetX(), res.GetY()), "RayTracer 2.0");
+        sf::RenderWindow window(sf::VideoMode(res.X, res.Y), "RayTracer 2.0");
         window.setFramerateLimit(144);
         sf::Uint8* frame = new sf::Uint8[window.getSize().x * window.getSize().y * 4];
         std::fill_n(frame, window.getSize().x * window.getSize().y * 4, 0xff); // Init with all component to 255
@@ -95,6 +95,7 @@ int main(int argc, char **argv) {
                 i = i + 4;
             }
             texture.update(frame);
+            
 
             window.clear();
             window.draw(sprite);

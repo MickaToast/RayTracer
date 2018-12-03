@@ -20,7 +20,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     Dispatcher::Dispatcher(const Engine &engine, Vector2<unsigned int> const& res) : _running(false), _engine(engine), _res(res), _sample(0) {
-        std::size_t size = _res.GetY() * _res.GetX();
+        std::size_t size = _res.Y * _res.X;
         _image.reserve(size);
         _image.resize(size);
     }
@@ -47,7 +47,7 @@ namespace rt {
     }
 
     std::vector<Color> const& Dispatcher::Flush() {
-        std::size_t size = _res.GetY() * _res.GetX();
+        std::size_t size = _res.Y * _res.X;
 
         _buffer_mutex.lock();
         for (auto const& frame : _buffer) {
@@ -74,20 +74,20 @@ namespace rt {
     void Dispatcher::execute() {
         std::vector<Color> frame;
         Vector2<unsigned int> current(0, 0);
-        std::size_t size = _res.GetY() * _res.GetX();
+        std::size_t size = _res.Y * _res.X;
 
         frame.reserve(size);
         frame.resize(size);
         while (_running) {
             std::size_t i = 0;
-            current.SetX(0);
-            current.SetY(0);
-            while (current.GetY() < _res.GetY() - 1 || current.GetX() < _res.GetX() - 1) {
+            current.X = 0;
+            current.Y = 0;
+            while (current.Y < _res.Y - 1 || current.X < _res.X - 1) {
                 frame[i] = this->_engine.raytrace(current);
-                current.SetX(current.GetX() + 1);
-                if (current.GetX() > _res.GetX() - 1) {
-                    current.SetX(0);
-                    current.SetY(current.GetY() + 1);
+                current.X = current.X + 1;
+                if (current.X > _res.X - 1) {
+                    current.X = 0;
+                    current.Y = current.Y + 1;
                 }
                 i++;
             }

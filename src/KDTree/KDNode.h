@@ -34,7 +34,7 @@ struct KDTreeIntersection {
 class KDNode {
  public:
     KDNode();
-    KDNode(std::vector<Triangle> const& triangles);
+    KDNode(std::vector<Triangle> const& triangles, std::size_t const& totalSize);
     ~KDNode();
 
     KDTreeIntersection Raytrace(Ray const& ray, Vector3<float> const& camPos);

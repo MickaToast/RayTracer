@@ -55,9 +55,9 @@ namespace rt {
     }
 
     std::size_t KDBox::GetLongestAxis() const {
-        float xDiff = _x.GetY() - _x.GetX();
-        float yDiff = _y.GetY() - _y.GetX();
-        float zDiff = _z.GetY() - _z.GetX();
+        float xDiff = _x.Y - _x.X;
+        float yDiff = _y.Y - _y.X;
+        float zDiff = _z.Y - _z.X;
         float max = std::max(xDiff, std::max(yDiff, zDiff)); 
         return max == xDiff ? 0 : max == yDiff ? 1 : 2;
     }
@@ -72,25 +72,25 @@ namespace rt {
                 Vector2<float> x =  triangles[i].GetMinMaxX();
                 Vector2<float> y =  triangles[i].GetMinMaxY();
                 Vector2<float> z =  triangles[i].GetMinMaxZ();
-                if (x.GetX() < _x.GetX()) _x.SetX(x.GetX());
-                if (x.GetY() > _x.GetY()) _x.SetY(x.GetY());
-                if (y.GetX() < _y.GetX()) _y.SetX(y.GetX());
-                if (y.GetY() > _y.GetY()) _y.SetY(y.GetY());
-                if (z.GetX() < _z.GetX()) _z.SetX(z.GetX());
-                if (z.GetY() > _z.GetY()) _z.SetY(z.GetY());
+                if (x.X < _x.X) _x.X = x.X;
+                if (x.Y > _x.Y) _x.Y = x.Y;
+                if (y.X < _y.X) _y.X = y.X;
+                if (y.Y > _y.Y) _y.Y = y.Y;
+                if (z.X < _z.X) _z.X = z.X;
+                if (z.Y > _z.Y) _z.Y = z.Y;
             }
         }
     }
 
     void KDBox::generateTriangles() {
-        Vector3<float> A = Vector3<float>(_x.GetX(), _y.GetX(), _z.GetY());
-        Vector3<float> B = Vector3<float>(_x.GetX(), _y.GetX(), _z.GetX());
-        Vector3<float> C = Vector3<float>(_x.GetY(), _y.GetX(), _z.GetX());
-        Vector3<float> D = Vector3<float>(_x.GetY(), _y.GetX(), _z.GetY());
-        Vector3<float> E = Vector3<float>(_x.GetY(), _y.GetY(), _z.GetY());
-        Vector3<float> F = Vector3<float>(_x.GetX(), _y.GetY(), _z.GetY());
-        Vector3<float> G = Vector3<float>(_x.GetX(), _y.GetY(), _z.GetX());
-        Vector3<float> H = Vector3<float>(_x.GetY(), _y.GetY(), _z.GetX());
+        Vector3<float> A = Vector3<float>(_x.X, _y.X, _z.Y);
+        Vector3<float> B = Vector3<float>(_x.X, _y.X, _z.X);
+        Vector3<float> C = Vector3<float>(_x.Y, _y.X, _z.X);
+        Vector3<float> D = Vector3<float>(_x.Y, _y.X, _z.Y);
+        Vector3<float> E = Vector3<float>(_x.Y, _y.Y, _z.Y);
+        Vector3<float> F = Vector3<float>(_x.X, _y.Y, _z.Y);
+        Vector3<float> G = Vector3<float>(_x.X, _y.Y, _z.X);
+        Vector3<float> H = Vector3<float>(_x.Y, _y.Y, _z.X);
         _triangles.push_back(Triangle(B, C, A));
         _triangles.push_back(Triangle(A, C, D));
         _triangles.push_back(Triangle(A, D, F));
