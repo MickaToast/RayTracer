@@ -73,7 +73,6 @@ namespace rt {
             Vector3<float>(.3, .3, 1),
             Vector3<float>(0, 0, 1)            
         )).Intersect);
-        std::cout << "ICI" << std::endl;  
         t2 = Triangle(
             Vector3<float>(),
             Vector3<float>(0, 1, 0),
