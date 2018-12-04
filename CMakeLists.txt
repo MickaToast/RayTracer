@@ -38,6 +38,7 @@ set(TEST_FILES  src/main_test.cc
                 src/Engine/Color_test.cc
                 src/Engine/Engine_test.cc
                 src/KDTree/KDBox_test.cc
+                src/KDTree/KDNode_test.cc
                 src/Mesh/Triangle_test.cc
                 src/Vector/Vector2_test.cc
                 src/Vector/Vector3_test.cc)
