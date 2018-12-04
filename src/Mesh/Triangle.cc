@@ -43,19 +43,19 @@ namespace rt {
         Intersection ret;
         Vector3<float> pvec = ray.Direction.Cross(_edge2);
         float det = _edge1.Dot(pvec);
-        if (std::abs(det) < _epsilon) {
+        if (det > -_epsilon && det < _epsilon) {
             ret.Intersect = false;
             return ret;
         }
         Vector3<float> tvec = ray.Origin - _v1;
-        float u = tvec.Dot(pvec);
-        if (u < 0.f || u > det) {
+        float u = tvec.Dot(pvec) / det;
+        if (u < 0.f || u > 1.f) {
             ret.Intersect = false;
             return ret;
         }
         Vector3<float> qvec = tvec.Cross(_edge1);
-        float v = ray.Direction.Dot(qvec);
-        if (v < 0.f || u + v > det) {
+        float v = ray.Direction.Dot(qvec) / det;
+        if (v < 0.f || u + v > 1.f) {
             ret.Intersect = false;
             return ret;
         }
