@@ -15,14 +15,18 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include <iostream>
+#include <vector>
 #include <thread>
+#include "../Mesh/Triangle.h"
 #include "Engine.h"
 #include "Color.h"
 
 namespace rt {
     Engine::Engine(objl::Loader const &loader, Camera const &camera) : _loader(loader), _camera(camera) {
+        std::vector<Triangle> triangles;
         for (std::size_t i = 0; i < _loader.LoadedVertices.size(); i += 3) {
-            _triangles.push_back(Triangle(
+            triangles.push_back(Triangle(
                 Vector3<float>(
                     _loader.LoadedVertices[i].Position.X,
                     _loader.LoadedVertices[i].Position.Y,
@@ -40,33 +44,15 @@ namespace rt {
                 )
             ));
         }
+        std::cout << "Creating KDTree for " << triangles.size() << " triangles." << std::endl;
+        _KDTree = KDNode(triangles, triangles.size());
+        std::cout << "KDTree created." << std::endl;
     }
 
     Engine::~Engine() {
     }
 
     Color Engine::raytrace(const rt::Vector2<unsigned int> &pixel) {
-        Color color = Color();
-        float min = -1;
-        Intersection inter;
-        Ray ray = _camera.GenerateRay(pixel);
-        for (std::size_t i = 0; i < _triangles.size(); ++i) { //TODO: KDTree
-            inter = _triangles[i].Intersect(ray);
-            if (inter.Intersect) {
-                Vector3<float> dist = inter.Point - _camera.GetPos();
-                if (min == -1 || dist.Norm() < min) {
-                    min = dist.Norm();
-                    float angle = ray.Direction.Angle(_triangles[i].GetNormal());
-                    if (angle > 90.f) {
-                        angle = 180.f - angle;
-                    }
-                    float coef = ((-1.f / 90.f) * angle + 1.f) * 255.f;
-                    color.SetRedComponent(_triangles[i].GetMaterial().Ka.X * coef);
-                    color.SetGreenComponent(_triangles[i].GetMaterial().Ka.Y * coef);
-                    color.SetBlueComponent(_triangles[i].GetMaterial().Ka.Z * coef);
-                }
-            }
-        }
-        return color;
+        return _KDTree.Raytrace(_camera.GenerateRay(pixel), _camera.GetPos()).color;
     }
 }  // namespace rt

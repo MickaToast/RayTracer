@@ -22,7 +22,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Vector/Vector2.h"
 
 namespace rt {
-    TEST(Engine, raytrace) {
+    TEST(Engine, raytraceEasy) {
         objl::Loader loader;
         if (!loader.LoadFile("../scenes/icosahedron.obj")) {
             std::cerr << "Failed to load file. May have failed to "
@@ -35,5 +35,18 @@ namespace rt {
         ASSERT_EQ(engine.raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
         ASSERT_EQ(engine.raytrace(Vector2<unsigned int>(80, 45)).GetColor().hexcode, 0x00c30000);
         ASSERT_EQ(engine.raytrace(Vector2<unsigned int>(65, 35)).GetColor().hexcode, 0x00400000);
+    }
+
+    TEST(Engine, raytraceMedium) {
+        objl::Loader loader;
+        if (!loader.LoadFile("../scenes/teapot.obj")) {
+            std::cerr << "Failed to load file. May have failed to "
+                     "find it or it was not an .obj file." << std::endl;
+            ASSERT_TRUE(false);
+        }
+        Engine engine = rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, 120),
+                                                    rt::Vector3<float>(0, 0, -1),
+                                                    rt::Vector2<unsigned int>(160, 90)));
+        ASSERT_EQ(engine.raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
     }
 }  // namespace rt

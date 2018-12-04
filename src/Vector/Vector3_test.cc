@@ -25,44 +25,44 @@ namespace rt {
     TEST(Vector3, initBasic) {
         Vector3<float> v = Vector3<float>();
 
-        EXPECT_EQ(v.GetX(), 0);
-        EXPECT_EQ(v.GetY(), 0);
-        EXPECT_EQ(v.GetZ(), 0);
+        EXPECT_EQ(v.X, 0);
+        EXPECT_EQ(v.Y, 0);
+        EXPECT_EQ(v.Z, 0);
     }
 
     TEST(Vector3, initBasic2) {
         Vector3<float> v = Vector3<float>(3, 4, 5);
 
-        EXPECT_EQ(v.GetX(), 3);
-        EXPECT_EQ(v.GetY(), 4);
-        EXPECT_EQ(v.GetZ(), 5);
+        EXPECT_EQ(v.X, 3);
+        EXPECT_EQ(v.Y, 4);
+        EXPECT_EQ(v.Z, 5);
     }
 
     TEST(Vector3, setX) {
         Vector3<float> v = Vector3<float>();
 
-        v.SetX(3);
-        EXPECT_EQ(v.GetX(), 3);
-        EXPECT_EQ(v.GetY(), 0);
-        EXPECT_EQ(v.GetZ(), 0);
+        v.X = 3;
+        EXPECT_EQ(v.X, 3);
+        EXPECT_EQ(v.Y, 0);
+        EXPECT_EQ(v.Z, 0);
     }
 
     TEST(Vector3, setY) {
         Vector3<float> v = Vector3<float>();
 
-        v.SetY(4);
-        EXPECT_EQ(v.GetX(), 0);
-        EXPECT_EQ(v.GetY(), 4);
-        EXPECT_EQ(v.GetZ(), 0);
+        v.Y = 4;
+        EXPECT_EQ(v.X, 0);
+        EXPECT_EQ(v.Y, 4);
+        EXPECT_EQ(v.Z, 0);
     }
 
     TEST(Vector3, setZ) {
         Vector3<float> v = Vector3<float>();
 
-        v.SetZ(5);
-        EXPECT_EQ(v.GetX(), 0);
-        EXPECT_EQ(v.GetY(), 0);
-        EXPECT_EQ(v.GetZ(), 5);
+        v.Z = 5;
+        EXPECT_EQ(v.X, 0);
+        EXPECT_EQ(v.Y, 0);
+        EXPECT_EQ(v.Z, 5);
     }
 
     TEST(Vector3, operatorEgal) {
@@ -70,9 +70,9 @@ namespace rt {
         Vector3<float> w = Vector3<float>(1, 2, 3);
 
         EXPECT_FALSE(v == w);
-        v.SetX(1);
-        v.SetY(2);
-        v.SetZ(3);
+        v.X = 1;
+        v.Y = 2;
+        v.Z = 3;
         EXPECT_TRUE(v == w);
     }
 
@@ -81,9 +81,9 @@ namespace rt {
         Vector3<float> w = Vector3<float>(1, 2, 3);
 
         EXPECT_TRUE(v != w);
-        v.SetX(1);
-        v.SetY(2);
-        v.SetZ(3);
+        v.X = 1;
+        v.Y = 2;
+        v.Z = 3;
         EXPECT_FALSE(v != w);
     }
 

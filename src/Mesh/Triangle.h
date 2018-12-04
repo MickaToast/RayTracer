@@ -31,9 +31,18 @@ class Triangle : public Mesh {
     virtual Ray const           Refract(Ray const& ray);
     virtual Ray const           Reflect(Ray const& ray);
 
+   Vector2<float> const    GetMinMaxX() const;
+   Vector2<float> const    GetMinMaxY() const;
+   Vector2<float> const    GetMinMaxZ() const;
+   Vector3<float> const    GetMidPoint() const;
+   Vector3<float> const&   GetV1() const;
+   Vector3<float> const&   GetV2() const;
+   Vector3<float> const&   GetV3() const;
    Vector3<float> const&   GetEdge1() const;
    Vector3<float> const&   GetEdge2() const;
    Vector3<float> const&   GetNormal() const;
+
+   bool  operator==(Triangle const& other) const;
 
  private:
     Vector3<float>  _v1;

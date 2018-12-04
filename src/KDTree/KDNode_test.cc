@@ -15,25 +15,31 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#pragma once
-
-#include "../Camera/Camera.h"
-#include "../Loader/OBJLoader.h"
-#include "../KDTree/KDNode.h"
-#include "../Vector/Vector2.h"
-#include "../Vector/Vector3.h"
-#include "Color.h"
+#include "gtest/gtest.h"
+#include "KDNode.h"
 
 namespace rt {
-    class Engine {
-    public:
-        explicit        Engine(objl::Loader const& loader, Camera const& camera);
-        virtual         ~Engine();
-        Color           raytrace(Vector2<unsigned int> const& pixel);
-
-    private:
-        objl::Loader    _loader;
-        Camera          _camera;
-        KDNode          _KDTree;
-    };
+    TEST(KDNode, raytrace) {
+        std::vector<Triangle> triangles;        
+        triangles.push_back(
+            Triangle(
+                Vector3<float>(),
+                Vector3<float>(1, 0, 0),
+                Vector3<float>(0, 1, 0)
+            )
+        );
+        triangles.push_back(
+            Triangle(
+                Vector3<float>(),
+                Vector3<float>(0.5, 0, -3),
+                Vector3<float>(1.5, 2, -0.5)
+            )
+        );
+        KDNode tree = KDNode(triangles, triangles.size());
+        KDTreeIntersection inter = tree.Raytrace(Ray(
+            Vector3<float>(0, 0, 1),
+            Vector3<float>(0, .3, -1)
+        ), Vector3<float>(0, 0, 1));
+        EXPECT_TRUE(inter.Intersect);
+    }
 }  // namespace rt

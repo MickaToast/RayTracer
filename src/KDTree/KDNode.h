@@ -17,23 +17,35 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
-#include "../Camera/Camera.h"
-#include "../Loader/OBJLoader.h"
-#include "../KDTree/KDNode.h"
-#include "../Vector/Vector2.h"
-#include "../Vector/Vector3.h"
-#include "Color.h"
+#include <vector>
+#include <memory>
+#include "../Mesh/Triangle.h"
+#include "../Engine/Color.h"
+#include "KDBox.h"
 
 namespace rt {
-    class Engine {
-    public:
-        explicit        Engine(objl::Loader const& loader, Camera const& camera);
-        virtual         ~Engine();
-        Color           raytrace(Vector2<unsigned int> const& pixel);
+struct KDTreeIntersection {
+    KDTreeIntersection(): Intersect(false), color(Color()), dist(-1) {};
+    KDTreeIntersection(bool intersect, Color const& c, float d): Intersect(intersect), color(c), dist(d) {};
 
-    private:
-        objl::Loader    _loader;
-        Camera          _camera;
-        KDNode          _KDTree;
-    };
+    bool            Intersect;
+    Color           color;
+    float           dist;
+};
+
+class KDNode {
+ public:
+    KDNode();
+    KDNode(KDNode const& other);
+    KDNode(std::vector<Triangle> const& triangles, std::size_t const& totalSize);
+    ~KDNode();
+
+    KDTreeIntersection Raytrace(Ray const& ray, Vector3<float> const& camPos);
+
+ private:
+    KDBox                   _box;
+    std::shared_ptr<KDNode> _left;
+    std::shared_ptr<KDNode> _right;
+    std::vector<Triangle>   _triangles;
+};
 }  // namespace rt
