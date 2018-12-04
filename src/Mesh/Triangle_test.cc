@@ -73,7 +73,17 @@ namespace rt {
             Vector3<float>(.3, .3, 1),
             Vector3<float>(0, 0, 1)            
         )).Intersect);
-                
+        std::cout << "ICI" << std::endl;  
+        t2 = Triangle(
+            Vector3<float>(),
+            Vector3<float>(0, 1, 0),
+            Vector3<float>(1, 0, 0)
+        );
+        EXPECT_TRUE(t2.Intersect(Ray(
+            Vector3<float>(.3, .3, 1),
+            Vector3<float>(0, 0, -1)            
+        )).Intersect);
+
         Triangle t3 = Triangle(
             Vector3<float>(0, 0, -1),
             Vector3<float>(3, 0, -1),
