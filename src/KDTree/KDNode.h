@@ -18,22 +18,25 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #pragma once
 
 #include <vector>
+#include <memory>
 #include "../Mesh/Triangle.h"
 #include "../Engine/Color.h"
 #include "KDBox.h"
 
 namespace rt {
 struct KDTreeIntersection {
-    KDTreeIntersection(): Intersect(false), color(Color()) {};
-    KDTreeIntersection(bool intersect, Color const& c): Intersect(intersect), color(c) {};
+    KDTreeIntersection(): Intersect(false), color(Color()), dist(-1) {};
+    KDTreeIntersection(bool intersect, Color const& c, float d): Intersect(intersect), color(c), dist(d) {};
 
-    bool    Intersect;
-    Color   color;
+    bool            Intersect;
+    Color           color;
+    float           dist;
 };
 
 class KDNode {
  public:
     KDNode();
+    KDNode(KDNode const& other);
     KDNode(std::vector<Triangle> const& triangles, std::size_t const& totalSize);
     ~KDNode();
 
@@ -41,8 +44,8 @@ class KDNode {
 
  private:
     KDBox                   _box;
-    KDNode*                 _left;
-    KDNode*                 _right;
+    std::shared_ptr<KDNode> _left;
+    std::shared_ptr<KDNode> _right;
     std::vector<Triangle>   _triangles;
 };
 }  // namespace rt
