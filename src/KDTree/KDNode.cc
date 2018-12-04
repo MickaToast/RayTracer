@@ -18,12 +18,13 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "KDNode.h"
 
 namespace rt {
-    KDNode::KDNode() : _box() {
+    KDNode::KDNode() : _box(), _left(nullptr), _right(nullptr) {
     }
 
-    KDNode::KDNode(std::vector<Triangle> const& triangles, std::size_t const& totalSize): _box(triangles) {
-        _left = nullptr;
-        _right = nullptr;
+    KDNode::KDNode(KDNode const& other) : _box(other._box), _left(other._left), _right(other._right)  {
+    }
+
+    KDNode::KDNode(std::vector<Triangle> const& triangles, std::size_t const& totalSize): _box(triangles), _left(nullptr), _right(nullptr) {
         std::size_t size = triangles.size();
         if (size > std::max(24.f, totalSize / 2000.f)) {
             std::vector<Triangle> tleft;
@@ -46,8 +47,8 @@ namespace rt {
                         break;
                 }
             }
-            _left = new KDNode(tleft, totalSize);
-            _right = new KDNode(tright, totalSize);
+            _left = std::shared_ptr<KDNode>(new KDNode(tleft, totalSize));
+            _right = std::shared_ptr<KDNode>(new KDNode(tright, totalSize));
         } else {
             _triangles = triangles;
         }
@@ -81,11 +82,16 @@ namespace rt {
                     }
                 }
             }
+            intersection.dist = min;
             return intersection;
         } else {
             KDTreeIntersection left = _left->Raytrace(ray, camPos);
             KDTreeIntersection right = _right->Raytrace(ray, camPos);
-            return left.Intersect ? left : right;
+
+            if (left.Intersect && right.Intersect) {
+                return left.dist > right.dist ? left : right;
+            }
+            return left.Intersect ? left : right.Intersect ? right : intersection;
         }
     }
 }  //namespace rt
