@@ -33,8 +33,6 @@ namespace rt {
                                                     rt::Vector3<float>(0, 0, -1),
                                                     rt::Vector2<unsigned int>(160, 90)));
         ASSERT_EQ(engine.raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
-        ASSERT_EQ(engine.raytrace(Vector2<unsigned int>(80, 45)).GetColor().hexcode, 0x00c30000);
-        ASSERT_EQ(engine.raytrace(Vector2<unsigned int>(65, 35)).GetColor().hexcode, 0x00400000);
     }
 
     TEST(Engine, raytraceMedium) {
