@@ -13,12 +13,12 @@ addons:
       - g++-7
       - libsfml-dev
       - libgtest-dev
+      - libassimp-dev
       - cmake
       - lcov
       - imagemagick
 before_install:
   - export CXX=/usr/bin/g++-7
-  - sudo apt-get install libassimp-dev
   - pip install --user cpp-coveralls
   - cd /usr/src/gtest
   - sudo cmake CMakeLists.txt

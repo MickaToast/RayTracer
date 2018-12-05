@@ -22,7 +22,7 @@ namespace rt {
     TEST(AssimpLoader, Import) {
         AssimpLoader loader;
 
-        EXPECT_TRUE(loader.LoadFile("../scenes/dragon.obj"));
+        EXPECT_TRUE(loader.LoadFile("../scenes/icosahedron.obj"));
         EXPECT_FALSE(loader.LoadFile("../scenes/fakename.obj"));
     }
 }  // namespace rt
