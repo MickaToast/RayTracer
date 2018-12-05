@@ -20,6 +20,15 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     Material::Material() {
+        name = "";
+        Ns = 96;
+        Ka = Vector3<float>(0.75, 0.75, 0.75);
+        Kd = Vector3<float>(0, 1, 0);
+        Ks = Vector3<float>(0.5, 0.5, 0.5);
+        Ke = Vector3<float>(0, 0, 0);
+        Ni = 1.f;
+        d = 1.f;
+        illum = 0;
     }
 
     Material::~Material() {

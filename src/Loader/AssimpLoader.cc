@@ -41,8 +41,37 @@ namespace rt {
         std::vector<Triangle> triangles;
         for (std::uint32_t meshIdx = 0u; meshIdx < _scene->mNumMeshes; ++meshIdx) {
             aiMesh* mesh = _scene->mMeshes[meshIdx];
-            //GET MATERIAL
-            //material = _scene->mMaterials[mesh->mMaterialIndex];
+            aiMaterial* aiMat = _scene->mMaterials[mesh->mMaterialIndex];
+            Material mat;
+            aiColor3D color;
+            float coef;
+            if (aiMat->Get(AI_MATKEY_SHININESS, coef) == AI_SUCCESS) {
+                mat.Ns = coef;                
+            }
+            aiString name;
+            aiMat->Get(AI_MATKEY_NAME,name);
+            mat.name = name.C_Str();
+            if (aiMat->Get(AI_MATKEY_COLOR_AMBIENT, color) == AI_SUCCESS) {
+                mat.Ka = Vector3<float>(color.r, color.g, color.b);                
+            }
+            if (aiMat->Get(AI_MATKEY_COLOR_DIFFUSE, color) == AI_SUCCESS) {
+                mat.Kd = Vector3<float>(color.r, color.g, color.b);                
+            }
+            if (aiMat->Get(AI_MATKEY_COLOR_SPECULAR, color) == AI_SUCCESS) {
+                mat.Ks = Vector3<float>(color.r, color.g, color.b);                
+            }
+            if (aiMat->Get(AI_MATKEY_COLOR_EMISSIVE, color) == AI_SUCCESS) {
+                mat.Ke = Vector3<float>(color.r, color.g, color.b);                
+            }
+            if (aiMat->Get(AI_MATKEY_REFRACTI, coef) == AI_SUCCESS) {
+                mat.Ni = coef;                
+            }
+            if (aiMat->Get(AI_MATKEY_OPACITY, coef) == AI_SUCCESS) {
+                mat.d = coef;                
+            }
+            if (aiMat->Get(AI_MATKEY_SHADING_MODEL, coef) == AI_SUCCESS) {
+                mat.illum = coef;
+            }
             for (std::uint32_t faceIdx = 0u; faceIdx < mesh->mNumFaces; ++faceIdx) {
                 triangles.push_back(Triangle(
                 Vector3<float>(
@@ -59,7 +88,8 @@ namespace rt {
                     mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].x,
                     mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].y,
                     mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].z
-                )
+                ),
+                mat
             ));
             }
         }

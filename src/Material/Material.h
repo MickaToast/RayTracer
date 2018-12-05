@@ -27,11 +27,13 @@ class Material {
     ~Material();
 
     std::string     name;
-    Vector3<float>  Ka;    //Ambiant color
-    Vector3<float>  Kd;    //Diffure color
-    Vector3<float>  Ks;    //Specular color
-    float           Ns;    //Specular exponent
-    float           d;     //Transparency
-    std::size_t     illum; //Illumination model
+    float           Ns;     //Specular exponent
+    Vector3<float>  Ka;     //Ambiant color
+    Vector3<float>  Kd;     //Diffure color
+    Vector3<float>  Ks;     //Specular color
+    Vector3<float>  Ke;     //Emissive color
+    float           Ni;     //Refraction coef
+    float           d;      //Transparency
+    std::size_t     illum;  //Illumination model
 };
 }  //namespace rt
