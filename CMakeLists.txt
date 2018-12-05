@@ -19,13 +19,21 @@ target_compile_options(RayTracer PUBLIC
         -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wold-style-cast
         -Wuseless-cast -Wdouble-promotion -Wshadow -O3 -Ofast)
 
-# Detect and add SFML
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
+
+# Detect and add SFML
 find_package(SFML 2 REQUIRED system graphics window network audio)
 if(SFML_FOUND)
     include_directories(${SFML_INCLUDE_DIR})
-    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} pthread)
 endif()
+
+# Detect and add Assimp
+find_package(assimp REQUIRED)
+if(ASSIMP_FOUND)
+    include_directories(${ASSIMP_INCLUDE_DIR})
+endif()
+
+target_link_libraries(${PROJECT_NAME} ${ASSIMP_LIBRARY} ${SFML_LIBRARIES} pthread)
 
 # Locate GTest
 find_package(GTest REQUIRED)
