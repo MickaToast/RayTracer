@@ -39,7 +39,7 @@ namespace rt {
             Vector3<float>(),
             Vector3<float>(1, 1, 1),
             Vector3<float>(2, 2, 2),
-            objl::Material()
+            Material()
         );
 
         EXPECT_EQ(t.GetEdge1(), Vector3<float>(1, 1, 1));
@@ -118,8 +118,8 @@ namespace rt {
             Vector3<float>(1, 1, 1),
             Vector3<float>(2, 2, 2)
         );
-        objl::Material mat = t.GetMaterial();
-        EXPECT_EQ(mat.Ka, objl::Vector3(0, 1, 0));
+        Material mat = t.GetMaterial();
+        EXPECT_EQ(mat.Kd, Vector3<float>(0, 1, 0));
     }
 
     TEST(Triangle, GetNormal) {

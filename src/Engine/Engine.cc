@@ -23,27 +23,8 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Color.h"
 
 namespace rt {
-    Engine::Engine(objl::Loader const &loader, Camera const &camera) : _loader(loader), _camera(camera) {
-        std::vector<Triangle> triangles;
-        for (std::size_t i = 0; i < _loader.LoadedVertices.size(); i += 3) {
-            triangles.push_back(Triangle(
-                Vector3<float>(
-                    _loader.LoadedVertices[i].Position.X,
-                    _loader.LoadedVertices[i].Position.Y,
-                    _loader.LoadedVertices[i].Position.Z
-                ),
-                Vector3<float>(
-                    _loader.LoadedVertices[i + 1].Position.X,
-                    _loader.LoadedVertices[i + 1].Position.Y,
-                    _loader.LoadedVertices[i + 1].Position.Z
-                ),
-                Vector3<float>(
-                    _loader.LoadedVertices[i + 2].Position.X,
-                    _loader.LoadedVertices[i + 2].Position.Y,
-                    _loader.LoadedVertices[i + 2].Position.Z
-                )
-            ));
-        }
+    Engine::Engine(AssimpLoader const &loader, Camera const &camera) : _loader(loader), _camera(camera) {
+        std::vector<Triangle> triangles = loader.GetTrianglesFromScene();
         std::cout << "Creating KDTree for " << triangles.size() << " triangles." << std::endl;
         _KDTree = KDNode(triangles, triangles.size());
         std::cout << "KDTree created." << std::endl;

@@ -76,9 +76,10 @@ namespace rt {
                             angle = 180.f - angle;
                         }
                         float coef = ((-1.f / 90.f) * angle + 1.f) * 255.f;
-                        intersection.color.SetRedComponent(_triangles[i].GetMaterial().Ka.X * coef);
-                        intersection.color.SetGreenComponent(_triangles[i].GetMaterial().Ka.Y * coef);
-                        intersection.color.SetBlueComponent(_triangles[i].GetMaterial().Ka.Z * coef);
+                        Material mat = _triangles[i].GetMaterial();
+                        intersection.color.SetRedComponent(mat.Kd.X * coef);
+                        intersection.color.SetGreenComponent(mat.Kd.Y * coef);
+                        intersection.color.SetBlueComponent(mat.Kd.Z * coef);
                     }
                 }
             }

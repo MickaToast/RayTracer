@@ -18,7 +18,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #pragma once
 
 #include "../Camera/Camera.h"
-#include "../Loader/OBJLoader.h"
+#include "../Loader/AssimpLoader.h"
 #include "../KDTree/KDNode.h"
 #include "../Vector/Vector2.h"
 #include "../Vector/Vector3.h"
@@ -27,12 +27,12 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     class Engine {
     public:
-        explicit        Engine(objl::Loader const& loader, Camera const& camera);
+        explicit        Engine(AssimpLoader const& loader, Camera const& camera);
         virtual         ~Engine();
         Color           raytrace(Vector2<unsigned int> const& pixel);
 
     private:
-        objl::Loader    _loader;
+        AssimpLoader    _loader;
         Camera          _camera;
         KDNode          _KDTree;
     };

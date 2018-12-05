@@ -18,13 +18,14 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #pragma once
 
 #include "Mesh.h"
+#include "../Material/Material.h"
 #include "../Vector/Vector3.h"
 
 namespace rt {
 class Triangle : public Mesh {
  public:
     Triangle(Vector3<float> const& v1, Vector3<float> const& v2, Vector3<float> const& v3);
-    Triangle(Vector3<float> const& v1, Vector3<float> const& v2, Vector3<float> const& v3, objl::Material const& material);
+    Triangle(Vector3<float> const& v1, Vector3<float> const& v2, Vector3<float> const& v3, Material const& material);
     ~Triangle();
 
     virtual Intersection const  Intersect(Ray const& ray);

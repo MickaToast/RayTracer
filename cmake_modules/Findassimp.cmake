@@ -63,7 +63,7 @@ else(WIN32)
 	)
 	
 	find_library(
-	  assimp_LIBRARIES
+	  ASSIMP_LIBRARIES
 	  NAMES assimp
 	  PATHS	/usr/lib64
 			/usr/lib
@@ -75,13 +75,13 @@ else(WIN32)
 			${ASSIMP_ROOT_DIR}/lib
 	)
 
-	if (assimp_INCLUDE_DIRS AND assimp_LIBRARIES)
+	if (assimp_INCLUDE_DIRS AND ASSIMP_LIBRARIES)
 	  SET(assimp_FOUND TRUE)
-	ENDIF (assimp_INCLUDE_DIRS AND assimp_LIBRARIES)
+	ENDIF (assimp_INCLUDE_DIRS AND ASSIMP_LIBRARIES)
 
 	if (assimp_FOUND)
 	  if (NOT assimp_FIND_QUIETLY)
-		message(STATUS "Found ASSIMP: ${assimp_LIBRARIES}")
+		message(STATUS "Found ASSIMP: ${ASSIMP_LIBRARIES}")
 	  endif (NOT assimp_FIND_QUIETLY)
 	else (assimp_FOUND)
 	  if (assimp_FIND_REQUIRED)
