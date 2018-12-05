@@ -17,13 +17,13 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include "gtest/gtest.h"
 #include "Dispatcher.h"
-#include "../Loader/OBJLoader.h"
+#include "../Loader/AssimpLoader.h"
 #include "../Camera/Camera.h"
 #include "../Vector/Vector2.h"
 
 namespace rt {
     TEST(Dispatcher, start_and_stop) {
-        objl::Loader loader;
+       AssimpLoader loader;
         if (!loader.LoadFile("../scenes/icosahedron.obj")) {
             std::cerr << "Failed to load file. May have failed to "
                      "find it or it was not an .obj file." << std::endl;

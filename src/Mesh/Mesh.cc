@@ -18,7 +18,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Mesh.h"
 
 namespace rt {
-    objl::Material const&  Mesh::GetMaterial() const {
+    Material const&  Mesh::GetMaterial() const {
         return _material;
     }
     

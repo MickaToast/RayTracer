@@ -27,7 +27,7 @@ echo "Merging coverage tracefiles."
 lcov --add-tracefile coverage_base.info --add-tracefile coverage_test.info --output-file coverage_merge.info
 
 echo "Removing unwanted files from coverage."
-lcov --remove coverage_merge.info "*_test.cc" "*/Loader/*" "/usr/*" -o coverage.info
+lcov --remove coverage_merge.info "*_test.cc" "*/Loader/Bitmap.h" "/usr/*" -o coverage.info
 
 echo "Uploading coverage."
 coveralls --no-gcov --lcov-file coverage.info

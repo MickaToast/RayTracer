@@ -21,7 +21,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <cstring>
 #include <regex>
 #include "Loader/Bitmap.h"
-#include "Loader/OBJLoader.h"
+#include "Loader/AssimpLoader.h"
 #include "Camera/Camera.h"
 #include "Engine/Engine.h"
 #include "Dispatcher/Dispatcher.h"
@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    objl::Loader loader;
+    rt::AssimpLoader loader;
 
     std::cout << "Loading scene " << argv[1] << "..." << std::endl;
     if (!loader.LoadFile(argv[1])) {

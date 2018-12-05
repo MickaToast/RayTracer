@@ -13,6 +13,7 @@ addons:
       - g++-7
       - libsfml-dev
       - libgtest-dev
+      - libassimp-dev
       - cmake
       - lcov
       - imagemagick
