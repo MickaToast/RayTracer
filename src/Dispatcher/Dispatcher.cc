@@ -19,10 +19,10 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Dispatcher.h"
 
 namespace rt {
-    Dispatcher::Dispatcher(const Engine &engine, Vector2<unsigned int> const& res) : _running(false), _engine(engine), _res(res), _sample(0) {
+    Dispatcher::Dispatcher(const Engine &engine, Vector2<unsigned int> const& res) : _running(false), _engine(engine), _res(res), _image_index(0), _sample(0) {
         std::size_t size = _res.Y * _res.X;
         _image.reserve(size);
-        _image.resize(size);
+        _image.resize(size, Color(0x000000ff));
     }
 
     Dispatcher::~Dispatcher() {
@@ -46,54 +46,34 @@ namespace rt {
         _threads.clear();
     }
 
-    std::vector<Color> const& Dispatcher::Flush() {
-        std::size_t size = _res.Y * _res.X;
-
-        _buffer_mutex.lock();
-        for (auto const& frame : _buffer) {
-            std::size_t i = 0;
-            float coef1 = _sample / (_sample + 1.f);
-            float coef2 = (_sample == 0 ? 1 : 1.f / (_sample + 1));
-            while (i < size) {
-                _image[i].SetRedComponent(_image[i].GetRedComponent() * coef1 + frame[i].GetRedComponent() * coef2);
-                _image[i].SetGreenComponent(_image[i].GetGreenComponent() * coef1 + frame[i].GetGreenComponent() * coef2);
-                _image[i].SetBlueComponent(_image[i].GetBlueComponent() * coef1 + frame[i].GetBlueComponent() * coef2);
-                i++;
-            }
-            _sample = _sample + 1;
-        }
-        _buffer.clear();
-        _buffer_mutex.unlock();
+    std::vector<Color> Dispatcher::Flush() {
         return _image;
     }
 
-    float Dispatcher::GetNumberOfProcessed() const {
+    std::size_t Dispatcher::GetNumberOfProcessed() const {
         return _sample;
     }
 
     void Dispatcher::execute() {
-        std::vector<Color> frame;
-        Vector2<unsigned int> current(0, 0);
         std::size_t size = _res.Y * _res.X;
 
-        frame.reserve(size);
-        frame.resize(size);
         while (_running) {
-            std::size_t i = 0;
-            current.X = 0;
-            current.Y = 0;
-            while (current.Y < _res.Y - 1 || current.X < _res.X - 1) {
-                frame[i] = this->_engine.raytrace(current);
-                current.X = current.X + 1;
-                if (current.X > _res.X - 1) {
-                    current.X = 0;
-                    current.Y = current.Y + 1;
+            std::size_t current = _image_index++;
+            if (current >= size) {
+                _image_index = _image_index % size;
+                current %= size;
+                if (current == 0) {
+                    _sample++;
                 }
-                i++;
             }
-            _buffer_mutex.lock();
-            _buffer.push_back(frame);
-            _buffer_mutex.unlock();
+            Color color = _engine.raytrace(Vector2<unsigned int>(current % _res.X, current / _res.X));
+            float coef1 = _sample / (_sample + 1.f);
+            float coef2 = (_sample == 0 ? 1 : 1.f / (_sample + 1.f));
+            _image_mutex.lock();
+            _image[current].SetRedComponent(_image[current].GetRedComponent() * coef1 + color.GetRedComponent() * coef2);
+            _image[current].SetGreenComponent(_image[current].GetGreenComponent() * coef1 + color.GetGreenComponent() * coef2);
+            _image[current].SetBlueComponent(_image[current].GetBlueComponent() * coef1 + color.GetBlueComponent() * coef2);
+            _image_mutex.unlock();
         }
     }
 }  // namespace rt

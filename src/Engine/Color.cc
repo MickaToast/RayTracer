@@ -62,11 +62,3 @@ std::uint8_t const& rt::Color::GetGreenComponent() const {
 void rt::Color::SetGreenComponent(std::uint8_t value) {
     _color.rgba.g = value;
 }
-
-std::uint8_t const& rt::Color::GetAlphaComponent() const {
-    return _color.rgba.a;
-}
-
-void rt::Color::SetAlphaComponent(std::uint8_t value) {
-    _color.rgba.a = value;
-}
