@@ -31,8 +31,8 @@ namespace rt {
 
         void                            Start(void);
         void                            Stop(void);
-        std::vector<Color> const&       Flush(void);
-        float                           GetNumberOfProcessed(void) const;
+        std::vector<Color>              Flush(void);
+        std::size_t                     GetNumberOfProcessed(void) const;
 
     private:
         void                            execute(void);
@@ -41,9 +41,9 @@ namespace rt {
         Engine                          _engine;
         Vector2<unsigned int>           _res;
         std::vector<std::thread>        _threads;
-        std::mutex                      _buffer_mutex;
-        std::vector<std::vector<Color>> _buffer;
+        std::atomic<std::size_t>        _image_index;
+        std::mutex                      _image_mutex;
         std::vector<Color>              _image;
-        std::atomic<float>              _sample;
+        std::atomic<std::size_t>        _sample;
     };
 }  // namespace rt
