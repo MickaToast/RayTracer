@@ -17,30 +17,8 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
-#include <vector>
-#include "../Mesh/Triangle.h"
-#include "../Engine/Tools.h"
-#include "../Engine/Color.h"
-
 namespace rt {
-class KDBox {
- public:
-    KDBox();
-    KDBox(std::vector<Triangle> const& triangles);
-    ~KDBox();
-
-    bool    Intersect(Ray const& ray);
-
-    Vector2<float> const&           GetX() const;
-    Vector2<float> const&           GetY() const;
-    Vector2<float> const&           GetZ() const;
-    std::size_t                     GetLongestAxis() const;
-
- private:
-    Vector2<float>          _x;  // Containing Xmin and Xmax
-    Vector2<float>          _y;  // Containing Ymin and Ymax
-    Vector2<float>          _z;  // Containing Zmin and Zmax
-
-    void    setMinMax(std::vector<Triangle> const& triangles);
-};
+struct Config {
+    static constexpr float Epsilon = 0.000001;
+    };
 }  // namespace rt

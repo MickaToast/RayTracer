@@ -18,6 +18,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <algorithm>
 #include "Triangle.h"
 #include "../Vector/Vector2.h"
+#include "../Engine/Config.h"
 
 namespace rt {
     Triangle::Triangle(Vector3<float> const& v1, Vector3<float> const& v2,
@@ -38,7 +39,7 @@ namespace rt {
         Intersection ret;
         Vector3<float> pvec = ray.Direction.Cross(_edge2);
         float det = _edge1.Dot(pvec);
-        if (det > -_epsilon && det < _epsilon) {
+        if (det > -Config::Epsilon && det < Config::Epsilon) {
             ret.Intersect = false;
             return ret;
         }
@@ -134,7 +135,6 @@ namespace rt {
     void Triangle::generateCharacteristics() {
         _edge1 = _v2 - _v1;
         _edge2 = _v3 - _v1;
-        _epsilon = 0.000001;
         _normal = _edge1.Cross(_edge2);
         _normal.Normalize();
     }

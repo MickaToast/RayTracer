@@ -52,7 +52,6 @@ class Triangle : public Mesh {
     Vector3<float>  _normal;
     Vector3<float>  _edge1;
     Vector3<float>  _edge2;
-    float           _epsilon;
 
     void    generateCharacteristics();
 };
