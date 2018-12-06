@@ -24,9 +24,9 @@ namespace rt {
     KDNode::KDNode(KDNode const& other) : _box(other._box), _left(other._left), _right(other._right), _triangles(other._triangles) {
     }
 
-    KDNode::KDNode(std::vector<Triangle> const& triangles, std::size_t const& totalSize): _box(triangles), _left(nullptr), _right(nullptr) {
+    KDNode::KDNode(std::vector<Triangle> const& triangles, std::size_t depth): _box(triangles), _left(nullptr), _right(nullptr) {
         std::size_t size = triangles.size();
-        if (size > std::max(24.f, totalSize / 2000.f)) {
+        if (depth) {
             std::vector<Triangle> tleft;
             std::vector<Triangle> tright;
             Vector3<float> midpoint;
@@ -47,8 +47,8 @@ namespace rt {
                         break;
                 }
             }
-            _left = std::shared_ptr<KDNode>(new KDNode(tleft, totalSize));
-            _right = std::shared_ptr<KDNode>(new KDNode(tright, totalSize));
+            _left = std::shared_ptr<KDNode>(new KDNode(tleft, depth - 1));
+            _right = std::shared_ptr<KDNode>(new KDNode(tright, depth - 1));
         } else {
             _triangles = triangles;
         }

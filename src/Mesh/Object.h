@@ -18,7 +18,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #pragma once
 
 #include <vector>
-#include "../KDtree/KDNode.h"
+#include "../KDTree/KDNode.h"
 #include "Mesh.h"
 #include "Triangle.h"
 

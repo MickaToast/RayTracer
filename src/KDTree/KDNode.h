@@ -28,7 +28,7 @@ class KDNode {
  public:
     KDNode();
     KDNode(KDNode const& other);
-    KDNode(std::vector<Triangle> const& triangles, std::size_t const& totalSize);
+    KDNode(std::vector<Triangle> const& triangles, std::size_t depth);
     ~KDNode();
 
     Intersection Intersect(Ray const& ray, Vector3<float> const& camPos);

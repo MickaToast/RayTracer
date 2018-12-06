@@ -53,7 +53,7 @@ namespace rt {
                 angle = 180.f - angle;
             }
             float coef = ((-1.f / 90.f) * angle + 1.f) * 255.f;
-            coef = 255;
+            //coef = 255;
             color.SetRedComponent(mat.Kd.X * coef);
             color.SetGreenComponent(mat.Kd.Y * coef);
             color.SetBlueComponent(mat.Kd.Z * coef);
