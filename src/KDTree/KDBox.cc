@@ -15,6 +15,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include "../Engine/Config.h"
 #include "KDBox.h"
 
 namespace rt {
@@ -23,17 +24,23 @@ namespace rt {
 
     KDBox::KDBox(std::vector<Triangle> const& triangles) {
         this->setMinMax(triangles);
-        this->generateTriangles();
     }
 
     KDBox::~KDBox() {
     }
 
     bool KDBox::Intersect(Ray const& ray) {
-        for (std::size_t i = 0; i < _triangles.size(); ++i) {
-            if (_triangles[i].Intersect(ray).Intersect) {
-                return true;
-            }
+        float tx1 = (_x.X - ray.Origin.X) / ray.Direction.X;
+        float tx2 = (_x.Y - ray.Origin.X) / ray.Direction.X;
+        float ty1 = (_y.X - ray.Origin.Y) / ray.Direction.Y;
+        float ty2 = (_y.Y - ray.Origin.Y) / ray.Direction.Y;
+        float tz1 = (_z.X - ray.Origin.Z) / ray.Direction.Z;
+        float tz2 = (_z.Y - ray.Origin.Z) / ray.Direction.Z;
+        float tMin = std::max(std::max(std::min(tx1, tx2), std::min(ty1, ty2)), std::min(tz1, tz2));
+        float tMax = std::min(std::min(std::max(tx1, tx2), std::max(ty1, ty2)), std::max(tz1, tz2));
+        if (tMin <= tMax) {
+            if (tMin <= Config::Epsilon && tMax <= Config::Epsilon) return false;
+            return true;
         }
         return false;
     }
@@ -49,11 +56,7 @@ namespace rt {
     Vector2<float> const& KDBox::GetZ() const {
         return _z;
     }
-
-    std::vector<Triangle> const& KDBox::GetTriangles() const{
-        return _triangles;
-    }
-
+    
     std::size_t KDBox::GetLongestAxis() const {
         float xDiff = _x.Y - _x.X;
         float yDiff = _y.Y - _y.X;
@@ -80,28 +83,5 @@ namespace rt {
                 if (z.Y > _z.Y) _z.Y = z.Y;
             }
         }
-    }
-
-    void KDBox::generateTriangles() {
-        Vector3<float> A = Vector3<float>(_x.X, _y.X, _z.Y);
-        Vector3<float> B = Vector3<float>(_x.X, _y.X, _z.X);
-        Vector3<float> C = Vector3<float>(_x.Y, _y.X, _z.X);
-        Vector3<float> D = Vector3<float>(_x.Y, _y.X, _z.Y);
-        Vector3<float> E = Vector3<float>(_x.Y, _y.Y, _z.Y);
-        Vector3<float> F = Vector3<float>(_x.X, _y.Y, _z.Y);
-        Vector3<float> G = Vector3<float>(_x.X, _y.Y, _z.X);
-        Vector3<float> H = Vector3<float>(_x.Y, _y.Y, _z.X);
-        _triangles.push_back(Triangle(B, C, A));
-        _triangles.push_back(Triangle(A, C, D));
-        _triangles.push_back(Triangle(A, D, F));
-        _triangles.push_back(Triangle(F, D, E));
-        _triangles.push_back(Triangle(F, E, G));
-        _triangles.push_back(Triangle(G, E, H));
-        _triangles.push_back(Triangle(G, H, B));
-        _triangles.push_back(Triangle(B, H, C));
-        _triangles.push_back(Triangle(B, A, G));
-        _triangles.push_back(Triangle(G, A, F));
-        _triangles.push_back(Triangle(D, C, E));
-        _triangles.push_back(Triangle(E, C, H));
     }
 }  // namespace rt
