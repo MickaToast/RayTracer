@@ -17,24 +17,23 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
-#include "../Vector/Vector3.h"
+#include <vector>
+#include "../KDTree/KDNode.h"
+#include "Mesh.h"
+#include "Triangle.h"
 
 namespace rt {
-    struct Ray {
-        Ray(): Origin(), Direction() {};
-        Ray(Vector3<float> const& origin, Vector3<float> const& dir): Origin(origin), Direction(dir) {};
+class Object : public Mesh {
+ public:
+    Object(std::vector<Triangle> const& triangles, Material const& mat);
+    ~Object();
 
-        Vector3<float>  Origin;
-        Vector3<float>  Direction;
-    };
+    virtual Intersection const   Intersect(Ray const& ray, Vector3<float> const& camPos);
+    virtual Ray const            Refract(Ray const& ray);
+    virtual Ray const            Reflect(Ray const& ray);
 
-    struct Intersection {
-        Intersection(): Intersect(false), Point(), Dist(-1), Normal() {};
-        Intersection(bool intersect, Vector3<float> const& point, float const& dist, Vector3<float> const& normal): Intersect(intersect), Point(point), Dist(dist), Normal(normal) {};
-
-        bool            Intersect;
-        Vector3<float>  Point;
-        float           Dist;
-        Vector3<float>  Normal;
-    };
+ private:
+    std::vector<Triangle>   _triangles;
+    KDNode                  _KDTree;
+};
 }  // namespace rt

@@ -21,7 +21,8 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <vector>
-#include "../Mesh/Triangle.h"
+#include <memory>
+#include "../Mesh/Mesh.h"
 
 namespace rt {
 class AssimpLoader {
@@ -29,8 +30,8 @@ class AssimpLoader {
     AssimpLoader();
     ~AssimpLoader();
 
-    bool                        LoadFile(std::string const& filePath);
-    std::vector<Triangle> const GetTrianglesFromScene() const;
+    bool                                        LoadFile(std::string const& filePath);
+    std::vector<std::shared_ptr<Mesh>> const    GetMeshesFromScene() const;
 
     const aiScene*      _scene;
 

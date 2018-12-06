@@ -24,9 +24,9 @@ namespace rt {
     KDNode::KDNode(KDNode const& other) : _box(other._box), _left(other._left), _right(other._right), _triangles(other._triangles) {
     }
 
-    KDNode::KDNode(std::vector<Triangle> const& triangles, std::size_t const& totalSize): _box(triangles), _left(nullptr), _right(nullptr) {
+    KDNode::KDNode(std::vector<Triangle> const& triangles, std::size_t depth): _box(triangles), _left(nullptr), _right(nullptr) {
         std::size_t size = triangles.size();
-        if (size > std::max(24.f, totalSize / 2000.f)) {
+        if (depth) {
             std::vector<Triangle> tleft;
             std::vector<Triangle> tright;
             Vector3<float> midpoint;
@@ -47,8 +47,8 @@ namespace rt {
                         break;
                 }
             }
-            _left = std::shared_ptr<KDNode>(new KDNode(tleft, totalSize));
-            _right = std::shared_ptr<KDNode>(new KDNode(tright, totalSize));
+            _left = std::shared_ptr<KDNode>(new KDNode(tleft, depth - 1));
+            _right = std::shared_ptr<KDNode>(new KDNode(tright, depth - 1));
         } else {
             _triangles = triangles;
         }
@@ -57,40 +57,36 @@ namespace rt {
     KDNode::~KDNode() {
     }
 
-    KDTreeIntersection KDNode::Raytrace(Ray const& ray, Vector3<float> const& camPos) {
-        KDTreeIntersection intersection = KDTreeIntersection();
+    Intersection KDNode::Intersect(Ray const& ray, Vector3<float> const& camPos) {
+        Intersection intersection = Intersection();
         if (!(_box.Intersect(ray))) {
             return intersection;
         } else if (!_left) {
             Intersection inter;
             float min = -1;
+            size_t idx = -1;
             for (std::size_t i = 0; i < _triangles.size(); ++i) {
-                inter = _triangles[i].Intersect(ray);
+                inter = _triangles[i].Intersect(ray, camPos);
                 if (inter.Intersect) {
-                    intersection.Intersect = true;
-                    Vector3<float> dist = inter.Point - camPos;
-                    if (min == -1 || dist.Norm() < min) {
-                        min = dist.Norm();
-                        float angle = ray.Direction.Angle(_triangles[i].GetNormal());
-                        if (angle > 90.f) {
-                            angle = 180.f - angle;
-                        }
-                        float coef = ((-1.f / 90.f) * angle + 1.f) * 255.f;
-                        Material mat = _triangles[i].GetMaterial();
-                        intersection.color.SetRedComponent(mat.Kd.X * coef);
-                        intersection.color.SetGreenComponent(mat.Kd.Y * coef);
-                        intersection.color.SetBlueComponent(mat.Kd.Z * coef);
+                    if (min == -1 || inter.Dist < min) {
+                        min = inter.Dist;
+                        idx = i;
                     }
                 }
             }
-            intersection.dist = min;
+            if (min != -1) {
+                intersection.Dist = min;
+                intersection.Intersect = true;
+                intersection.Normal = _triangles[idx].GetNormal();
+                intersection.Point = inter.Point;
+            }
             return intersection;
         } else {
-            KDTreeIntersection left = _left->Raytrace(ray, camPos);
-            KDTreeIntersection right = _right->Raytrace(ray, camPos);
+            Intersection left = _left->Intersect(ray, camPos);
+            Intersection right = _right->Intersect(ray, camPos);
 
             if (left.Intersect && right.Intersect) {
-                return left.dist < right.dist ? left : right;
+                return left.Dist < right.Dist ? left : right;
             }
             return left.Intersect ? left : right.Intersect ? right : intersection;
         }

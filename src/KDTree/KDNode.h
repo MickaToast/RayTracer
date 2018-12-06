@@ -24,23 +24,14 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "KDBox.h"
 
 namespace rt {
-struct KDTreeIntersection {
-    KDTreeIntersection(): Intersect(false), color(Color()), dist(-1) {};
-    KDTreeIntersection(bool intersect, Color const& c, float d): Intersect(intersect), color(c), dist(d) {};
-
-    bool            Intersect;
-    Color           color;
-    float           dist;
-};
-
 class KDNode {
  public:
     KDNode();
     KDNode(KDNode const& other);
-    KDNode(std::vector<Triangle> const& triangles, std::size_t const& totalSize);
+    KDNode(std::vector<Triangle> const& triangles, std::size_t depth);
     ~KDNode();
 
-    KDTreeIntersection Raytrace(Ray const& ray, Vector3<float> const& camPos);
+    Intersection Intersect(Ray const& ray, Vector3<float> const& camPos);
 
  private:
     KDBox                   _box;

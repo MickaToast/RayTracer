@@ -17,6 +17,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <iostream>
 #include "AssimpLoader.h"
+#include "../Mesh/Object.h"
 
 namespace rt {
     AssimpLoader::AssimpLoader() {
@@ -37,8 +38,8 @@ namespace rt {
         return true;
     }
 
-    std::vector<Triangle> const AssimpLoader::GetTrianglesFromScene() const {
-        std::vector<Triangle> triangles;
+    std::vector<std::shared_ptr<Mesh>> const AssimpLoader::GetMeshesFromScene() const {
+        std::vector<std::shared_ptr<Mesh>> meshes;
         for (std::uint32_t meshIdx = 0u; meshIdx < _scene->mNumMeshes; ++meshIdx) {
             aiMesh* mesh = _scene->mMeshes[meshIdx];
             aiMaterial* aiMat = _scene->mMaterials[mesh->mMaterialIndex];
@@ -72,28 +73,31 @@ namespace rt {
             if (aiMat->Get(AI_MATKEY_SHADING_MODEL, coef) == AI_SUCCESS) {
                 mat.illum = coef;
             }
+            std::vector<Triangle> triangles;
             for (std::uint32_t faceIdx = 0u; faceIdx < mesh->mNumFaces; ++faceIdx) {
                 triangles.push_back(Triangle(
-                Vector3<float>(
-                    mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].x,
-                    mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].y,
-                    mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].z
-                ),
-                Vector3<float>(
-                    mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].x,
-                    mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].y,
-                    mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].z
-                ),
-                Vector3<float>(
-                    mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].x,
-                    mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].y,
-                    mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].z
-                ),
-                mat
-            ));
+                    Vector3<float>(
+                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].x,
+                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].y,
+                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].z
+                    ),
+                    Vector3<float>(
+                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].x,
+                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].y,
+                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].z
+                    ),
+                    Vector3<float>(
+                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].x,
+                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].y,
+                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].z
+                    )
+                ));
             }
+            std::cout << "Creating KDTree for " << triangles.size() << " triangles" << std::endl;
+            meshes.push_back(std::shared_ptr<Mesh>(new Object(triangles, mat)));
+            std::cout << "Done" << std::endl;
         }
-        return triangles;
+        return meshes;
     }
 
 }  // namespace rt
