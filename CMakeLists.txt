@@ -12,6 +12,7 @@ set(SOURCE_FILES    src/Camera/Camera.cc
                     src/Loader/AssimpLoader.cc
                     src/Material/Material.cc
                     src/Mesh/Mesh.cc
+                    src/Mesh/Object.cc
                     src/Mesh/Triangle.cc)
 add_executable(RayTracer ${SOURCE_FILES} src/main.cc)
 

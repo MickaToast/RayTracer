@@ -17,6 +17,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
+#include <memory>
 #include "../Camera/Camera.h"
 #include "../Loader/AssimpLoader.h"
 #include "../KDTree/KDNode.h"
@@ -34,5 +35,6 @@ namespace rt {
     private:
         AssimpLoader    _loader;
         Camera          _camera;
+        std::vector<std::shared_ptr<Mesh>> _meshes;
     };
 }  // namespace rt

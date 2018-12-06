@@ -24,27 +24,40 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     Engine::Engine(AssimpLoader const &loader, Camera const &camera) : _loader(loader), _camera(camera) {
-        //TODO Retrieve mesh instead of triangles
-        std::vector<Triangle> triangles = loader.GetTrianglesFromScene();
+        _meshes = loader.GetMeshesFromScene();
+        std::cout << "Meshes: " << _meshes.size() << std::endl;
     }
 
     Engine::~Engine() {
     }
 
     Color Engine::raytrace(const rt::Vector2<unsigned int> &pixel) {
-        //TODO loop over mesh
-        (void)pixel;
-        return Color();
-                        /*float angle = ray.Direction.Angle(_triangles[i].GetNormal());
-                        if (angle > 90.f) {
-                            angle = 180.f - angle;
-                        }
-                        float coef = ((-1.f / 90.f) * angle + 1.f) * 255.f;
-                        Material mat = _triangles[i].GetMaterial();
-                        intersection.color.SetRedComponent(mat.Kd.X * coef);
-                        intersection.color.SetGreenComponent(mat.Kd.Y * coef);
-                        intersection.color.SetBlueComponent(mat.Kd.Z * coef);*/
-                        
-        //return _KDTree.Raytrace(_camera.GenerateRay(pixel), _camera.GetPos()).color;
+        Color color = Color();
+        Intersection inter;
+        float min = -1;
+        size_t idx = 0;
+        Ray ray = _camera.GenerateRay(pixel);
+        for (size_t i = 0; i < _meshes.size(); ++i) {
+            inter = _meshes[i]->Intersect(ray, _camera.GetPos());
+            if (inter.Intersect) {
+                if (min == -1 || inter.Dist < min) {
+                    min = inter.Dist;
+                    idx = i;
+                }
+            }
+        }
+        if (min != -1) {
+            Material mat = _meshes[idx]->GetMaterial();
+            float angle = ray.Direction.Angle(inter.Normal);
+            if (angle > 90.f) {
+                angle = 180.f - angle;
+            }
+            float coef = ((-1.f / 90.f) * angle + 1.f) * 255.f;
+            coef = 255;
+            color.SetRedComponent(mat.Kd.X * coef);
+            color.SetGreenComponent(mat.Kd.Y * coef);
+            color.SetBlueComponent(mat.Kd.Z * coef);
+        }
+        return color;
     }
 }  // namespace rt

@@ -18,7 +18,8 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Object.h"
 
 namespace rt {
-    Object::Object(std::vector<Triangle> const& triangles) : _triangles(triangles), _KDTree(_triangles, _triangles.size()) {
+    Object::Object(std::vector<Triangle> const& triangles, Material const& mat) : _triangles(triangles), _KDTree(_triangles, _triangles.size()) {
+        _material = mat;
     }
 
     Object::~Object() {

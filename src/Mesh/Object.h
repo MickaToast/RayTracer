@@ -25,7 +25,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
 class Object : public Mesh {
  public:
-    Object(std::vector<Triangle> const& triangles);
+    Object(std::vector<Triangle> const& triangles, Material const& mat);
     ~Object();
 
     virtual Intersection const   Intersect(Ray const& ray, Vector3<float> const& camPos);
@@ -35,6 +35,5 @@ class Object : public Mesh {
  private:
     std::vector<Triangle>   _triangles;
     KDNode                  _KDTree;
-
 };
 }  // namespace rt

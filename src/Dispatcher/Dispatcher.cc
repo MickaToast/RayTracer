@@ -64,6 +64,7 @@ namespace rt {
                 current %= size;
                 if (current == 0) {
                     _sample++;
+                    std::cout << "FRAME" << std::endl;
                 }
             }
             Color color = _engine.raytrace(Vector2<unsigned int>(current % _res.X, current / _res.X));

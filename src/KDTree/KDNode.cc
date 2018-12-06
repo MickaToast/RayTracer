@@ -64,14 +64,22 @@ namespace rt {
         } else if (!_left) {
             Intersection inter;
             float min = -1;
+            size_t idx = -1;
             for (std::size_t i = 0; i < _triangles.size(); ++i) {
                 inter = _triangles[i].Intersect(ray, camPos);
                 if (inter.Intersect) {
-                    intersection.Intersect = true;
-                    if (min == -1 || inter.Dist < min) min = inter.Dist;
+                    if (min == -1 || inter.Dist < min) {
+                        min = inter.Dist;
+                        idx = i;
+                    }
                 }
             }
-            intersection.Dist = min;
+            if (min != -1) {
+                intersection.Dist = min;
+                intersection.Intersect = true;
+                intersection.Normal = _triangles[idx].GetNormal();
+                intersection.Point = inter.Point;
+            }
             return intersection;
         } else {
             Intersection left = _left->Intersect(ray, camPos);
