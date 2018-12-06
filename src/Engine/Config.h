@@ -23,5 +23,6 @@ namespace rt {
 struct Config {
     static constexpr float Epsilon = 0.000001;
     static const std::size_t KDTreeDepth = 20;
+    static const std::size_t KDTreeMin = 12;
     };
 }  // namespace rt

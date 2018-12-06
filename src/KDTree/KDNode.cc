@@ -15,6 +15,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include "../Engine/Config.h"
 #include "KDNode.h"
 
 namespace rt {
@@ -26,7 +27,7 @@ namespace rt {
 
     KDNode::KDNode(std::vector<Triangle> const& triangles, std::size_t depth): _box(triangles), _left(nullptr), _right(nullptr) {
         std::size_t size = triangles.size();
-        if (depth) {
+        if (triangles.size() > Config::KDTreeMin && depth) {
             std::vector<Triangle> tleft;
             std::vector<Triangle> tright;
             Vector3<float> midpoint;
