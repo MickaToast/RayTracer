@@ -31,7 +31,7 @@ namespace rt {
 
         void                            Start(void);
         void                            Stop(void);
-        std::vector<Color>              Flush(void);
+        std::vector<Color> const&       Flush(void) const;
         std::size_t                     GetNumberOfProcessed(void) const;
 
     private:
