@@ -25,7 +25,6 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     Engine::Engine(AssimpLoader const &loader, Camera const &camera) : _loader(loader), _camera(camera) {
         _meshes = loader.GetMeshesFromScene();
-        std::cout << "Meshes: " << _meshes.size() << std::endl;
     }
 
     Engine::~Engine() {
@@ -35,7 +34,8 @@ namespace rt {
         Color color = Color();
         Intersection inter;
         float min = -1;
-        size_t idx = 0;
+        size_t idx = -1;
+        Vector3<float> normal;
         Ray ray = _camera.GenerateRay(pixel);
         for (size_t i = 0; i < _meshes.size(); ++i) {
             inter = _meshes[i]->Intersect(ray, _camera.GetPos());
@@ -43,17 +43,17 @@ namespace rt {
                 if (min == -1 || inter.Dist < min) {
                     min = inter.Dist;
                     idx = i;
+                    normal = inter.Normal;
                 }
             }
         }
         if (min != -1) {
             Material mat = _meshes[idx]->GetMaterial();
-            float angle = ray.Direction.Angle(inter.Normal);
+            float angle = ray.Direction.Angle(normal);
             if (angle > 90.f) {
                 angle = 180.f - angle;
             }
             float coef = ((-1.f / 90.f) * angle + 1.f) * 255.f;
-            //coef = 255;
             color.SetRedComponent(mat.Kd.X * coef);
             color.SetGreenComponent(mat.Kd.Y * coef);
             color.SetBlueComponent(mat.Kd.Z * coef);

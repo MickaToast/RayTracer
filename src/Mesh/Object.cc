@@ -24,7 +24,6 @@ namespace rt {
     }
 
     Object::~Object() {
-
     }
 
     Intersection const Object::Intersect(Ray const& ray, Vector3<float> const& camPos) {
