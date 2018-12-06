@@ -35,7 +35,7 @@ namespace rt {
     Triangle::~Triangle() {
     }
 
-    Intersection const Triangle::Intersect(Ray const& ray) {
+    Intersection const Triangle::Intersect(Ray const& ray, Vector3<float> const& camPos) {
         Intersection ret;
         Vector3<float> pvec = ray.Direction.Cross(_edge2);
         float det = _edge1.Dot(pvec);
@@ -62,6 +62,8 @@ namespace rt {
         }
         ret.Intersect = true;
         ret.Point = ray.Origin + ray.Direction * t;
+        ret.Dist = (ret.Point - camPos).Norm();
+        ret.Normal = _normal;
         return ret;
     }
 

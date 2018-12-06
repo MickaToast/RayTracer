@@ -34,6 +34,5 @@ namespace rt {
     private:
         AssimpLoader    _loader;
         Camera          _camera;
-        KDNode          _KDTree;
     };
 }  // namespace rt

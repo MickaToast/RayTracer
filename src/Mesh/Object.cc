@@ -15,26 +15,27 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#pragma once
-
-#include "../Vector/Vector3.h"
+#include "Object.h"
 
 namespace rt {
-    struct Ray {
-        Ray(): Origin(), Direction() {};
-        Ray(Vector3<float> const& origin, Vector3<float> const& dir): Origin(origin), Direction(dir) {};
+    Object::Object(std::vector<Triangle> const& triangles) : _triangles(triangles), _KDTree(_triangles, _triangles.size()) {
+    }
 
-        Vector3<float>  Origin;
-        Vector3<float>  Direction;
-    };
+    Object::~Object() {
 
-    struct Intersection {
-        Intersection(): Intersect(false), Point(), Dist(-1), Normal() {};
-        Intersection(bool intersect, Vector3<float> const& point, float const& dist, Vector3<float> const& normal): Intersect(intersect), Point(point), Dist(dist), Normal(normal) {};
+    }
 
-        bool            Intersect;
-        Vector3<float>  Point;
-        float           Dist;
-        Vector3<float>  Normal;
-    };
+    Intersection const Object::Intersect(Ray const& ray, Vector3<float> const& camPos) {
+        return _KDTree.Intersect(ray, camPos);
+    }
+
+    Ray const Object::Refract(Ray const& ray) {
+        (void)ray;
+        return Ray(); //TODO
+    }
+
+    Ray const Object::Reflect(Ray const& ray) {
+        (void)ray;
+        return Ray(); //TODO
+    }
 }  // namespace rt

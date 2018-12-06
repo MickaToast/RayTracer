@@ -28,7 +28,7 @@ class Triangle : public Mesh {
     Triangle(Vector3<float> const& v1, Vector3<float> const& v2, Vector3<float> const& v3, Material const& material);
     ~Triangle();
 
-    virtual Intersection const  Intersect(Ray const& ray);
+    virtual Intersection const  Intersect(Ray const& ray, Vector3<float> const& camPos);
     virtual Ray const           Refract(Ray const& ray);
     virtual Ray const           Reflect(Ray const& ray);
 

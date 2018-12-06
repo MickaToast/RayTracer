@@ -67,21 +67,21 @@ int main(int argc, char **argv) {
     rt::Vector3<float> camPos = rt::Vector3<float>(-1, .5, 0);    
     rt::Vector3<float> camTarget = rt::Vector3<float>(0, 0, 0);    
     */
-    /*
+    
     //Sport car
     rt::Vector3<float> camPos = rt::Vector3<float>(3, 1.5, 3);    
     rt::Vector3<float> camTarget = rt::Vector3<float>(0, 0, 0);    
-    */
+    
     /*
     //Al
     rt::Vector3<float> camPos = rt::Vector3<float>(0, 0, 8);    
     rt::Vector3<float> camTarget = rt::Vector3<float>(0, 0, -1);    
     */
-    
+    /*
     //Cornell
     rt::Vector3<float> camPos = rt::Vector3<float>(0, .5, 1.8);    
     rt::Vector3<float> camTarget = rt::Vector3<float>(0, .5, 0);    
-    
+    */
     rt::Dispatcher dispatcher(rt::Engine(loader, rt::Camera(camPos, camTarget, res)), res);
     dispatcher.Start(); //Start to dispatch
     if (argc == 5 && std::strcmp(argv[3], "--output-image") == 0) {

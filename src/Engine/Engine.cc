@@ -24,16 +24,27 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     Engine::Engine(AssimpLoader const &loader, Camera const &camera) : _loader(loader), _camera(camera) {
+        //TODO Retrieve mesh instead of triangles
         std::vector<Triangle> triangles = loader.GetTrianglesFromScene();
-        std::cout << "Creating KDTree for " << triangles.size() << " triangles." << std::endl;
-        _KDTree = KDNode(triangles, triangles.size());
-        std::cout << "KDTree created." << std::endl;
     }
 
     Engine::~Engine() {
     }
 
     Color Engine::raytrace(const rt::Vector2<unsigned int> &pixel) {
-        return _KDTree.Raytrace(_camera.GenerateRay(pixel), _camera.GetPos()).color;
+        //TODO loop over mesh
+        (void)pixel;
+        return Color();
+                        /*float angle = ray.Direction.Angle(_triangles[i].GetNormal());
+                        if (angle > 90.f) {
+                            angle = 180.f - angle;
+                        }
+                        float coef = ((-1.f / 90.f) * angle + 1.f) * 255.f;
+                        Material mat = _triangles[i].GetMaterial();
+                        intersection.color.SetRedComponent(mat.Kd.X * coef);
+                        intersection.color.SetGreenComponent(mat.Kd.Y * coef);
+                        intersection.color.SetBlueComponent(mat.Kd.Z * coef);*/
+                        
+        //return _KDTree.Raytrace(_camera.GenerateRay(pixel), _camera.GetPos()).color;
     }
 }  // namespace rt
