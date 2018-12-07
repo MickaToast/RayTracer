@@ -28,13 +28,15 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     class Engine {
     public:
-        explicit        Engine(AssimpLoader const& loader, Camera const& camera);
-        virtual         ~Engine();
-        Color           raytrace(Vector2<unsigned int> const& pixel);
+        explicit    Engine(AssimpLoader const& loader);
+        virtual     ~Engine();
+
+        Color                   Raytrace(Vector2<unsigned int> const& pixel);
+        Vector2<unsigned int>   GetRes() const;
 
     private:
-        AssimpLoader    _loader;
-        Camera          _camera;
-        std::vector<std::shared_ptr<Mesh>> _meshes;
+        AssimpLoader                        _loader;
+        Camera                              _camera;
+        std::vector<std::shared_ptr<Mesh>>  _meshes;
     };
 }  // namespace rt

@@ -21,7 +21,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Camera/Camera.h"
 #include "../Vector/Vector2.h"
 
-namespace rt {
+namespace rt {/*
     TEST(Dispatcher, start_and_stop) {
        AssimpLoader loader;
         if (!loader.LoadFile("../scenes/icosahedron.obj")) {
@@ -46,5 +46,5 @@ namespace rt {
             }
         }
         ASSERT_FALSE(empty);
-    }
+    }*/
 }  // namespace rt

@@ -26,31 +26,28 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
 class Camera {
  public:
-    Camera(Vector3<float> const& pos, Vector3<float> const& target, Vector2<unsigned int> const& res);
-    explicit Camera(Vector3<float> const& target, Vector2<unsigned int> const& res);
-    virtual ~Camera(void);
+   Camera();
+   virtual ~Camera(void);
 
-    Ray const  GenerateRay(Vector2<unsigned int> const &pos);
-
-    std::array<Vector3<float>, 3> const&  GetAxis(void) const;
-    Vector2<unsigned int> const&          GetRes(void) const;
-    Vector3<float> const&                 GetPos(void) const;
-    void                                  SetRes(const Vector2<unsigned int>& res);
-
+   Ray const  GenerateRay(Vector2<unsigned int> const &pos);
+   
+   Vector3<float> const&                  GetPos(void) const;
+   Vector2<unsigned int> const&           GetRes(void) const;
+   void                                   SetMatrix(Vector3<float> const& pos, Vector3<float> const& c1, Vector3<float> const& c2, Vector3<float> const& c3);
+ 
  private:
-    Vector3<float>                        _pos;
-    std::array<Vector3<float>, 3>         _axis;
-    float                                 _fov;
-    Vector2<unsigned int>                 _screenRes;
-    Vector2<float>                        _screenSize;
-    Vector3<float>                        _screenCenter;
-    Vector3<float>                        _screenCorner;
-    float                                 _screenDist;
-    std::mt19937                          _gen;
-    std::uniform_real_distribution<float> _dis;
+   Vector3<float>                         _pos;
+   Vector3<float>                         _c1;
+   Vector3<float>                         _c2;
+   Vector3<float>                         _c3;
+   Vector2<unsigned int>                  _screenRes;
+   Vector2<float>                         _screenSize;
+   Vector3<float>                         _screenCorner;
+   float                                  _screenDist;
+   std::mt19937                           _gen;
+   std::uniform_real_distribution<float>  _dis;
 
 
-    void     generateAxis(Vector3<float> const& target);
-    void     generateScreen();
+   void     generateScreen();
 };
 }  // namespace rt

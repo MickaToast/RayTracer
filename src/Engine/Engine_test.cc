@@ -21,7 +21,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Camera/Camera.h"
 #include "../Vector/Vector2.h"
 
-namespace rt {
+namespace rt {/*
     TEST(Engine, raytraceEasy) {
         AssimpLoader loader;
         if (!loader.LoadFile("../scenes/icosahedron.obj")) {
@@ -46,5 +46,5 @@ namespace rt {
                                                     rt::Vector3<float>(0, 0, -1),
                                                     rt::Vector2<unsigned int>(160, 90)));
         ASSERT_EQ(engine.raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
-    }
+    }*/
 }  // namespace rt

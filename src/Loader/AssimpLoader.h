@@ -23,6 +23,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <vector>
 #include <memory>
 #include "../Mesh/Mesh.h"
+#include "../Camera/Camera.h"
 
 namespace rt {
 class AssimpLoader {
@@ -31,11 +32,15 @@ class AssimpLoader {
     ~AssimpLoader();
 
     bool                                        LoadFile(std::string const& filePath);
+    Camera                                      GetCameraFromScene() const;
     std::vector<std::shared_ptr<Mesh>> const    GetMeshesFromScene() const;
 
-    const aiScene*      _scene;
 
  private:
+    const aiScene*      _scene;
     Assimp::Importer    _importer;
+    Camera              _camera;
+
+    void _loadNode(aiNode *node, aiMatrix4x4 parentMatrix);
 };
 }  //namespace rt

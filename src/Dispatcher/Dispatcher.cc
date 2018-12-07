@@ -66,7 +66,7 @@ namespace rt {
                     _sample++;
                 }
             }
-            Color color = _engine.raytrace(Vector2<unsigned int>(current % _res.X, current / _res.X));
+            Color color = _engine.Raytrace(Vector2<unsigned int>(current % _res.X, current / _res.X));
             float coef1 = _sample / (_sample + 1.f);
             float coef2 = (_sample == 0 ? 1 : 1.f / (_sample + 1.f));
             _image_mutex.lock();
