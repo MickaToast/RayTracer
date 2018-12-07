@@ -30,7 +30,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 int main(int argc, char **argv) {
     if (argc < 2) {
         std::cerr << "Usage 1: " << argv[0] << " scene.dae" << std::endl;
-        std::cerr << "Usage 3: " << argv[0] << " scene.obj --output-image 5" << std::endl;
+        std::cerr << "Usage 3: " << argv[0] << " scene.dae --output-image 5" << std::endl;
         return 1;
     }
 
@@ -38,8 +38,6 @@ int main(int argc, char **argv) {
 
     std::cout << "Loading scene " << argv[1] << "..." << std::endl;
     if (!loader.LoadFile(argv[1])) {
-        std::cerr << "Failed to load file. May have failed to "
-                     "find it or it was not an .obj file." << std::endl;
         return 1;
     }
 

@@ -21,30 +21,13 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Camera/Camera.h"
 #include "../Vector/Vector2.h"
 
-namespace rt {/*
+namespace rt {
     TEST(Engine, raytraceEasy) {
         AssimpLoader loader;
-        if (!loader.LoadFile("../scenes/icosahedron.obj")) {
-            std::cerr << "Failed to load file. May have failed to "
-                     "find it or it was not an .obj file." << std::endl;
+        if (!loader.LoadFile("../scenes/Cube.dae")) {
             ASSERT_TRUE(false);
         }
-        Engine engine = rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, 3),
-                                                    rt::Vector3<float>(0, 0, -1),
-                                                    rt::Vector2<unsigned int>(160, 90)));
-        ASSERT_EQ(engine.raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
+        Engine engine = rt::Engine(loader);
+        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
     }
-
-    TEST(Engine, raytraceMedium) {
-        AssimpLoader loader;
-        if (!loader.LoadFile("../scenes/teapot.obj")) {
-            std::cerr << "Failed to load file. May have failed to "
-                     "find it or it was not an .obj file." << std::endl;
-            ASSERT_TRUE(false);
-        }
-        Engine engine = rt::Engine(loader, rt::Camera(rt::Vector3<float>(0, 0, 120),
-                                                    rt::Vector3<float>(0, 0, -1),
-                                                    rt::Vector2<unsigned int>(160, 90)));
-        ASSERT_EQ(engine.raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
-    }*/
 }  // namespace rt
