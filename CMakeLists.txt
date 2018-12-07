@@ -19,7 +19,7 @@ add_executable(RayTracer ${SOURCE_FILES} src/main.cc)
 target_compile_options(RayTracer PUBLIC
         -W -Wall -Wextra -Werror -Wuninitialized -Wduplicated-cond
         -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wold-style-cast
-        -Wuseless-cast -Wdouble-promotion -Wshadow -O3 -Ofast)
+        -Wuseless-cast -Wdouble-promotion -Wshadow)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 
