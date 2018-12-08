@@ -68,5 +68,4 @@ namespace rt {
         _screenSize = Vector2<float>(screenWidth, screenWidth * _screenRes.Y / _screenRes.X);
         _screenCorner = _pos + _c3 * (-1.f) - _c1 * (_screenSize.X / 2.f) + _c2 * (_screenSize.Y / 2.f);
    }
-
 }  // namespace rt

@@ -43,11 +43,33 @@ namespace rt {
         return _camera;
     }
 
-    std::vector<std::shared_ptr<Mesh>> const AssimpLoader::GetMeshesFromScene() const {
-        std::vector<std::shared_ptr<Mesh>> meshes;
-        float totalTriangles = 0;
-        for (std::uint32_t meshIdx = 0u; meshIdx < _scene->mNumMeshes; ++meshIdx) {
-            aiMesh* mesh = _scene->mMeshes[meshIdx];
+    std::vector<std::shared_ptr<Mesh>> const& AssimpLoader::GetMeshesFromScene() const {
+        return _meshes;
+    }
+
+    Vector3<float> AssimpLoader::_transform(aiMatrix4x4 const& mat, Vector3<float> const& point) const {
+        return Vector3<float>(
+            mat.a1 * point.X + mat.a2 * point.Y + mat.a3 * point.Z + mat.a4,
+            -mat.c1 * point.X - mat.c2 * point.Y - mat.c3 * point.Z - mat.c4,
+            mat.b1 * point.X + mat.b2 * point.Y + mat.b3 * point.Z + mat.b4
+        );
+    }
+
+    void AssimpLoader::_loadNode(aiNode *node, aiMatrix4x4 const& parent) {
+        aiMatrix4x4 matrix = parent * node->mTransformation;
+        
+        if (_scene->mNumCameras > 0 && node->mName == _scene->mCameras[0]->mName) {
+            _camera.SetMatrix(
+                Vector3<float>(matrix.a1, -matrix.c1, matrix.b1),
+                Vector3<float>(matrix.a2, -matrix.c2, matrix.b2),
+                Vector3<float>(matrix.a3, -matrix.c3, matrix.b3),
+                Vector3<float>(matrix.a4, -matrix.c4, matrix.b4)
+            );
+        }
+
+        for (std::uint32_t meshIdx = 0u; meshIdx < node->mNumMeshes; ++meshIdx) {
+            aiMesh* mesh = _scene->mMeshes[node->mMeshes[meshIdx]];
+            if (!(mesh->mPrimitiveTypes & aiPrimitiveType_TRIANGLE) || mesh->mNumVertices <= 0) continue;
             aiMaterial* aiMat = _scene->mMaterials[mesh->mMaterialIndex];
             Material mat;
             aiColor3D color;
@@ -59,22 +81,22 @@ namespace rt {
             aiMat->Get(AI_MATKEY_NAME,name);
             mat.name = name.C_Str();
             if (aiMat->Get(AI_MATKEY_COLOR_AMBIENT, color) == AI_SUCCESS) {
-                mat.Ka = Vector3<float>(color.r, color.g, color.b);                
+                mat.Ka = Vector3<float>(color.r, color.g, color.b);
             }
             if (aiMat->Get(AI_MATKEY_COLOR_DIFFUSE, color) == AI_SUCCESS) {
-                mat.Kd = Vector3<float>(color.r, color.g, color.b);                
+                mat.Kd = Vector3<float>(color.r, color.g, color.b);
             }
             if (aiMat->Get(AI_MATKEY_COLOR_SPECULAR, color) == AI_SUCCESS) {
-                mat.Ks = Vector3<float>(color.r, color.g, color.b);                
+                mat.Ks = Vector3<float>(color.r, color.g, color.b);
             }
             if (aiMat->Get(AI_MATKEY_COLOR_EMISSIVE, color) == AI_SUCCESS) {
-                mat.Ke = Vector3<float>(color.r, color.g, color.b);                
+                mat.Ke = Vector3<float>(color.r, color.g, color.b);
             }
             if (aiMat->Get(AI_MATKEY_REFRACTI, coef) == AI_SUCCESS) {
-                mat.Ni = coef;                
+                mat.Ni = coef;
             }
             if (aiMat->Get(AI_MATKEY_OPACITY, coef) == AI_SUCCESS) {
-                mat.d = coef;                
+                mat.d = coef;
             }
             if (aiMat->Get(AI_MATKEY_SHADING_MODEL, coef) == AI_SUCCESS) {
                 mat.illum = coef;
@@ -82,43 +104,28 @@ namespace rt {
             std::vector<Triangle> triangles;
             for (std::uint32_t faceIdx = 0u; faceIdx < mesh->mNumFaces; ++faceIdx) {
                 triangles.push_back(Triangle(
-                    Vector3<float>(
+                    _transform(matrix, Vector3<float>(
                         mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].x,
                         mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].y,
                         mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].z
-                    ),
-                    Vector3<float>(
+                    )),
+                    _transform(matrix, Vector3<float>(
                         mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].x,
                         mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].y,
                         mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].z
-                    ),
-                    Vector3<float>(
+                    )),
+                    _transform(matrix, Vector3<float>(
                         mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].x,
                         mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].y,
                         mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].z
-                    )
+                    ))
                 ));
             }
             std::cout << "Creating KDTree for " << triangles.size() << " triangles" << std::endl;
-            meshes.push_back(std::shared_ptr<Mesh>(new Object(triangles, mat)));
+            _meshes.push_back(std::shared_ptr<Mesh>(new Object(triangles, mat)));
             std::cout << "Done" << std::endl;
-            totalTriangles += triangles.size();
         }
-        std::cout << "TOTAL SCENE TRIANGLES: " << totalTriangles << std::endl;
-        return meshes;
-    }
 
-    void AssimpLoader::_loadNode(aiNode *node, aiMatrix4x4 parentMatrix) {
-        aiMatrix4x4 matrix = parentMatrix * node->mTransformation;
-        
-        if (_scene->mNumCameras > 0 && node->mName == _scene->mCameras[0]->mName) {
-            _camera.SetMatrix(
-                Vector3<float>(matrix.a1, matrix.b1, matrix.c1),
-                Vector3<float>(matrix.a2, matrix.b2, matrix.c2),
-                Vector3<float>(matrix.a3, matrix.b3, matrix.c3),
-                Vector3<float>(matrix.a4, matrix.b4, matrix.c4)
-            );
-        }
         for (size_t i = 0; i < node->mNumChildren; ++i) {
             _loadNode(node->mChildren[i], matrix);
         }

@@ -33,14 +33,16 @@ class AssimpLoader {
 
     bool                                        LoadFile(std::string const& filePath);
     Camera                                      GetCameraFromScene() const;
-    std::vector<std::shared_ptr<Mesh>> const    GetMeshesFromScene() const;
+    std::vector<std::shared_ptr<Mesh>> const&   GetMeshesFromScene() const;
 
 
  private:
     const aiScene*      _scene;
     Assimp::Importer    _importer;
     Camera              _camera;
+    std::vector<std::shared_ptr<Mesh>> _meshes;
 
-    void _loadNode(aiNode *node, aiMatrix4x4 parentMatrix);
+    Vector3<float>   _transform(aiMatrix4x4 const& mat, Vector3<float> const& point) const;
+    void             _loadNode(aiNode *node, aiMatrix4x4 const& parent);
 };
 }  //namespace rt
