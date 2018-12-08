@@ -50,6 +50,7 @@ set(TEST_FILES  src/main_test.cc
                 src/KDTree/KDBox_test.cc
                 src/KDTree/KDNode_test.cc
                 src/Loader/AssimpLoader_test.cc
+                src/Mesh/Object_test.cc
                 src/Mesh/Triangle_test.cc
                 src/Vector/Vector2_test.cc
                 src/Vector/Vector3_test.cc)

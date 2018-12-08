@@ -57,7 +57,7 @@ namespace rt {
 
     void AssimpLoader::_loadNode(aiNode *node, aiMatrix4x4 const& parent) {
         aiMatrix4x4 matrix = parent * node->mTransformation;
-        
+
         if (_scene->mNumCameras > 0 && node->mName == _scene->mCameras[0]->mName) {
             _camera.SetMatrix(
                 Vector3<float>(matrix.a1, -matrix.c1, matrix.b1),

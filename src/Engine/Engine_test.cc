@@ -22,6 +22,12 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Vector/Vector2.h"
 
 namespace rt {
+    TEST(Engine, Res) {
+        AssimpLoader loader;
+        Engine engine = rt::Engine(loader);
+        ASSERT_EQ(engine.GetRes(), Vector2<unsigned int>(1600, 900));
+    }
+
     TEST(Engine, raytraceEasy) {
         AssimpLoader loader;
         if (!loader.LoadFile("../scenes/Cube.dae")) {
@@ -29,5 +35,15 @@ namespace rt {
         }
         Engine engine = rt::Engine(loader);
         ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
+    }
+
+    TEST(Engine, raytraceEasy2) {
+        AssimpLoader loader;
+        if (!loader.LoadFile("../scenes/Ico.dae")) {
+            ASSERT_TRUE(false);
+        }
+        Engine engine = rt::Engine(loader);
+        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
+        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(800, 450)).GetColor().hexcode, 0x49494900);
     }
 }  // namespace rt

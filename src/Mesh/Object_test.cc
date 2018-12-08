@@ -15,26 +15,17 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#pragma once
-
-#include <vector>
-#include <memory>
-#include "../Mesh/Triangle.h"
-#include "../Engine/Color.h"
-#include "KDBox.h"
+#include "gtest/gtest.h"
+#include "Object.h"
 
 namespace rt {
-class KDNode {
- public:
-    KDNode(std::vector<Triangle> const& triangles, std::size_t depth);
-    ~KDNode();
+    TEST(Object, Refraction) {
+        Object o = Object(std::vector<Triangle>(), Material());
+        o.Refract(Ray()); //TODO
+    }
 
-    Intersection Intersect(Ray const& ray, Vector3<float> const& camPos);
-
- private:
-    KDBox                   _box;
-    std::shared_ptr<KDNode> _left;
-    std::shared_ptr<KDNode> _right;
-    std::vector<Triangle>   _triangles;
-};
+    TEST(Object, Reflection) {
+        Object o = Object(std::vector<Triangle>(), Material());
+        o.Reflect(Ray()); //TODO
+    }
 }  // namespace rt
