@@ -23,14 +23,14 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Color.h"
 
 namespace rt {
-    Engine::Engine(AssimpLoader const &loader, Camera const &camera) : _loader(loader), _camera(camera) {
+    Engine::Engine(AssimpLoader const &loader) : _loader(loader), _camera(loader.GetCameraFromScene()) {
         _meshes = loader.GetMeshesFromScene();
     }
 
     Engine::~Engine() {
     }
 
-    Color Engine::raytrace(const rt::Vector2<unsigned int> &pixel) {
+    Color Engine::Raytrace(const rt::Vector2<unsigned int> &pixel) {
         Color color = Color();
         Intersection inter;
         float min = -1;
@@ -59,5 +59,9 @@ namespace rt {
             color.SetBlueComponent(mat.Kd.Z * coef);
         }
         return color;
+    }
+
+    Vector2<unsigned int> Engine::GetRes() const {
+        return _camera.GetRes();
     }
 }  // namespace rt

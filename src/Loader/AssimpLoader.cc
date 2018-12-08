@@ -20,7 +20,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Mesh/Object.h"
 
 namespace rt {
-    AssimpLoader::AssimpLoader() {
+    AssimpLoader::AssimpLoader(): _camera() {
         _scene = nullptr;
     }
 
@@ -35,11 +35,17 @@ namespace rt {
             std::cout << "ERROR while importing scene:" << _importer.GetErrorString() << std::endl;
             return false;
         }
+        _loadNode(_scene->mRootNode, aiMatrix4x4());   
         return true;
+    }
+
+    Camera AssimpLoader::GetCameraFromScene() const {
+        return _camera;
     }
 
     std::vector<std::shared_ptr<Mesh>> const AssimpLoader::GetMeshesFromScene() const {
         std::vector<std::shared_ptr<Mesh>> meshes;
+        float totalTriangles = 0;
         for (std::uint32_t meshIdx = 0u; meshIdx < _scene->mNumMeshes; ++meshIdx) {
             aiMesh* mesh = _scene->mMeshes[meshIdx];
             aiMaterial* aiMat = _scene->mMaterials[mesh->mMaterialIndex];
@@ -96,8 +102,25 @@ namespace rt {
             std::cout << "Creating KDTree for " << triangles.size() << " triangles" << std::endl;
             meshes.push_back(std::shared_ptr<Mesh>(new Object(triangles, mat)));
             std::cout << "Done" << std::endl;
+            totalTriangles += triangles.size();
         }
+        std::cout << "TOTAL SCENE TRIANGLES: " << totalTriangles << std::endl;
         return meshes;
     }
 
+    void AssimpLoader::_loadNode(aiNode *node, aiMatrix4x4 parentMatrix) {
+        aiMatrix4x4 matrix = parentMatrix * node->mTransformation;
+        
+        if (_scene->mNumCameras > 0 && node->mName == _scene->mCameras[0]->mName) {
+            _camera.SetMatrix(
+                Vector3<float>(matrix.a1, matrix.b1, matrix.c1),
+                Vector3<float>(matrix.a2, matrix.b2, matrix.c2),
+                Vector3<float>(matrix.a3, matrix.b3, matrix.c3),
+                Vector3<float>(matrix.a4, matrix.b4, matrix.c4)
+            );
+        }
+        for (size_t i = 0; i < node->mNumChildren; ++i) {
+            _loadNode(node->mChildren[i], matrix);
+        }
+    }
 }  // namespace rt

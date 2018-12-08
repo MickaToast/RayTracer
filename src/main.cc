@@ -25,12 +25,12 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Camera/Camera.h"
 #include "Engine/Engine.h"
 #include "Dispatcher/Dispatcher.h"
+#include "Vector/Vector2.h"
 
 int main(int argc, char **argv) {
     if (argc < 2) {
-        std::cerr << "Usage 1: " << argv[0] << " scene.obj" << std::endl;
-        std::cerr << "Usage 2: " << argv[0] << " scene.obj 1980x1080" << std::endl;
-        std::cerr << "Usage 3: " << argv[0] << " scene.obj 1980x1080 --output-image 5" << std::endl;
+        std::cerr << "Usage 1: " << argv[0] << " scene.dae" << std::endl;
+        std::cerr << "Usage 3: " << argv[0] << " scene.dae --output-image 5" << std::endl;
         return 1;
     }
 
@@ -38,59 +38,15 @@ int main(int argc, char **argv) {
 
     std::cout << "Loading scene " << argv[1] << "..." << std::endl;
     if (!loader.LoadFile(argv[1])) {
-        std::cerr << "Failed to load file. May have failed to "
-                     "find it or it was not an .obj file." << std::endl;
         return 1;
     }
 
-    rt::Vector2<unsigned int> res(1600, 900);
-    if (argc >= 3) {
-        std::string s{argv[2]};
-        std::regex regex{R"([\sx]+)"};
-        std::sregex_token_iterator it{s.begin(), s.end(), regex, -1};
-        std::vector<std::string> split{it, {}};
-        res.X = std::stoul(split[0]);
-        res.Y = std::stoul(split[1]);
-    }
-    /*
-    //Salle de bain
-    rt::Vector3<float> camPos = rt::Vector3<float>(10, 20, 30);    
-    rt::Vector3<float> camTarget = rt::Vector3<float>(-10, 0, 0);    
-    */
-    
-    //Hourglass
-    rt::Vector3<float> camPos = rt::Vector3<float>(5, 3, 5);    
-    rt::Vector3<float> camTarget = rt::Vector3<float>(0, 2, 0);    
-    
-    /*
-    //Dragon
-    rt::Vector3<float> camPos = rt::Vector3<float>(-1, .5, 0);    
-    rt::Vector3<float> camTarget = rt::Vector3<float>(0, 0, 0);    
-    */
-    /*
-    //Sport car
-    rt::Vector3<float> camPos = rt::Vector3<float>(3, 1.5, 3);    
-    rt::Vector3<float> camTarget = rt::Vector3<float>(0, 0, 0);    
-    */
-    /*
-    //Al
-    rt::Vector3<float> camPos = rt::Vector3<float>(0, 0, 8);    
-    rt::Vector3<float> camTarget = rt::Vector3<float>(0, 0, 0);    
-    */
-    /*
-    //Cornell
-    rt::Vector3<float> camPos = rt::Vector3<float>(0, .5, 1.8);    
-    rt::Vector3<float> camTarget = rt::Vector3<float>(0, .5, 0);    
-    */
-    /*
-    //Teapot
-    rt::Vector3<float> camPos = rt::Vector3<float>(0, 0, 120);    
-    rt::Vector3<float> camTarget = rt::Vector3<float>(0, 0, 0);    
-    */
-    rt::Dispatcher dispatcher(rt::Engine(loader, rt::Camera(camPos, camTarget, res)), res);
+    rt::Engine engine = rt::Engine(loader);
+    rt::Vector2<unsigned int> res = engine.GetRes();
+    rt::Dispatcher dispatcher(engine, res);
     dispatcher.Start(); //Start to dispatch
-    if (argc == 5 && std::strcmp(argv[3], "--output-image") == 0) {
-        std::size_t num_frames = std::stoul(argv[4]);
+    if (argc == 4 && std::strcmp(argv[2], "--output-image") == 0) {
+        std::size_t num_frames = std::stoul(argv[3]);
         while (dispatcher.GetNumberOfProcessed() < num_frames) {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
             dispatcher.Flush();

@@ -47,19 +47,6 @@ namespace rt {
     }
 
     TEST(Triangle, Intersection) {
-        Camera cam = Camera(Vector3<float>(0, 0, 0), Vector3<float>(0, 0, -1), Vector2<unsigned int>(1920, 1080));
-        Triangle t = Triangle(
-            Vector3<float>(1, -1, -1),
-            Vector3<float>(1, 1, -1),
-            Vector3<float>(-1, -1, -1)
-        );
-
-        Intersection inter = t.Intersect(cam.GenerateRay(Vector2<unsigned int>(960, 540)), cam.GetPos());
-        EXPECT_TRUE(inter.Intersect);
-        EXPECT_EQ(inter.Point, Vector3<float>(0, 0, -1));
-        inter = t.Intersect(cam.GenerateRay(Vector2<unsigned int>(0, 0)), cam.GetPos());
-        EXPECT_FALSE(inter.Intersect);
-
         Triangle t2 = Triangle(
             Vector3<float>(),
             Vector3<float>(1, 0, 0),
@@ -68,11 +55,11 @@ namespace rt {
         EXPECT_TRUE(t2.Intersect(Ray(
             Vector3<float>(.3, .3, 1),
             Vector3<float>(0, 0, -1)            
-        ), cam.GetPos()).Intersect);
+        ),Vector3<float>(0, 0, 0)).Intersect);
         EXPECT_FALSE(t2.Intersect(Ray(
             Vector3<float>(.3, .3, 1),
             Vector3<float>(0, 0, 1)            
-        ), cam.GetPos()).Intersect);
+        ), Vector3<float>(0, 0, 0)).Intersect);
         t2 = Triangle(
             Vector3<float>(),
             Vector3<float>(0, 1, 0),
@@ -81,7 +68,7 @@ namespace rt {
         EXPECT_TRUE(t2.Intersect(Ray(
             Vector3<float>(.3, .3, 1),
             Vector3<float>(0, 0, -1)            
-        ), cam.GetPos()).Intersect);
+        ), Vector3<float>(0, 0, 0)).Intersect);
 
         Triangle t3 = Triangle(
             Vector3<float>(0, 0, -1),
@@ -91,7 +78,7 @@ namespace rt {
         EXPECT_FALSE(t3.Intersect(Ray(
             Vector3<float>(1.5, 3, -0.5),
             Vector3<float>(0, 1, 0)
-        ), cam.GetPos()).Intersect);
+        ), Vector3<float>(0, 0, 0)).Intersect);
     }
 
     TEST(Triangle, Refraction) {
