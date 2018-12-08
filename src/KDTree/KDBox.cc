@@ -19,9 +19,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "KDBox.h"
 
 namespace rt {
-    KDBox::KDBox() {
-    }
-
+    
     KDBox::KDBox(std::vector<Triangle> const& triangles) {
         this->setMinMax(triangles);
     }
