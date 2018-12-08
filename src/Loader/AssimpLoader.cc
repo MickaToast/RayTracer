@@ -55,6 +55,41 @@ namespace rt {
         );
     }
 
+    Material const   AssimpLoader::_loadMaterialFromMesh(unsigned int matIdx) const {
+        aiMaterial* aiMat = _scene->mMaterials[matIdx];
+        Material mat;
+        aiColor3D color;
+        float coef;
+        if (aiMat->Get(AI_MATKEY_SHININESS, coef) == AI_SUCCESS) {
+            mat.Ns = coef;                
+        }
+        aiString name;
+        aiMat->Get(AI_MATKEY_NAME,name);
+        mat.name = name.C_Str();
+        if (aiMat->Get(AI_MATKEY_COLOR_AMBIENT, color) == AI_SUCCESS) {
+            mat.Ka = Vector3<float>(color.r, color.g, color.b);
+        }
+        if (aiMat->Get(AI_MATKEY_COLOR_DIFFUSE, color) == AI_SUCCESS) {
+            mat.Kd = Vector3<float>(color.r, color.g, color.b);
+        }
+        if (aiMat->Get(AI_MATKEY_COLOR_SPECULAR, color) == AI_SUCCESS) {
+            mat.Ks = Vector3<float>(color.r, color.g, color.b);
+        }
+        if (aiMat->Get(AI_MATKEY_COLOR_EMISSIVE, color) == AI_SUCCESS) {
+            mat.Ke = Vector3<float>(color.r, color.g, color.b);
+        }
+        if (aiMat->Get(AI_MATKEY_REFRACTI, coef) == AI_SUCCESS) {
+            mat.Ni = coef;
+        }
+        if (aiMat->Get(AI_MATKEY_OPACITY, coef) == AI_SUCCESS) {
+            mat.d = coef;
+        }
+        if (aiMat->Get(AI_MATKEY_SHADING_MODEL, coef) == AI_SUCCESS) {
+            mat.illum = coef;
+        }
+        return mat;
+    }
+
     void AssimpLoader::_loadNode(aiNode *node, aiMatrix4x4 const& parent) {
         aiMatrix4x4 matrix = parent * node->mTransformation;
 
@@ -66,41 +101,10 @@ namespace rt {
                 Vector3<float>(matrix.a4, -matrix.c4, matrix.b4)
             );
         }
-
         for (std::uint32_t meshIdx = 0u; meshIdx < node->mNumMeshes; ++meshIdx) {
             aiMesh* mesh = _scene->mMeshes[node->mMeshes[meshIdx]];
             if (!(mesh->mPrimitiveTypes & aiPrimitiveType_TRIANGLE) || mesh->mNumVertices <= 0) continue;
-            aiMaterial* aiMat = _scene->mMaterials[mesh->mMaterialIndex];
-            Material mat;
-            aiColor3D color;
-            float coef;
-            if (aiMat->Get(AI_MATKEY_SHININESS, coef) == AI_SUCCESS) {
-                mat.Ns = coef;                
-            }
-            aiString name;
-            aiMat->Get(AI_MATKEY_NAME,name);
-            mat.name = name.C_Str();
-            if (aiMat->Get(AI_MATKEY_COLOR_AMBIENT, color) == AI_SUCCESS) {
-                mat.Ka = Vector3<float>(color.r, color.g, color.b);
-            }
-            if (aiMat->Get(AI_MATKEY_COLOR_DIFFUSE, color) == AI_SUCCESS) {
-                mat.Kd = Vector3<float>(color.r, color.g, color.b);
-            }
-            if (aiMat->Get(AI_MATKEY_COLOR_SPECULAR, color) == AI_SUCCESS) {
-                mat.Ks = Vector3<float>(color.r, color.g, color.b);
-            }
-            if (aiMat->Get(AI_MATKEY_COLOR_EMISSIVE, color) == AI_SUCCESS) {
-                mat.Ke = Vector3<float>(color.r, color.g, color.b);
-            }
-            if (aiMat->Get(AI_MATKEY_REFRACTI, coef) == AI_SUCCESS) {
-                mat.Ni = coef;
-            }
-            if (aiMat->Get(AI_MATKEY_OPACITY, coef) == AI_SUCCESS) {
-                mat.d = coef;
-            }
-            if (aiMat->Get(AI_MATKEY_SHADING_MODEL, coef) == AI_SUCCESS) {
-                mat.illum = coef;
-            }
+            
             std::vector<Triangle> triangles;
             for (std::uint32_t faceIdx = 0u; faceIdx < mesh->mNumFaces; ++faceIdx) {
                 triangles.push_back(Triangle(
@@ -122,7 +126,7 @@ namespace rt {
                 ));
             }
             std::cout << "Creating KDTree for " << triangles.size() << " triangles" << std::endl;
-            _meshes.push_back(std::shared_ptr<Mesh>(new Object(triangles, mat)));
+            _meshes.push_back(std::shared_ptr<Mesh>(new Object(triangles, _loadMaterialFromMesh(mesh->mMaterialIndex))));
             std::cout << "Done" << std::endl;
         }
 

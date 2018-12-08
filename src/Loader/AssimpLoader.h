@@ -43,6 +43,7 @@ class AssimpLoader {
     std::vector<std::shared_ptr<Mesh>> _meshes;
 
     Vector3<float>   _transform(aiMatrix4x4 const& mat, Vector3<float> const& point) const;
+    Material const   _loadMaterialFromMesh(unsigned int matIdx) const;
     void             _loadNode(aiNode *node, aiMatrix4x4 const& parent);
 };
 }  //namespace rt
