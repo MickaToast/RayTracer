@@ -37,9 +37,9 @@ class AssimpLoader {
 
 
  private:
-    const aiScene*      _scene;
-    Assimp::Importer    _importer;
-    Camera              _camera;
+    const aiScene*                     _scene;
+    Assimp::Importer                   _importer;
+    Camera                             _camera;
     std::vector<std::shared_ptr<Mesh>> _meshes;
 
     Vector3<float>   _transform(aiMatrix4x4 const& mat, Vector3<float> const& point) const;

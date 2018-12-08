@@ -25,7 +25,6 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
 class KDBox {
  public:
-    KDBox();
     KDBox(std::vector<Triangle> const& triangles);
     ~KDBox();
 
