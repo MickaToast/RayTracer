@@ -15,31 +15,17 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#pragma once
-
-#include <vector>
-#include "../Mesh/Triangle.h"
-#include "../Engine/Tools.h"
-#include "../Engine/Color.h"
+#include "gtest/gtest.h"
+#include "Object.h"
 
 namespace rt {
-class KDBox {
- public:
-    KDBox(std::vector<Triangle> const& triangles);
-    ~KDBox();
+    TEST(Object, Refraction) {
+        Object o = Object(std::vector<Triangle>(), Material());
+        o.Refract(Ray()); //TODO
+    }
 
-    bool    Intersect(Ray const& ray);
-
-    Vector2<float> const&           GetX() const;
-    Vector2<float> const&           GetY() const;
-    Vector2<float> const&           GetZ() const;
-    std::size_t                     GetLongestAxis() const;
-
- private:
-    Vector2<float>          _x;  // Containing Xmin and Xmax
-    Vector2<float>          _y;  // Containing Ymin and Ymax
-    Vector2<float>          _z;  // Containing Zmin and Zmax
-
-    void    setMinMax(std::vector<Triangle> const& triangles);
-};
+    TEST(Object, Reflection) {
+        Object o = Object(std::vector<Triangle>(), Material());
+        o.Reflect(Ray()); //TODO
+    }
 }  // namespace rt

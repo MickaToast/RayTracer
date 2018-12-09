@@ -26,8 +26,6 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
 class KDNode {
  public:
-    KDNode();
-    KDNode(KDNode const& other);
     KDNode(std::vector<Triangle> const& triangles, std::size_t depth);
     ~KDNode();
 

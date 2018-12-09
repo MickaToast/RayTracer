@@ -19,12 +19,6 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "KDNode.h"
 
 namespace rt {
-    KDNode::KDNode() : _box(), _left(nullptr), _right(nullptr) {
-    }
-
-    KDNode::KDNode(KDNode const& other) : _box(other._box), _left(other._left), _right(other._right), _triangles(other._triangles) {
-    }
-
     KDNode::KDNode(std::vector<Triangle> const& triangles, std::size_t depth): _box(triangles), _left(nullptr), _right(nullptr) {
         std::size_t size = triangles.size();
         if (triangles.size() > Config::KDTreeMin && depth) {
