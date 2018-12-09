@@ -28,6 +28,12 @@ rt::Color::Color(std::uint32_t hexcode) {
 rt::Color::Color(const rt::Color_Component &component) : _color(component) {
 }
 
+rt::Color::Color(std::uint8_t red, std::uint8_t green, std::uint8_t blue) {
+    _color.rgba.r = red;
+    _color.rgba.g = green;
+    _color.rgba.b = blue;
+}
+
 rt::Color::~Color() {
 }
 

@@ -18,6 +18,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include "AssimpLoader.h"
 #include "../Mesh/Object.h"
+#include "../Light/PointLight.h"
 
 namespace rt {
     AssimpLoader::AssimpLoader(): _camera() {
@@ -47,6 +48,10 @@ namespace rt {
         return _meshes;
     }
 
+    std::vector<std::shared_ptr<Light>> const& AssimpLoader::GetLightsFromScene() const {
+        return _lights;
+    }
+
     Vector3<float> AssimpLoader::_transform(aiMatrix4x4 const& mat, Vector3<float> const& point) const {
         return Vector3<float>(
             mat.a1 * point.X + mat.a2 * point.Y + mat.a3 * point.Z + mat.a4,
@@ -55,7 +60,7 @@ namespace rt {
         );
     }
 
-    Material const   AssimpLoader::_loadMaterialFromMesh(unsigned int matIdx) const {
+    Material const AssimpLoader::_loadMaterialFromMesh(unsigned int matIdx) const {
         aiMaterial* aiMat = _scene->mMaterials[matIdx];
         Material mat;
         aiColor3D color;
@@ -101,6 +106,19 @@ namespace rt {
                 Vector3<float>(matrix.a4, -matrix.c4, matrix.b4)
             );
         }
+        
+        for (std::uint32_t lightIdx = 0; lightIdx < _scene->mNumLights; ++lightIdx) {
+            aiLight* light = _scene->mLights[lightIdx];
+            if (light->mName == node->mName) {
+                if (light->mType == aiLightSource_POINT) {
+                    _lights.push_back(std::shared_ptr<Light>(new PointLight(
+                        Vector3<float>(light->mPosition.x, light->mPosition.y, light->mPosition.z),
+                        Color(light->mColorDiffuse.r, light->mColorDiffuse.g, light->mColorDiffuse.b)
+                    )));
+                }
+            }
+        }
+
         for (std::uint32_t meshIdx = 0u; meshIdx < node->mNumMeshes; ++meshIdx) {
             aiMesh* mesh = _scene->mMeshes[node->mMeshes[meshIdx]];
             if (!(mesh->mPrimitiveTypes & aiPrimitiveType_TRIANGLE) || mesh->mNumVertices <= 0) continue;

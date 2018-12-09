@@ -17,28 +17,17 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
-#include <memory>
-#include "../Camera/Camera.h"
-#include "../Loader/AssimpLoader.h"
-#include "../KDTree/KDNode.h"
-#include "../Vector/Vector2.h"
 #include "../Vector/Vector3.h"
-#include "Color.h"
+#include "Light.h"
 
 namespace rt {
-    class Engine {
-    public:
-        explicit    Engine(AssimpLoader const& loader);
-        virtual     ~Engine();
+    class PointLight : public Light {
+     public:
+        PointLight(Vector3<float> const& pos);
+        PointLight(Vector3<float> const& pos, Color const& color);
+        virtual ~PointLight();
 
-        Color                   Raytrace(Vector2<unsigned int> const& pixel);
-        Vector2<unsigned int>   GetRes() const;
-
-    private:
-        AssimpLoader                        _loader;
-        Camera                              _camera;
-        std::vector<std::shared_ptr<Mesh>>  _meshes;
-        std::vector<std::shared_ptr<Light>> _lights;
-
+     private:
+        Vector3<float>  _pos;
     };
-}  // namespace rt
+}

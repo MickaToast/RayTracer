@@ -24,26 +24,29 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <memory>
 #include "../Mesh/Mesh.h"
 #include "../Camera/Camera.h"
+#include "../Light/Light.h"
 
 namespace rt {
 class AssimpLoader {
  public:
-    AssimpLoader();
-    ~AssimpLoader();
+   AssimpLoader();
+   ~AssimpLoader();
 
-    bool                                        LoadFile(std::string const& filePath);
-    Camera                                      GetCameraFromScene() const;
-    std::vector<std::shared_ptr<Mesh>> const&   GetMeshesFromScene() const;
+   bool                                         LoadFile(std::string const& filePath);
+   Camera                                       GetCameraFromScene() const;
+   std::vector<std::shared_ptr<Mesh>> const&    GetMeshesFromScene() const;
+   std::vector<std::shared_ptr<Light>> const&   GetLightsFromScene() const;
 
 
  private:
-    const aiScene*                     _scene;
-    Assimp::Importer                   _importer;
-    Camera                             _camera;
-    std::vector<std::shared_ptr<Mesh>> _meshes;
+   const aiScene*                      _scene;
+   Assimp::Importer                    _importer;
+   Camera                              _camera;
+   std::vector<std::shared_ptr<Mesh>>  _meshes;
+   std::vector<std::shared_ptr<Light>> _lights;
 
-    Vector3<float>   _transform(aiMatrix4x4 const& mat, Vector3<float> const& point) const;
-    Material const   _loadMaterialFromMesh(unsigned int matIdx) const;
-    void             _loadNode(aiNode *node, aiMatrix4x4 const& parent);
+   Vector3<float>   _transform(aiMatrix4x4 const& mat, Vector3<float> const& point) const;
+   Material const   _loadMaterialFromMesh(unsigned int matIdx) const;
+   void             _loadNode(aiNode *node, aiMatrix4x4 const& parent);
 };
 }  //namespace rt

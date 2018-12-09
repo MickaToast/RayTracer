@@ -25,6 +25,8 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     Engine::Engine(AssimpLoader const &loader) : _loader(loader), _camera(loader.GetCameraFromScene()) {
         _meshes = loader.GetMeshesFromScene();
+        _lights = loader.GetLightsFromScene();
+        // If no light camera is pointlight
     }
 
     Engine::~Engine() {

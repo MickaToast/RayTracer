@@ -21,12 +21,13 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Vector/Vector2.h"
 
 namespace rt {
-struct Config {
-    static constexpr float Epsilon = 0.000001;
-    static const std::size_t KDTreeDepth = 20;
-    static const std::size_t KDTreeMin = 12;
-    static const unsigned int DefaultScreenWidth = 1600;
-    static const unsigned int DefaultScreenHeight = 900;
-    static const unsigned int DefaultScreenFOV = 90;
+    struct Config {
+        static constexpr float Epsilon = 0.000001;
+        static const std::size_t KDTreeDepth = 20;
+        static const std::size_t KDTreeMin = 12;
+        static const unsigned int DefaultScreenWidth = 1600;
+        static const unsigned int DefaultScreenHeight = 900;
+        static const unsigned int DefaultScreenFOV = 90;
+        static const unsigned int PathTracingDepth = 5;
     };
 }  // namespace rt

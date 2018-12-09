@@ -15,30 +15,16 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#pragma once
-
-#include <memory>
-#include "../Camera/Camera.h"
-#include "../Loader/AssimpLoader.h"
-#include "../KDTree/KDNode.h"
-#include "../Vector/Vector2.h"
-#include "../Vector/Vector3.h"
-#include "Color.h"
+#include "Light.h"
 
 namespace rt {
-    class Engine {
-    public:
-        explicit    Engine(AssimpLoader const& loader);
-        virtual     ~Engine();
 
-        Color                   Raytrace(Vector2<unsigned int> const& pixel);
-        Vector2<unsigned int>   GetRes() const;
+    Light::Light(): _color(0xffffffff), _intensity(1.f) {
+    }
 
-    private:
-        AssimpLoader                        _loader;
-        Camera                              _camera;
-        std::vector<std::shared_ptr<Mesh>>  _meshes;
-        std::vector<std::shared_ptr<Light>> _lights;
+    Light::Light(Color const& color): _color(color), _intensity(1.f) {
+    }
 
-    };
-}  // namespace rt
+    Light::~Light() {
+    }
+}  //namespace rt
