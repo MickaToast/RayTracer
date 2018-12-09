@@ -18,6 +18,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #pragma once
 
 #include "../Vector/Vector3.h"
+#include "../Material/Material.h"
 
 namespace rt {
     struct Ray {
@@ -30,11 +31,12 @@ namespace rt {
 
     struct Intersection {
         Intersection(): Intersect(false), Point(), Dist(-1), Normal() {};
-        Intersection(bool intersect, Vector3<float> const& point, float const& dist, Vector3<float> const& normal): Intersect(intersect), Point(point), Dist(dist), Normal(normal) {};
+        Intersection(bool intersect, Vector3<float> const& point, float const& dist, Vector3<float> const& normal, Material const& mat): Intersect(intersect), Point(point), Dist(dist), Normal(normal), Mat(mat) {};
 
         bool            Intersect;
         Vector3<float>  Point;
         float           Dist;
         Vector3<float>  Normal;
+        Material        Mat;
     };
 }  // namespace rt

@@ -39,7 +39,7 @@ namespace rt {
         Intersection inter = tree.Intersect(Ray(
             Vector3<float>(0.01, 0, 1),
             Vector3<float>(0, .3, -1)
-        ), Vector3<float>(0, 0, 1));
+        ));
         EXPECT_TRUE(inter.Intersect);
     }
 }  // namespace rt

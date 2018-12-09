@@ -17,7 +17,6 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
-#include "../Vector/Vector3.h"
 #include "Light.h"
 
 namespace rt {
@@ -26,6 +25,9 @@ namespace rt {
         PointLight(Vector3<float> const& pos);
         PointLight(Vector3<float> const& pos, Color const& color);
         virtual ~PointLight();
+
+        virtual Vector3<float>  GetPos() const;
+
 
      private:
         Vector3<float>  _pos;

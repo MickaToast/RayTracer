@@ -18,7 +18,6 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #pragma once
 
 #include <cstdlib>
-#include "../Vector/Vector2.h"
 
 namespace rt {
     struct Config {

@@ -26,17 +26,9 @@ namespace rt {
     Object::~Object() {
     }
 
-    Intersection const Object::Intersect(Ray const& ray, Vector3<float> const& camPos) {
-        return _KDTree.Intersect(ray, camPos);
-    }
-
-    Ray const Object::Refract(Ray const& ray) {
-        (void)ray;
-        return Ray(); //TODO
-    }
-
-    Ray const Object::Reflect(Ray const& ray) {
-        (void)ray;
-        return Ray(); //TODO
+    Intersection const Object::Intersect(Ray const& ray) {
+        Intersection inter = _KDTree.Intersect(ray);
+        inter.Mat = _material;
+        return inter;
     }
 }  // namespace rt

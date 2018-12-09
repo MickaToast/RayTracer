@@ -52,33 +52,26 @@ namespace rt {
     KDNode::~KDNode() {
     }
 
-    Intersection KDNode::Intersect(Ray const& ray, Vector3<float> const& camPos) {
+    Intersection KDNode::Intersect(Ray const& ray) {
         Intersection intersection = Intersection();
         if (!(_box.Intersect(ray))) {
             return intersection;
         } else if (!_left) {
             Intersection inter;
             float min = -1;
-            size_t idx = -1;
             for (std::size_t i = 0; i < _triangles.size(); ++i) {
-                inter = _triangles[i].Intersect(ray, camPos);
+                inter = _triangles[i].Intersect(ray);
                 if (inter.Intersect) {
                     if (min == -1 || inter.Dist < min) {
                         min = inter.Dist;
-                        idx = i;
+                        intersection = inter;
                     }
                 }
             }
-            if (min != -1) {
-                intersection.Dist = min;
-                intersection.Intersect = true;
-                intersection.Normal = _triangles[idx].GetNormal();
-                intersection.Point = inter.Point;
-            }
             return intersection;
         } else {
-            Intersection left = _left->Intersect(ray, camPos);
-            Intersection right = _right->Intersect(ray, camPos);
+            Intersection left = _left->Intersect(ray);
+            Intersection right = _right->Intersect(ray);
 
             if (left.Intersect && right.Intersect) {
                 return left.Dist < right.Dist ? left : right;

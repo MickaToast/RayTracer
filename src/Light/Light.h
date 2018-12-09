@@ -18,6 +18,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #pragma once
 
 #include "../Engine/Color.h"
+#include "../Vector/Vector3.h"
 
 namespace rt {
     class Light {
@@ -25,6 +26,10 @@ namespace rt {
         Light();
         Light(Color const& color);
         virtual ~Light();
+
+        virtual Vector3<float>  GetPos() const = 0;
+        Color const&            GetColor() const;
+        float const&            GetBrightness() const;
 
      protected:
         Color   _color;

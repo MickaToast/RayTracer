@@ -55,11 +55,11 @@ namespace rt {
         EXPECT_TRUE(t2.Intersect(Ray(
             Vector3<float>(.3, .3, 1),
             Vector3<float>(0, 0, -1)            
-        ),Vector3<float>(0, 0, 0)).Intersect);
+        )).Intersect);
         EXPECT_FALSE(t2.Intersect(Ray(
             Vector3<float>(.3, .3, 1),
             Vector3<float>(0, 0, 1)            
-        ), Vector3<float>(0, 0, 0)).Intersect);
+        )).Intersect);
         t2 = Triangle(
             Vector3<float>(),
             Vector3<float>(0, 1, 0),
@@ -68,7 +68,7 @@ namespace rt {
         EXPECT_TRUE(t2.Intersect(Ray(
             Vector3<float>(.3, .3, 1),
             Vector3<float>(0, 0, -1)            
-        ), Vector3<float>(0, 0, 0)).Intersect);
+        )).Intersect);
 
         Triangle t3 = Triangle(
             Vector3<float>(0, 0, -1),
@@ -78,27 +78,9 @@ namespace rt {
         EXPECT_FALSE(t3.Intersect(Ray(
             Vector3<float>(1.5, 3, -0.5),
             Vector3<float>(0, 1, 0)
-        ), Vector3<float>(0, 0, 0)).Intersect);
+        )).Intersect);
     }
-
-    TEST(Triangle, Refraction) {
-        Triangle t = Triangle(
-            Vector3<float>(),
-            Vector3<float>(1, 1, 1),
-            Vector3<float>(2, 2, 2)
-        );
-        t.Refract(Ray()); //TODO
-    }
-
-    TEST(Triangle, Reflection) {
-        Triangle t = Triangle(
-            Vector3<float>(),
-            Vector3<float>(1, 1, 1),
-            Vector3<float>(2, 2, 2)
-        );
-        t.Reflect(Ray()); //TODO
-    }
-
+    
     TEST(Triangle, MaterialRetrieving) {
         Triangle t = Triangle(
             Vector3<float>(),

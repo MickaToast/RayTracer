@@ -112,7 +112,7 @@ namespace rt {
             if (light->mName == node->mName) {
                 if (light->mType == aiLightSource_POINT) {
                     _lights.push_back(std::shared_ptr<Light>(new PointLight(
-                        Vector3<float>(light->mPosition.x, light->mPosition.y, light->mPosition.z),
+                         _transform(matrix, Vector3<float>(light->mPosition.x, light->mPosition.y, light->mPosition.z)),
                         Color(light->mColorDiffuse.r, light->mColorDiffuse.g, light->mColorDiffuse.b)
                     )));
                 }
@@ -122,24 +122,27 @@ namespace rt {
         for (std::uint32_t meshIdx = 0u; meshIdx < node->mNumMeshes; ++meshIdx) {
             aiMesh* mesh = _scene->mMeshes[node->mMeshes[meshIdx]];
             if (!(mesh->mPrimitiveTypes & aiPrimitiveType_TRIANGLE) || mesh->mNumVertices <= 0) continue;
-            
+
             std::vector<Triangle> triangles;
             for (std::uint32_t faceIdx = 0u; faceIdx < mesh->mNumFaces; ++faceIdx) {
+                unsigned int v1Idx = mesh->mFaces[faceIdx].mIndices[0];
+                unsigned int v2Idx = mesh->mFaces[faceIdx].mIndices[1];
+                unsigned int v3Idx = mesh->mFaces[faceIdx].mIndices[2];
                 triangles.push_back(Triangle(
                     _transform(matrix, Vector3<float>(
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].x,
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].y,
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].z
+                        mesh->mVertices[v1Idx].x,
+                        mesh->mVertices[v1Idx].y,
+                        mesh->mVertices[v1Idx].z
                     )),
                     _transform(matrix, Vector3<float>(
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].x,
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].y,
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].z
+                        mesh->mVertices[v2Idx].x,
+                        mesh->mVertices[v2Idx].y,
+                        mesh->mVertices[v2Idx].z
                     )),
                     _transform(matrix, Vector3<float>(
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].x,
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].y,
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].z
+                        mesh->mVertices[v3Idx].x,
+                        mesh->mVertices[v3Idx].y,
+                        mesh->mVertices[v3Idx].z
                     ))
                 ));
             }

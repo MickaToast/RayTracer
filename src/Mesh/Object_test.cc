@@ -19,13 +19,4 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Object.h"
 
 namespace rt {
-    TEST(Object, Refraction) {
-        Object o = Object(std::vector<Triangle>(), Material());
-        o.Refract(Ray()); //TODO
-    }
-
-    TEST(Object, Reflection) {
-        Object o = Object(std::vector<Triangle>(), Material());
-        o.Reflect(Ray()); //TODO
-    }
 }  // namespace rt

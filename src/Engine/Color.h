@@ -49,6 +49,8 @@ namespace rt {
         std::uint8_t const& GetAlphaComponent() const;
         void                SetAlphaComponent(std::uint8_t value);
 
+        Color const& operator+=(Color const& other);
+
     private:
         Color_Component _color;
     };

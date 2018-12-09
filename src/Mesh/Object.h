@@ -28,9 +28,7 @@ class Object : public Mesh {
     Object(std::vector<Triangle> const& triangles, Material const& mat);
     ~Object();
 
-    virtual Intersection const   Intersect(Ray const& ray, Vector3<float> const& camPos);
-    virtual Ray const            Refract(Ray const& ray);
-    virtual Ray const            Reflect(Ray const& ray);
+    virtual Intersection const   Intersect(Ray const& ray);
 
  private:
     std::vector<Triangle>   _triangles;

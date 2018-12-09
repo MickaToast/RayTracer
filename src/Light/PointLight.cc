@@ -26,6 +26,10 @@ namespace rt {
         _color = color;
     }
 
+    Vector3<float> PointLight::GetPos() const {
+        return _pos;
+    }
+
     PointLight::~PointLight() {
     }
 }  //namespace rt
