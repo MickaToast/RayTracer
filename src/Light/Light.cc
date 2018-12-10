@@ -21,10 +21,7 @@ namespace rt {
 
     Light::Light(): _color(0xffffffff), _intensity(1.f) {
     }
-
-    Light::Light(Color const& color): _color(color), _intensity(1.f) {
-    }
-
+    
     Color const& Light::GetColor() const {
         return _color;
     }

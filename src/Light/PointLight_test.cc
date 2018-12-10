@@ -15,23 +15,24 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#pragma once
-
+#include "gtest/gtest.h"
+#include "PointLight.h"
 #include "../Engine/Color.h"
 #include "../Vector/Vector3.h"
 
 namespace rt {
-    class Light {
-     public:
-        Light();
-        virtual ~Light();
+    TEST(PointLight, Init) {
+        Color color = Color(0xff0000ff);
+        PointLight light = PointLight(Vector3<float>(), color);
 
-        virtual Vector3<float>  GetPos() const = 0;
-        Color const&            GetColor() const;
-        float const&            GetBrightness() const;
+        EXPECT_EQ(light.GetPos(), Vector3<float>(0, 0, 0));
+        EXPECT_EQ(light.GetBrightness(), 1.0f);
+        EXPECT_EQ(light.GetColor().GetColor().hexcode, 0xff0000ff);
 
-     protected:
-        Color   _color;
-        float   _intensity;
-    };
-}
+        PointLight light2 = PointLight(Vector3<float>(1, 2, 3));
+
+        EXPECT_EQ(light2.GetPos(), Vector3<float>(1, 2, 3));
+        EXPECT_EQ(light2.GetBrightness(), 1.0f);
+        EXPECT_EQ(light2.GetColor().GetColor().hexcode, 0xffffffff);
+    }
+}  // namespace rt
