@@ -38,9 +38,10 @@ namespace rt {
         if (inter.Intersect) {
             for (size_t i = 0; i < _lights.size(); ++i) {
                 Vector3<float> lightDir = _lights[i]->GetPos() - inter.Point;
+                lightDir.Normalize();
                 Intersection interLight = _intersect(Ray(inter.Point, lightDir));
-                if (!interLight.Intersect) {
-                    Material mat = inter.Mat;
+                if (!interLight.Intersect ||
+                 interLight.Dist > (_lights[i]->GetPos() - inter.Point).Norm()) {
                     float angle = lightDir.Angle(inter.Normal);
                     if (angle > 90.f) {
                         angle = 180.f - angle;

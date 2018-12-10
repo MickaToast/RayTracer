@@ -25,7 +25,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
 class Object : public Mesh {
  public:
-    Object(std::vector<Triangle> const& triangles, Material const& mat);
+    Object(std::vector<Triangle> const& triangles, Material const& mat, std::string const& name);
     ~Object();
 
     virtual Intersection const   Intersect(Ray const& ray);

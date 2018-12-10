@@ -21,7 +21,8 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     struct Config {
-        static constexpr float Epsilon = 0.000001;
+        static constexpr float Epsilon = 0.000001f;
+        static constexpr float MinDist = 0.001f;
         static const std::size_t KDTreeDepth = 20;
         static const std::size_t KDTreeMin = 12;
         static const unsigned int DefaultScreenWidth = 1600;

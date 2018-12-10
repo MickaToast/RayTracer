@@ -19,8 +19,9 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Object.h"
 
 namespace rt {
-    Object::Object(std::vector<Triangle> const& triangles, Material const& mat) : _triangles(triangles), _KDTree(_triangles, Config::KDTreeDepth) {
+    Object::Object(std::vector<Triangle> const& triangles, Material const& mat, std::string const& name) : _triangles(triangles), _KDTree(_triangles, Config::KDTreeDepth) {
         _material = mat;
+        _name = name;
     }
 
     Object::~Object() {
@@ -29,6 +30,7 @@ namespace rt {
     Intersection const Object::Intersect(Ray const& ray) {
         Intersection inter = _KDTree.Intersect(ray);
         inter.Mat = _material;
+        inter.name = _name;
         return inter;
     }
 }  // namespace rt
