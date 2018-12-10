@@ -26,13 +26,6 @@ namespace rt {
     Engine::Engine(AssimpLoader const &loader) : _loader(loader), _camera(loader.GetCameraFromScene()) {
         _meshes = loader.GetMeshesFromScene();
         _lights = loader.GetLightsFromScene();
-        if (!_lights.size()) {
-            _lights.push_back(std::shared_ptr<Light>(
-                new PointLight(
-                        _camera.GetPos(),
-                        Color(0xffffffff)
-            )));
-        }
     }
 
     Engine::~Engine() {

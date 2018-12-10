@@ -111,10 +111,10 @@ namespace rt {
             aiLight* light = _scene->mLights[lightIdx];
             if (light->mName == node->mName) {
                 if (light->mType == aiLightSource_POINT) {
-                    _lights.push_back(std::shared_ptr<Light>(new PointLight(
+                    _lights.emplace_back(new PointLight(
                          _transform(matrix, Vector3<float>(light->mPosition.x, light->mPosition.y, light->mPosition.z)),
                         Color(light->mColorDiffuse.r, light->mColorDiffuse.g, light->mColorDiffuse.b)
-                    )));
+                    ));
                 }
             }
         }
@@ -128,7 +128,7 @@ namespace rt {
                 unsigned int v1Idx = mesh->mFaces[faceIdx].mIndices[0];
                 unsigned int v2Idx = mesh->mFaces[faceIdx].mIndices[1];
                 unsigned int v3Idx = mesh->mFaces[faceIdx].mIndices[2];
-                triangles.push_back(Triangle(
+                triangles.emplace_back(
                     _transform(matrix, Vector3<float>(
                         mesh->mVertices[v1Idx].x,
                         mesh->mVertices[v1Idx].y,
@@ -144,10 +144,10 @@ namespace rt {
                         mesh->mVertices[v3Idx].y,
                         mesh->mVertices[v3Idx].z
                     ))
-                ));
+                );
             }
             std::cout << "Creating KDTree for " << triangles.size() << " triangles" << std::endl;
-            _meshes.push_back(std::shared_ptr<Mesh>(new Object(triangles, _loadMaterialFromMesh(mesh->mMaterialIndex))));
+            _meshes.emplace_back(new Object(triangles, _loadMaterialFromMesh(mesh->mMaterialIndex)));
             std::cout << "Done" << std::endl;
         }
 

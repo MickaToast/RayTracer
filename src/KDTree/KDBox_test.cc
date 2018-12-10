@@ -20,19 +20,15 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     void feedVector(std::vector<Triangle> &triangles) {
-        triangles.push_back(
-            Triangle(
-                Vector3<float>(0, 0.5, -0.5),
-                Vector3<float>(1.5, 0.5, 0),
-                Vector3<float>(1.5, 0, -0.5)
-            )
+        triangles.emplace_back(
+            Vector3<float>(0, 0.5, -0.5),
+            Vector3<float>(1.5, 0.5, 0),
+            Vector3<float>(1.5, 0, -0.5)
         );
-        triangles.push_back(
-            Triangle(
-                Vector3<float>(3, 0.5, -0.5),
-                Vector3<float>(1.5, 0.5, -1),
-                Vector3<float>(1.5, 1, -0.5)
-            )
+        triangles.emplace_back(
+            Vector3<float>(3, 0.5, -0.5),
+            Vector3<float>(1.5, 0.5, -1),
+            Vector3<float>(1.5, 1, -0.5)
         );
     }
 
@@ -54,19 +50,15 @@ namespace rt {
 
     TEST(KDBox, LongestAxisY) {
         std::vector<Triangle> triangles;
-        triangles.push_back(
-            Triangle(
-                Vector3<float>(0, 7.5, -0.5),
-                Vector3<float>(1.5, 0.5, 0),
-                Vector3<float>(1.5, 0, -0.5)
-            )
+        triangles.emplace_back(
+            Vector3<float>(0, 7.5, -0.5),
+            Vector3<float>(1.5, 0.5, 0),
+            Vector3<float>(1.5, 0, -0.5)
         );
-        triangles.push_back(
-            Triangle(
-                Vector3<float>(3, 0.5, -0.5),
-                Vector3<float>(1.5, -0.5, -1),
-                Vector3<float>(1.5, 1, -0.5)
-            )
+        triangles.emplace_back(
+            Vector3<float>(3, 0.5, -0.5),
+            Vector3<float>(1.5, -0.5, -1),
+            Vector3<float>(1.5, 1, -0.5)
         );
         KDBox box = KDBox(triangles);
         EXPECT_EQ(box.GetLongestAxis(), 1);
@@ -74,19 +66,15 @@ namespace rt {
 
     TEST(KDBox, LongestAxisZ) {
         std::vector<Triangle> triangles;
-        triangles.push_back(
-            Triangle(
-                Vector3<float>(0, 3.5, -10.5),
-                Vector3<float>(1.5, 0.5, 0),
-                Vector3<float>(1.5, 0, -0.5)
-            )
+        triangles.emplace_back(
+            Vector3<float>(0, 3.5, -10.5),
+            Vector3<float>(1.5, 0.5, 0),
+            Vector3<float>(1.5, 0, -0.5)
         );
-        triangles.push_back(
-            Triangle(
-                Vector3<float>(3, 0.5, -0.5),
-                Vector3<float>(1.5, -0.5, -1),
-                Vector3<float>(1.5, 1, 20.5)
-            )
+        triangles.emplace_back(
+            Vector3<float>(3, 0.5, -0.5),
+            Vector3<float>(1.5, -0.5, -1),
+            Vector3<float>(1.5, 1, 20.5)
         );
         KDBox box = KDBox(triangles);
         EXPECT_EQ(box.GetLongestAxis(), 2);

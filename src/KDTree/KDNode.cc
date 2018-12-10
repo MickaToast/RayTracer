@@ -32,13 +32,13 @@ namespace rt {
             for (std::size_t i = 0; i < size; ++i) {
                 switch (axis) {
                     case 0:
-                        triangles[i].GetMidPoint().X > midpoint.X ? tright.push_back(triangles[i]) : tleft.push_back(triangles[i]);
+                        triangles[i].GetMidPoint().X > midpoint.X ? tright.push_back(std::move(triangles[i])) : tleft.push_back(std::move(triangles[i]));
                         break;
                     case 1:
-                        triangles[i].GetMidPoint().Y > midpoint.Y ? tright.push_back(triangles[i]) : tleft.push_back(triangles[i]);
+                        triangles[i].GetMidPoint().Y > midpoint.Y ? tright.push_back(std::move(triangles[i])) : tleft.push_back(std::move(triangles[i]));
                         break;
                     case 2:
-                        triangles[i].GetMidPoint().Z > midpoint.Z ? tright.push_back(triangles[i]) : tleft.push_back(triangles[i]);
+                        triangles[i].GetMidPoint().Z > midpoint.Z ? tright.push_back(std::move(triangles[i])) : tleft.push_back(std::move(triangles[i]));
                         break;
                 }
             }
