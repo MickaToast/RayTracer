@@ -57,4 +57,14 @@ namespace rt {
         ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
         ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(800, 450)).GetColor().hexcode, 0x00000000);
     }
+
+    TEST(Engine, raytraceHardcore) {
+        AssimpLoader loader;
+        if (!loader.LoadFile("../scenes/DragonOnStandDoubleLight.dae")) {
+            ASSERT_TRUE(false);
+        }
+        Engine engine = rt::Engine(loader);
+        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
+        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(800, 450)).GetColor().hexcode, 0x10531200);
+    }
 }  // namespace rt
