@@ -40,21 +40,12 @@ namespace rt {
                 Vector3<float> lightDir = _lights[i]->GetPos() - inter.Point;
                 Intersection interLight = _intersect(Ray(inter.Point, lightDir));
                 if (!interLight.Intersect) {
-                    /*
-                    float coef = lightDir.Dot(inter.Normal);
-                    if (coef >= Config::Epsilon) {
-                        color += (Color(inter.Mat.Kd) * coef);
-                    }*/
                     Material mat = inter.Mat;
                     float angle = lightDir.Angle(inter.Normal);
                     if (angle > 90.f) {
                         angle = 180.f - angle;
                     }
-                    float coef = ((-1.f / 90.f) * angle + 1.f);
-                    /*color.SetRedComponent(mat.Kd.X * coef);
-                    color.SetGreenComponent(mat.Kd.Y * coef);
-                    color.SetBlueComponent(mat.Kd.Z * coef);*/
-                    color += (Color(inter.Mat.Kd) * coef);
+                    color += (Color(inter.Mat.Kd) * ((-1.f / 90.f) * angle + 1.f));
                 }
             }
         }

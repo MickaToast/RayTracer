@@ -63,7 +63,11 @@ namespace rt {
         ret.Intersect = true;
         ret.Point = ray.Origin + ray.Direction * t;
         ret.Dist = t;
-        ret.Normal = _normal;
+        if (_v1.GetNormal() != Vector3<float>()) {
+            ret.Normal = _v1.GetNormal() * (1 - u - v) + _v2.GetNormal() * u + _v3.GetNormal() * v;
+        } else {
+            ret.Normal = _normal;
+        }
         ret.Mat = _material;
         return ret;
     }

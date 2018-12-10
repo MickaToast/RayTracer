@@ -144,21 +144,21 @@ namespace rt {
                             mesh->mVertices[v3Idx].z
                         )));
                     if (mesh->mNormals) {
-                        v1.SetNormal(Vector3<float>(
+                        v1.SetNormal(_transform(matrix, Vector3<float>(
                             mesh->mNormals[v1Idx].x,
                             mesh->mNormals[v1Idx].y,
                             mesh->mNormals[v1Idx].z
-                        ));
-                        v2.SetNormal(Vector3<float>(
+                        )));
+                        v2.SetNormal(_transform(matrix, Vector3<float>(
                             mesh->mNormals[v2Idx].x,
                             mesh->mNormals[v2Idx].y,
                             mesh->mNormals[v2Idx].z
-                        ));
-                        v2.SetNormal(Vector3<float>(
+                        )));
+                        v2.SetNormal(_transform(matrix, Vector3<float>(
                             mesh->mNormals[v3Idx].x,
                             mesh->mNormals[v3Idx].y,
                             mesh->mNormals[v3Idx].z
-                        ));
+                        )));
                     }
                     triangles.emplace_back(v1, v2, v3);
                 }

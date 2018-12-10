@@ -34,7 +34,6 @@ namespace rt {
 
     void Vertex::SetNormal(Vector3<float> const& normal) {
         _normal = normal;
-        _normal.Normalize();
     }
 
     bool  Vertex::operator==(Vertex const& other) const {
