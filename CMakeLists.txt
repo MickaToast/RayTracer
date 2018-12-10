@@ -15,7 +15,8 @@ set(SOURCE_FILES    src/Camera/Camera.cc
                     src/Material/Material.cc
                     src/Mesh/Mesh.cc
                     src/Mesh/Object.cc
-                    src/Mesh/Triangle.cc)
+                    src/Mesh/Triangle.cc
+                    src/Mesh/Vertex.cc)
 add_executable(RayTracer ${SOURCE_FILES} src/main.cc)
 
 target_compile_options(RayTracer PUBLIC
@@ -56,6 +57,7 @@ set(TEST_FILES  src/main_test.cc
                 src/Material/Material_test.cc
                 src/Mesh/Object_test.cc
                 src/Mesh/Triangle_test.cc
+                src/Mesh/Vertex_test.cc
                 src/Vector/Vector2_test.cc
                 src/Vector/Vector3_test.cc)
 add_executable(runTests ${SOURCE_FILES} ${TEST_FILES})

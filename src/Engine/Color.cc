@@ -35,6 +35,12 @@ rt::Color::Color(std::uint8_t red, std::uint8_t green, std::uint8_t blue) {
     _color.rgba.b = blue;
 }
 
+rt::Color::Color(Vector3<float> const& vec) {
+    _color.rgba.r = vec.X * 255;
+    _color.rgba.g = vec.Y * 255;
+    _color.rgba.b = vec.Z * 255;
+}
+
 rt::Color::~Color() {
 }
 
@@ -75,4 +81,12 @@ rt::Color const& rt::Color::operator+=(rt::Color const& other) {
     _color.rgba.g = std::min(_color.rgba.g + other._color.rgba.g, 255);
     _color.rgba.b = std::min(_color.rgba.b + other._color.rgba.b, 255);
     return *this;
+}
+
+rt::Color const rt::Color::operator*(float const& coef) {
+    Color rtn;
+    rtn._color.rgba.r = std::min(_color.rgba.r * coef, 255.f);
+    rtn._color.rgba.g = std::min(_color.rgba.g * coef, 255.f);
+    rtn._color.rgba.b = std::min(_color.rgba.b * coef, 255.f);
+    return rtn;
 }

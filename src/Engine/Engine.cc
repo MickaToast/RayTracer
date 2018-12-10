@@ -36,23 +36,25 @@ namespace rt {
         Ray ray = _camera.GenerateRay(pixel);
         Intersection inter = _intersect(ray);
         if (inter.Intersect) {
-            if (inter.Normal.Dot(ray.Direction) > 0) {
-                inter.Normal = inter.Normal * -1;
-            }
             for (size_t i = 0; i < _lights.size(); ++i) {
-                Color lightColor;
                 Vector3<float> lightDir = _lights[i]->GetPos() - inter.Point;
-                lightDir.Normalize();
                 Intersection interLight = _intersect(Ray(inter.Point, lightDir));
                 if (!interLight.Intersect) {
+                    /*
                     float coef = lightDir.Dot(inter.Normal);
                     if (coef >= Config::Epsilon) {
-                        coef *= 255;
-                        lightColor.SetRedComponent(inter.Mat.Kd.X * coef);
-                        lightColor.SetGreenComponent(inter.Mat.Kd.Y * coef);
-                        lightColor.SetBlueComponent(inter.Mat.Kd.Z * coef);
-                        color += lightColor;
+                        color += (Color(inter.Mat.Kd) * coef);
+                    }*/
+                    Material mat = inter.Mat;
+                    float angle = lightDir.Angle(inter.Normal);
+                    if (angle > 90.f) {
+                        angle = 180.f - angle;
                     }
+                    float coef = ((-1.f / 90.f) * angle + 1.f);
+                    /*color.SetRedComponent(mat.Kd.X * coef);
+                    color.SetGreenComponent(mat.Kd.Y * coef);
+                    color.SetBlueComponent(mat.Kd.Z * coef);*/
+                    color += (Color(inter.Mat.Kd) * coef);
                 }
             }
         }

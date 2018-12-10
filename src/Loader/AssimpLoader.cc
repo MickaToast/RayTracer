@@ -122,29 +122,46 @@ namespace rt {
         for (std::uint32_t meshIdx = 0u; meshIdx < node->mNumMeshes; ++meshIdx) {
             aiMesh* mesh = _scene->mMeshes[node->mMeshes[meshIdx]];
             if (!(mesh->mPrimitiveTypes & aiPrimitiveType_TRIANGLE) || mesh->mNumVertices <= 0) continue;
-
             std::vector<Triangle> triangles;
             for (std::uint32_t faceIdx = 0u; faceIdx < mesh->mNumFaces; ++faceIdx) {
-                unsigned int v1Idx = mesh->mFaces[faceIdx].mIndices[0];
-                unsigned int v2Idx = mesh->mFaces[faceIdx].mIndices[1];
-                unsigned int v3Idx = mesh->mFaces[faceIdx].mIndices[2];
-                triangles.emplace_back(
-                    _transform(matrix, Vector3<float>(
-                        mesh->mVertices[v1Idx].x,
-                        mesh->mVertices[v1Idx].y,
-                        mesh->mVertices[v1Idx].z
-                    )),
-                    _transform(matrix, Vector3<float>(
-                        mesh->mVertices[v2Idx].x,
-                        mesh->mVertices[v2Idx].y,
-                        mesh->mVertices[v2Idx].z
-                    )),
-                    _transform(matrix, Vector3<float>(
-                        mesh->mVertices[v3Idx].x,
-                        mesh->mVertices[v3Idx].y,
-                        mesh->mVertices[v3Idx].z
-                    ))
-                );
+                if (mesh->mFaces[faceIdx].mNumIndices == 3) {
+                    unsigned int v1Idx = mesh->mFaces[faceIdx].mIndices[0];
+                    unsigned int v2Idx = mesh->mFaces[faceIdx].mIndices[1];
+                    unsigned int v3Idx = mesh->mFaces[faceIdx].mIndices[2];
+                    Vertex v1 = Vertex(_transform(matrix, Vector3<float>(
+                            mesh->mVertices[v1Idx].x,
+                            mesh->mVertices[v1Idx].y,
+                            mesh->mVertices[v1Idx].z
+                        )));
+                    Vertex v2 = Vertex(_transform(matrix, Vector3<float>(
+                            mesh->mVertices[v2Idx].x,
+                            mesh->mVertices[v2Idx].y,
+                            mesh->mVertices[v2Idx].z
+                        )));
+                    Vertex v3 = Vertex(_transform(matrix, Vector3<float>(
+                            mesh->mVertices[v3Idx].x,
+                            mesh->mVertices[v3Idx].y,
+                            mesh->mVertices[v3Idx].z
+                        )));
+                    if (mesh->mNormals) {
+                        v1.SetNormal(Vector3<float>(
+                            mesh->mNormals[v1Idx].x,
+                            mesh->mNormals[v1Idx].y,
+                            mesh->mNormals[v1Idx].z
+                        ));
+                        v2.SetNormal(Vector3<float>(
+                            mesh->mNormals[v2Idx].x,
+                            mesh->mNormals[v2Idx].y,
+                            mesh->mNormals[v2Idx].z
+                        ));
+                        v2.SetNormal(Vector3<float>(
+                            mesh->mNormals[v3Idx].x,
+                            mesh->mNormals[v3Idx].y,
+                            mesh->mNormals[v3Idx].z
+                        ));
+                    }
+                    triangles.emplace_back(v1, v2, v3);
+                }
             }
             std::cout << "Creating KDTree for " << triangles.size() << " triangles" << std::endl;
             _meshes.emplace_back(new Object(triangles, _loadMaterialFromMesh(mesh->mMaterialIndex)));
