@@ -18,6 +18,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include "AssimpLoader.h"
 #include "../Mesh/Object.h"
+#include "../Light/PointLight.h"
 
 namespace rt {
     AssimpLoader::AssimpLoader(): _camera() {
@@ -47,6 +48,10 @@ namespace rt {
         return _meshes;
     }
 
+    std::vector<std::shared_ptr<Light>> const& AssimpLoader::GetLightsFromScene() const {
+        return _lights;
+    }
+
     Vector3<float> AssimpLoader::_transform(aiMatrix4x4 const& mat, Vector3<float> const& point) const {
         return Vector3<float>(
             mat.a1 * point.X + mat.a2 * point.Y + mat.a3 * point.Z + mat.a4,
@@ -55,7 +60,7 @@ namespace rt {
         );
     }
 
-    Material const   AssimpLoader::_loadMaterialFromMesh(unsigned int matIdx) const {
+    Material const AssimpLoader::_loadMaterialFromMesh(unsigned int matIdx) const {
         aiMaterial* aiMat = _scene->mMaterials[matIdx];
         Material mat;
         aiColor3D color;
@@ -101,32 +106,48 @@ namespace rt {
                 Vector3<float>(matrix.a4, -matrix.c4, matrix.b4)
             );
         }
+        
+        for (std::uint32_t lightIdx = 0; lightIdx < _scene->mNumLights; ++lightIdx) {
+            aiLight* light = _scene->mLights[lightIdx];
+            if (light->mName == node->mName) {
+                if (light->mType == aiLightSource_POINT) {
+                    _lights.emplace_back(new PointLight(
+                         _transform(matrix, Vector3<float>(light->mPosition.x, light->mPosition.y, light->mPosition.z)),
+                        Color(light->mColorDiffuse.r, light->mColorDiffuse.g, light->mColorDiffuse.b)
+                    ));
+                }
+            }
+        }
+
         for (std::uint32_t meshIdx = 0u; meshIdx < node->mNumMeshes; ++meshIdx) {
             aiMesh* mesh = _scene->mMeshes[node->mMeshes[meshIdx]];
             if (!(mesh->mPrimitiveTypes & aiPrimitiveType_TRIANGLE) || mesh->mNumVertices <= 0) continue;
-            
+
             std::vector<Triangle> triangles;
             for (std::uint32_t faceIdx = 0u; faceIdx < mesh->mNumFaces; ++faceIdx) {
-                triangles.push_back(Triangle(
+                unsigned int v1Idx = mesh->mFaces[faceIdx].mIndices[0];
+                unsigned int v2Idx = mesh->mFaces[faceIdx].mIndices[1];
+                unsigned int v3Idx = mesh->mFaces[faceIdx].mIndices[2];
+                triangles.emplace_back(
                     _transform(matrix, Vector3<float>(
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].x,
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].y,
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[0]].z
+                        mesh->mVertices[v1Idx].x,
+                        mesh->mVertices[v1Idx].y,
+                        mesh->mVertices[v1Idx].z
                     )),
                     _transform(matrix, Vector3<float>(
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].x,
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].y,
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[1]].z
+                        mesh->mVertices[v2Idx].x,
+                        mesh->mVertices[v2Idx].y,
+                        mesh->mVertices[v2Idx].z
                     )),
                     _transform(matrix, Vector3<float>(
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].x,
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].y,
-                        mesh->mVertices[mesh->mFaces[faceIdx].mIndices[2]].z
+                        mesh->mVertices[v3Idx].x,
+                        mesh->mVertices[v3Idx].y,
+                        mesh->mVertices[v3Idx].z
                     ))
-                ));
+                );
             }
             std::cout << "Creating KDTree for " << triangles.size() << " triangles" << std::endl;
-            _meshes.push_back(std::shared_ptr<Mesh>(new Object(triangles, _loadMaterialFromMesh(mesh->mMaterialIndex))));
+            _meshes.emplace_back(new Object(triangles, _loadMaterialFromMesh(mesh->mMaterialIndex)));
             std::cout << "Done" << std::endl;
         }
 

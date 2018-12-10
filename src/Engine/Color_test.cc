@@ -86,4 +86,11 @@ namespace rt {
         ASSERT_EQ(color.GetColor().rgba.b, 0xff);
         ASSERT_EQ(color.GetColor().rgba.a, 0xff);
     }
+
+    TEST(Color, Add) {
+        Color color(0x0f0f0fff);
+        color += Color(0x123456ff);
+        
+        ASSERT_EQ(color.GetColor().hexcode, 0x214365ff);
+    }
 }  // namespace rt

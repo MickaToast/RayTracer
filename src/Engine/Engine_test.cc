@@ -17,6 +17,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include "gtest/gtest.h"
 #include "Engine.h"
+#include "Config.h"
 #include "../Loader/AssimpLoader.h"
 #include "../Camera/Camera.h"
 #include "../Vector/Vector2.h"
@@ -44,7 +45,7 @@ namespace rt {
         }
         Engine engine = rt::Engine(loader);
         ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
-        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(800, 450)).GetColor().hexcode, 0x49494900);
+        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(800, 450)).GetColor().hexcode, 0x53535300);
     }
 
     TEST(Engine, raytraceHard) {
@@ -54,6 +55,16 @@ namespace rt {
         }
         Engine engine = rt::Engine(loader);
         ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
-        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(800, 450)).GetColor().hexcode, 0x7A7A7A00);
+        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(800, 450)).GetColor().hexcode, 0x00000000);
+    }
+
+    TEST(Engine, raytraceHardcore) {
+        AssimpLoader loader;
+        if (!loader.LoadFile("../scenes/DragonOnStandDoubleLight.dae")) {
+            ASSERT_TRUE(false);
+        }
+        Engine engine = rt::Engine(loader);
+        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x10531200);
+        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(800, 450)).GetColor().hexcode, 0xDEDEDE00);
     }
 }  // namespace rt

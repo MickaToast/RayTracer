@@ -23,9 +23,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
 class Mesh {
  public:
-    virtual Intersection const   Intersect(Ray const& ray, Vector3<float> const& camPos) = 0;
-    virtual Ray const            Refract(Ray const& ray) = 0;
-    virtual Ray const            Reflect(Ray const& ray) = 0;
+    virtual Intersection const   Intersect(Ray const& ray) = 0;
     
     Material const&  GetMaterial() const;
     

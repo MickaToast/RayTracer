@@ -15,6 +15,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include <algorithm>
 #include "Color.h"
 
 rt::Color::Color() {
@@ -26,6 +27,12 @@ rt::Color::Color(std::uint32_t hexcode) {
 }
 
 rt::Color::Color(const rt::Color_Component &component) : _color(component) {
+}
+
+rt::Color::Color(std::uint8_t red, std::uint8_t green, std::uint8_t blue) {
+    _color.rgba.r = red;
+    _color.rgba.g = green;
+    _color.rgba.b = blue;
 }
 
 rt::Color::~Color() {
@@ -61,4 +68,11 @@ std::uint8_t const& rt::Color::GetGreenComponent() const {
 
 void rt::Color::SetGreenComponent(std::uint8_t value) {
     _color.rgba.g = value;
+}
+
+rt::Color const& rt::Color::operator+=(rt::Color const& other) {
+    _color.rgba.r = std::min(_color.rgba.r + other._color.rgba.r, 255);
+    _color.rgba.g = std::min(_color.rgba.g + other._color.rgba.g, 255);
+    _color.rgba.b = std::min(_color.rgba.b + other._color.rgba.b, 255);
+    return *this;
 }

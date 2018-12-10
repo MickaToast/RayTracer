@@ -9,6 +9,8 @@ set(SOURCE_FILES    src/Camera/Camera.cc
                     src/Engine/Engine.cc
                     src/KDTree/KDBox.cc
                     src/KDTree/KDNode.cc
+                    src/Light/Light.cc
+                    src/Light/PointLight.cc
                     src/Loader/AssimpLoader.cc
                     src/Material/Material.cc
                     src/Mesh/Mesh.cc
@@ -49,7 +51,9 @@ set(TEST_FILES  src/main_test.cc
                 src/Engine/Engine_test.cc
                 src/KDTree/KDBox_test.cc
                 src/KDTree/KDNode_test.cc
+                src/Light/PointLight_test.cc
                 src/Loader/AssimpLoader_test.cc
+                src/Material/Material_test.cc
                 src/Mesh/Object_test.cc
                 src/Mesh/Triangle_test.cc
                 src/Vector/Vector2_test.cc

@@ -21,19 +21,23 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Vector/Vector3.h"
 
 namespace rt {
-class Material {
- public:
-    Material();
-    ~Material();
+    struct Ray;
+    struct Intersection;
+    class Material {
+     public:
+        Material();
+        ~Material();
 
-    std::string     name;
-    float           Ns;     //Specular exponent
-    Vector3<float>  Ka;     //Ambiant color
-    Vector3<float>  Kd;     //Diffure color
-    Vector3<float>  Ks;     //Specular color
-    Vector3<float>  Ke;     //Emissive color
-    float           Ni;     //Refraction coef
-    float           d;      //Transparency
-    std::size_t     illum;  //Illumination model
-};
+        std::string     name;
+        float           Ns;     //Specular exponent
+        Vector3<float>  Ka;     //Ambiant color
+        Vector3<float>  Kd;     //Diffure color
+        Vector3<float>  Ks;     //Specular color
+        Vector3<float>  Ke;     //Emissive color
+        float           Ni;     //Refraction coef
+        float           d;      //Transparency
+        std::size_t     illum;  //Illumination model
+
+        Ray const   CreateNewRay(Intersection const& inter);
+    };
 }  //namespace rt

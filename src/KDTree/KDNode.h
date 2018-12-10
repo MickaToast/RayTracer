@@ -29,7 +29,7 @@ class KDNode {
     KDNode(std::vector<Triangle> const& triangles, std::size_t depth);
     ~KDNode();
 
-    Intersection Intersect(Ray const& ray, Vector3<float> const& camPos);
+    Intersection Intersect(Ray const& ray);
 
  private:
     KDBox                   _box;

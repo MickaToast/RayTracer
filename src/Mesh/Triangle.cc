@@ -35,7 +35,7 @@ namespace rt {
     Triangle::~Triangle() {
     }
 
-    Intersection const Triangle::Intersect(Ray const& ray, Vector3<float> const& camPos) {
+    Intersection const Triangle::Intersect(Ray const& ray) {
         Intersection ret;
         Vector3<float> pvec = ray.Direction.Cross(_edge2);
         float det = _edge1.Dot(pvec);
@@ -56,25 +56,16 @@ namespace rt {
             return ret;
         }
         float t = _edge2.Dot(qvec) / det;
-        if (t < 0.f) {
+        if (t < Config::Epsilon) {
             ret.Intersect = false;
             return ret;
         }
         ret.Intersect = true;
         ret.Point = ray.Origin + ray.Direction * t;
-        ret.Dist = (ret.Point - camPos).Norm();
+        ret.Dist = (ret.Point - ray.Origin).Norm();
         ret.Normal = _normal;
+        ret.Mat = _material;
         return ret;
-    }
-
-    Ray const Triangle::Refract(Ray const& ray) {
-        (void)ray;
-        return Ray(); //TODO
-    }
-
-    Ray const Triangle::Reflect(Ray const& ray) {
-        (void)ray;
-        return Ray(); //TODO
     }
 
    Vector2<float> const Triangle::GetMinMaxX() const {

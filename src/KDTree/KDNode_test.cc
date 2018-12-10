@@ -21,25 +21,21 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     TEST(KDNode, raytrace) {
         std::vector<Triangle> triangles;        
-        triangles.push_back(
-            Triangle(
-                Vector3<float>(),
-                Vector3<float>(1, 0, 0),
-                Vector3<float>(0, 1, 0)
-            )
+        triangles.emplace_back(
+            Vector3<float>(),
+            Vector3<float>(1, 0, 0),
+            Vector3<float>(0, 1, 0)
         );
-        triangles.push_back(
-            Triangle(
-                Vector3<float>(),
-                Vector3<float>(0.5, 0, -3),
-                Vector3<float>(1.5, 2, -0.5)
-            )
+        triangles.emplace_back(
+            Vector3<float>(),
+            Vector3<float>(0.5, 0, -3),
+            Vector3<float>(1.5, 2, -0.5)
         );
         KDNode tree = KDNode(triangles, triangles.size());
         Intersection inter = tree.Intersect(Ray(
             Vector3<float>(0.01, 0, 1),
             Vector3<float>(0, .3, -1)
-        ), Vector3<float>(0, 0, 1));
+        ));
         EXPECT_TRUE(inter.Intersect);
     }
 }  // namespace rt

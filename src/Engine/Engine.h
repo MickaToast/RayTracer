@@ -24,6 +24,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Vector/Vector2.h"
 #include "../Vector/Vector3.h"
 #include "Color.h"
+#include "Tools.h"
 
 namespace rt {
     class Engine {
@@ -38,5 +39,9 @@ namespace rt {
         AssimpLoader                        _loader;
         Camera                              _camera;
         std::vector<std::shared_ptr<Mesh>>  _meshes;
+        std::vector<std::shared_ptr<Light>> _lights;
+
+        void                _pathtrace(Ray const& ray, unsigned int const& depth, Color & color);
+        Intersection const  _intersect(Ray const& ray);
     };
 }  // namespace rt
