@@ -15,11 +15,11 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#include "../Engine/Config.h"
+#include "../Engine/Constant.h"
 #include "Object.h"
 
 namespace rt {
-    Object::Object(std::vector<Triangle> const& triangles, Material const& mat, std::string const& name) : _triangles(triangles), _KDTree(_triangles, Config::KDTreeDepth) {
+    Object::Object(std::vector<Triangle> const& triangles, Material const& mat, std::string const& name) : _triangles(triangles), _KDTree(_triangles, Constant::KDTreeDepth) {
         _material = mat;
         _name = name;
     }

@@ -26,11 +26,12 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Engine/Engine.h"
 #include "Dispatcher/Dispatcher.h"
 #include "Vector/Vector2.h"
+#include "Config/Config.h"
 
 int main(int argc, char **argv) {
     if (argc < 2) {
-        std::cerr << "Usage 1: " << argv[0] << " scene.dae" << std::endl;
-        std::cerr << "Usage 3: " << argv[0] << " scene.dae --output-image 5" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " scene.dae <options>" << std::endl;
+        std::cerr << "Possible options: --background-image=<path> --output-image=<number>" << std::endl;
         return 1;
     }
 
@@ -41,12 +42,25 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    rt::Config config;
+    config.LoadFromArguments(argc, argv);
     rt::Engine engine = rt::Engine(loader);
+
+    if (config.RequestBackground()) {
+        sf::Image skyTexture;
+        if (skyTexture.loadFromFile(config.GetBackgroundPath())) {
+            engine.SetBackground(std::shared_ptr<rt::Sky>(new rt::SphereSky(rt::Vector2<unsigned int>(skyTexture.getSize().x, skyTexture.getSize().y), skyTexture.getPixelsPtr())));
+        } else {
+            std::cerr << "Warning: Could not load background " << config.GetBackgroundPath() << std::endl;
+        }
+    }
+
     rt::Vector2<unsigned int> res = engine.GetRes();
     rt::Dispatcher dispatcher(engine, res);
     dispatcher.Start(); //Start to dispatch
-    if (argc == 4 && std::strcmp(argv[2], "--output-image") == 0) {
-        std::size_t num_frames = std::stoul(argv[3]);
+
+    if (config.RequestImageOutput()) {
+        std::size_t num_frames = config.GetImageOutputFrames();
         while (dispatcher.GetNumberOfProcessed() < num_frames) {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
             dispatcher.Flush();
@@ -57,13 +71,13 @@ int main(int argc, char **argv) {
         std::size_t i = 0;
         std::size_t size = res.Y * res.X;
         while (i < size) {
-            bitmap.set_pixel(i % res.X, i / res.Y, image[i].GetColor().rgba.r, image[i].GetColor().rgba.g, image[i].GetColor().rgba.b);
+            bitmap.set_pixel(i % res.X, i / res.X, image[i].GetColor().rgba.r, image[i].GetColor().rgba.g, image[i].GetColor().rgba.b);
             i++;
         }
         bitmap.save_image("output.bpm");
     } else {
         sf::RenderWindow window(sf::VideoMode(res.X, res.Y), "RayTracer 2.0");
-        window.setFramerateLimit(144);
+        window.setFramerateLimit(1); // Keep to 1 in order to avoid using thread for displaying
         sf::Uint8* frame = new sf::Uint8[window.getSize().x * window.getSize().y * 4];
         std::fill_n(frame, window.getSize().x * window.getSize().y * 4, 0xff); // Init with all component to 255
         sf::Texture texture;
@@ -82,8 +96,6 @@ int main(int argc, char **argv) {
                 i = i + 4;
             }
             texture.update(frame);
-            
-
             window.clear();
             window.draw(sprite);
             window.display();

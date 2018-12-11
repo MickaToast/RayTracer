@@ -18,7 +18,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <cstdlib>
 #include <cmath>
 #include "Camera.h"
-#include "../Engine/Config.h"
+#include "../Engine/Constant.h"
 
 namespace rt {
     Camera::Camera(): _pos(Vector3<float>(0, 0, 0)), _c1(Vector3<float>(1, 0, 0)),
@@ -63,8 +63,8 @@ namespace rt {
 
    void Camera::generateScreen() {
         _screenDist = 1.f;
-        _screenRes = Vector2<unsigned int>(Config::DefaultScreenWidth, Config::DefaultScreenHeight);
-        float screenWidth = 2.f * std::tan((Config::DefaultScreenFOV / 2.f) * static_cast<float>(M_PI) / 180.f) * _screenDist;
+        _screenRes = Vector2<unsigned int>(Constant::DefaultScreenWidth, Constant::DefaultScreenHeight);
+        float screenWidth = 2.f * std::tan((Constant::DefaultScreenFOV / 2.f) * static_cast<float>(M_PI) / 180.f) * _screenDist;
         _screenSize = Vector2<float>(screenWidth, screenWidth * _screenRes.Y / _screenRes.X);
         _screenCorner = _pos + _c3 * (-1.f) - _c1 * (_screenSize.X / 2.f) + _c2 * (_screenSize.Y / 2.f);
    }

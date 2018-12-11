@@ -15,7 +15,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#include "../Engine/Config.h"
+#include "../Engine/Constant.h"
 #include "KDBox.h"
 
 namespace rt {
@@ -37,7 +37,7 @@ namespace rt {
         float tMin = std::max(std::max(std::min(tx1, tx2), std::min(ty1, ty2)), std::min(tz1, tz2));
         float tMax = std::min(std::min(std::max(tx1, tx2), std::max(ty1, ty2)), std::max(tz1, tz2));
         if (tMin <= tMax) {
-            if (tMin <= Config::Epsilon && tMax <= Config::Epsilon) return false;
+            if (tMin <= Constant::Epsilon && tMax <= Constant::Epsilon) return false;
             return true;
         }
         return false;
