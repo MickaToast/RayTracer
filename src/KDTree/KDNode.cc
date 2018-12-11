@@ -56,7 +56,7 @@ namespace rt {
         Intersection intersection = Intersection();
         if (!(_box.Intersect(ray))) {
             return intersection;
-        } else if (!_left) {
+        } else if (!_left && !_right) {
             Intersection inter;
             float min = -1;
             for (std::size_t i = 0; i < _triangles.size(); ++i) {

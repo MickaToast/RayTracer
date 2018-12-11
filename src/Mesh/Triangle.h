@@ -18,39 +18,40 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #pragma once
 
 #include "Mesh.h"
+#include "Vertex.h"
 #include "../Material/Material.h"
 #include "../Vector/Vector3.h"
 
 namespace rt {
-class Triangle : public Mesh {
- public:
-    Triangle(Vector3<float> const& v1, Vector3<float> const& v2, Vector3<float> const& v3);
-    Triangle(Vector3<float> const& v1, Vector3<float> const& v2, Vector3<float> const& v3, Material const& material);
-    ~Triangle();
+   class Triangle : public Mesh {
+    public:
+      Triangle(Vertex const& v1, Vertex const& v2, Vertex const& v3);
+      Triangle(Vertex const& v1, Vertex const& v2, Vertex const& v3, Material const& material);
+      ~Triangle();
 
-    virtual Intersection const  Intersect(Ray const& ray);
+      virtual Intersection const  Intersect(Ray const& ray);
 
-   Vector2<float> const    GetMinMaxX() const;
-   Vector2<float> const    GetMinMaxY() const;
-   Vector2<float> const    GetMinMaxZ() const;
-   Vector3<float> const    GetMidPoint() const;
-   Vector3<float> const&   GetV1() const;
-   Vector3<float> const&   GetV2() const;
-   Vector3<float> const&   GetV3() const;
-   Vector3<float> const&   GetEdge1() const;
-   Vector3<float> const&   GetEdge2() const;
-   Vector3<float> const&   GetNormal() const;
+      Vector2<float> const    GetMinMaxX() const;
+      Vector2<float> const    GetMinMaxY() const;
+      Vector2<float> const    GetMinMaxZ() const;
+      Vector3<float> const    GetMidPoint() const;
+      Vertex const&           GetV1() const;
+      Vertex const&           GetV2() const;
+      Vertex const&           GetV3() const;
+      Vector3<float> const&   GetEdge1() const;
+      Vector3<float> const&   GetEdge2() const;
+      Vector3<float> const&   GetNormal() const;
 
-   bool  operator==(Triangle const& other) const;
+      bool  operator==(Triangle const& other) const;
 
- private:
-    Vector3<float>  _v1;
-    Vector3<float>  _v2;
-    Vector3<float>  _v3;
-    Vector3<float>  _normal;
-    Vector3<float>  _edge1;
-    Vector3<float>  _edge2;
+    private:
+      Vertex         _v1;
+      Vertex         _v2;
+      Vertex         _v3;
+      Vector3<float> _normal;
+      Vector3<float> _edge1;
+      Vector3<float> _edge2;
 
-    void    generateCharacteristics();
-};
+      void    generateCharacteristics();
+   };
 }  // namespace rt

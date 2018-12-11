@@ -29,5 +29,6 @@ class Mesh {
     
  protected:
    Material    _material;
+   std::string _name;
 };
 }  // namespace rt

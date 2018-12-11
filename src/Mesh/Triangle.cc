@@ -21,13 +21,13 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Engine/Config.h"
 
 namespace rt {
-    Triangle::Triangle(Vector3<float> const& v1, Vector3<float> const& v2,
-    Vector3<float> const& v3): _v1(v1), _v2(v2), _v3(v3) {
+    Triangle::Triangle(Vertex const& v1, Vertex const& v2,
+    Vertex const& v3): _v1(v1), _v2(v2), _v3(v3) {
         this->generateCharacteristics();
     }
 
-    Triangle::Triangle(Vector3<float> const& v1, Vector3<float> const& v2,
-    Vector3<float> const& v3, Material const& material): _v1(v1), _v2(v2), _v3(v3) {
+    Triangle::Triangle(Vertex const& v1, Vertex const& v2,
+    Vertex const& v3, Material const& material): _v1(v1), _v2(v2), _v3(v3) {
         _material = material;
         this->generateCharacteristics();
     }
@@ -40,52 +40,52 @@ namespace rt {
         Vector3<float> pvec = ray.Direction.Cross(_edge2);
         float det = _edge1.Dot(pvec);
         if (det > -Config::Epsilon && det < Config::Epsilon) {
-            ret.Intersect = false;
             return ret;
         }
-        Vector3<float> tvec = ray.Origin - _v1;
+        Vector3<float> tvec = ray.Origin - _v1.GetPos();
         float u = tvec.Dot(pvec) / det;
         if (u < 0.f || u > 1.f) {
-            ret.Intersect = false;
             return ret;
         }
         Vector3<float> qvec = tvec.Cross(_edge1);
         float v = ray.Direction.Dot(qvec) / det;
         if (v < 0.f || u + v > 1.f) {
-            ret.Intersect = false;
             return ret;
         }
         float t = _edge2.Dot(qvec) / det;
-        if (t < Config::Epsilon) {
-            ret.Intersect = false;
+        if (t < Config::MinDist) {
             return ret;
         }
         ret.Intersect = true;
         ret.Point = ray.Origin + ray.Direction * t;
-        ret.Dist = (ret.Point - ray.Origin).Norm();
-        ret.Normal = _normal;
+        ret.Dist = t;
+        if (_v1.GetNormal() != Vector3<float>()) {
+            ret.Normal = _v1.GetNormal() * (1 - u - v) + _v2.GetNormal() * u + _v3.GetNormal() * v;
+        } else {
+            ret.Normal = _normal;
+        }
         ret.Mat = _material;
         return ret;
     }
 
    Vector2<float> const Triangle::GetMinMaxX() const {
        return Vector2<float>(
-           std::min(_v1.X, std::min(_v2.X, _v3.X)),
-           std::max(_v1.X, std::max(_v2.X, _v3.X))
+           std::min(_v1.GetPos().X, std::min(_v2.GetPos().X, _v3.GetPos().X)),
+           std::max(_v1.GetPos().X, std::max(_v2.GetPos().X, _v3.GetPos().X))
        );
    }
 
    Vector2<float> const Triangle::GetMinMaxY() const {
        return Vector2<float>(
-           std::min(_v1.Y, std::min(_v2.Y, _v3.Y)),
-           std::max(_v1.Y, std::max(_v2.Y, _v3.Y))
+           std::min(_v1.GetPos().Y, std::min(_v2.GetPos().Y, _v3.GetPos().Y)),
+           std::max(_v1.GetPos().Y, std::max(_v2.GetPos().Y, _v3.GetPos().Y))
        );
    }
 
    Vector2<float> const Triangle::GetMinMaxZ() const {
        return Vector2<float>(
-           std::min(_v1.Z, std::min(_v2.Z, _v3.Z)),
-           std::max(_v1.Z, std::max(_v2.Z, _v3.Z))
+           std::min(_v1.GetPos().Z, std::min(_v2.GetPos().Z, _v3.GetPos().Z)),
+           std::max(_v1.GetPos().Z, std::max(_v2.GetPos().Z, _v3.GetPos().Z))
        );
    }
 
@@ -97,15 +97,15 @@ namespace rt {
         );
    }
 
-   Vector3<float> const& Triangle::GetV1() const {
+   Vertex const& Triangle::GetV1() const {
        return _v1;
    }
 
-   Vector3<float> const& Triangle::GetV2() const {
+   Vertex const& Triangle::GetV2() const {
        return _v2;
    }
 
-   Vector3<float> const& Triangle::GetV3() const {
+   Vertex const& Triangle::GetV3() const {
        return _v3;
    }
 
@@ -126,8 +126,8 @@ namespace rt {
    }
 
     void Triangle::generateCharacteristics() {
-        _edge1 = _v2 - _v1;
-        _edge2 = _v3 - _v1;
+        _edge1 = _v2.GetPos() - _v1.GetPos();
+        _edge2 = _v3.GetPos() - _v1.GetPos();
         _normal = _edge1.Cross(_edge2);
         _normal.Normalize();
     }

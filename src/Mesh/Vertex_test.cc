@@ -15,23 +15,23 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#pragma once
-
-#include <vector>
-#include "../KDTree/KDNode.h"
-#include "Mesh.h"
-#include "Triangle.h"
+#include "gtest/gtest.h"
+#include "Vertex.h"
 
 namespace rt {
-class Object : public Mesh {
- public:
-    Object(std::vector<Triangle> const& triangles, Material const& mat, std::string const& name);
-    ~Object();
+    TEST(Vertex, initBasic) {
+        Vertex v = Vertex(Vector3<float>());
 
-    virtual Intersection const   Intersect(Ray const& ray);
+        EXPECT_EQ(v.GetPos(), Vector3<float>(0, 0, 0));
+        EXPECT_EQ(v.GetNormal(), Vector3<float>(0, 0, 0));
+        v.SetNormal(Vector3<float>(0, 1, 0));
+        EXPECT_EQ(v.GetNormal(), Vector3<float>(0, 1, 0));
+    }
 
- private:
-    std::vector<Triangle>   _triangles;
-    KDNode                  _KDTree;
-};
+    TEST(Vertex, equality) {
+        Vertex v = Vertex(Vector3<float>());
+        Vertex v2 = Vertex(Vector3<float>());
+
+        EXPECT_EQ(v, v2);
+    }
 }  // namespace rt

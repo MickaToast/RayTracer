@@ -45,7 +45,7 @@ namespace rt {
         }
         Engine engine = rt::Engine(loader);
         ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x00000000);
-        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(800, 450)).GetColor().hexcode, 0x53535300);
+        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(800, 450)).GetColor().hexcode, 0x37373700);
     }
 
     TEST(Engine, raytraceHard) {
@@ -64,7 +64,7 @@ namespace rt {
             ASSERT_TRUE(false);
         }
         Engine engine = rt::Engine(loader);
-        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0x10531200);
-        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(800, 450)).GetColor().hexcode, 0xDEDEDE00);
+        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0xb390c00);
+        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(800, 450)).GetColor().hexcode, 0xf1f1f100);
     }
 }  // namespace rt

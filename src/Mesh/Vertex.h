@@ -17,21 +17,22 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #pragma once
 
-#include <vector>
-#include "../KDTree/KDNode.h"
-#include "Mesh.h"
-#include "Triangle.h"
+#include "../Vector/Vector3.h"
 
 namespace rt {
-class Object : public Mesh {
- public:
-    Object(std::vector<Triangle> const& triangles, Material const& mat, std::string const& name);
-    ~Object();
+    class Vertex {
+     public:
+        Vertex(Vector3<float> const& pos);
+        ~Vertex();
 
-    virtual Intersection const   Intersect(Ray const& ray);
+        Vector3<float> const&   GetPos() const;
+        Vector3<float> const&   GetNormal() const;
+        void                    SetNormal(Vector3<float> const& normal);
 
- private:
-    std::vector<Triangle>   _triangles;
-    KDNode                  _KDTree;
-};
+        bool  operator==(Vertex const& other) const;
+
+     private:
+        Vector3<float>  _pos;
+        Vector3<float>  _normal;
+    };
 }  // namespace rt

@@ -38,5 +38,6 @@ namespace rt {
         float           Dist;
         Vector3<float>  Normal;
         Material        Mat;
+        std::string     name;
     };
 }  // namespace rt
