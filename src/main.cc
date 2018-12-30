@@ -20,7 +20,6 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <SFML/Graphics.hpp>
 #include <cstring>
 #include <regex>
-#include "Loader/Bitmap.h"
 #include "Loader/AssimpLoader.h"
 #include "Camera/Camera.h"
 #include "Engine/Engine.h"
@@ -66,15 +65,17 @@ int main(int argc, char **argv) {
             dispatcher.Flush();
         }
         dispatcher.Stop();
-        bitmap_image bitmap(res.X, res.Y);
+
+        sf::Image export_image;
+        export_image.create(res.X, res.Y);
         std::vector<rt::Color> const& image = dispatcher.Flush();
         std::size_t i = 0;
         std::size_t size = res.Y * res.X;
         while (i < size) {
-            bitmap.set_pixel(i % res.X, i / res.X, image[i].GetColor().rgba.r, image[i].GetColor().rgba.g, image[i].GetColor().rgba.b);
+            export_image.setPixel(i % res.X, i / res.X, sf::Color(image[i].GetColor().rgba.r, image[i].GetColor().rgba.g, image[i].GetColor().rgba.b));
             i++;
         }
-        bitmap.save_image("output.bpm");
+        export_image.saveToFile("output.bmp");
     } else {
         sf::RenderWindow window(sf::VideoMode(res.X, res.Y), "RayTracer 2.0");
         window.setFramerateLimit(1); // Keep to 1 in order to avoid using thread for displaying
@@ -102,7 +103,7 @@ int main(int argc, char **argv) {
 
             sf::Event event;
             while (window.pollEvent(event)) {
-                if (event.type == sf::Event::Closed) {
+                if ((event.type == sf::Event::Closed) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                     window.close();
                     dispatcher.Stop();
                 }
