@@ -15,9 +15,9 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include <SFML/Graphics.hpp>
 #include "gtest/gtest.h"
 #include "Engine.h"
-#include "Config.h"
 #include "../Loader/AssimpLoader.h"
 #include "../Camera/Camera.h"
 #include "../Vector/Vector2.h"
@@ -66,5 +66,17 @@ namespace rt {
         Engine engine = rt::Engine(loader);
         ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0xb390c00);
         ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(800, 450)).GetColor().hexcode, 0xf1f1f100);
+    }
+
+    TEST(Engine, raytraceWithBackground) {
+        AssimpLoader loader;
+        if (!loader.LoadFile("../scenes/Cube.dae")) {
+            ASSERT_TRUE(false);
+        }
+        sf::Image skyTexture;
+        skyTexture.loadFromFile("../scenes/sphereMap_joshua.jpg");
+        Engine engine = rt::Engine(loader);
+        engine.SetBackground(std::shared_ptr<Sky>(new rt::SphereSky(rt::Vector2<unsigned int>(skyTexture.getSize().x, skyTexture.getSize().y), skyTexture.getPixelsPtr())));
+        ASSERT_EQ(engine.Raytrace(Vector2<unsigned int>(0, 0)).GetColor().hexcode, 0xc2baad00);
     }
 }  // namespace rt

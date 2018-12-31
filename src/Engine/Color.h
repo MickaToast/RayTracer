@@ -48,8 +48,6 @@ namespace rt {
         void                SetBlueComponent(std::uint8_t value);
         std::uint8_t const& GetGreenComponent() const;
         void                SetGreenComponent(std::uint8_t value);
-        std::uint8_t const& GetAlphaComponent() const;
-        void                SetAlphaComponent(std::uint8_t value);
 
         Color const& operator+=(Color const& other);
         Color const operator*(float const& coef);

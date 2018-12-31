@@ -4,6 +4,7 @@ project(RayTracer)
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES    src/Camera/Camera.cc
+                    src/Config/Config.cc
                     src/Dispatcher/Dispatcher.cc
                     src/Engine/Color.cc
                     src/Engine/Engine.cc
@@ -16,7 +17,8 @@ set(SOURCE_FILES    src/Camera/Camera.cc
                     src/Mesh/Mesh.cc
                     src/Mesh/Object.cc
                     src/Mesh/Triangle.cc
-                    src/Mesh/Vertex.cc)
+                    src/Mesh/Vertex.cc
+                    src/Sky/SphereSky.cc)
 add_executable(RayTracer ${SOURCE_FILES} src/main.cc)
 
 target_compile_options(RayTracer PUBLIC
@@ -47,6 +49,7 @@ include_directories(${GTEST_INCLUDE_DIRS})
 # Link runTests with what we want to test and the GTest and pthread library
 set(TEST_FILES  src/main_test.cc
                 src/Camera/Camera_test.cc
+                src/Config/Config_test.cc
                 src/Dispatcher/Dispatcher_test.cc
                 src/Engine/Color_test.cc
                 src/Engine/Engine_test.cc
@@ -58,11 +61,12 @@ set(TEST_FILES  src/main_test.cc
                 src/Mesh/Object_test.cc
                 src/Mesh/Triangle_test.cc
                 src/Mesh/Vertex_test.cc
+                src/Sky/SphereSky_test.cc
                 src/Vector/Vector2_test.cc
                 src/Vector/Vector3_test.cc)
 add_executable(runTests ${SOURCE_FILES} ${TEST_FILES})
 target_compile_options(runTests PUBLIC -W -Wall -Wextra -Werror -Wuninitialized -Wduplicated-cond
         -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wold-style-cast
         -Wuseless-cast -Wdouble-promotion -Wshadow -fprofile-arcs -ftest-coverage)
-target_link_libraries(runTests ${GTEST_LIBRARIES} ${ASSIMP_LIBRARIES} pthread gcov)
+target_link_libraries(runTests ${GTEST_LIBRARIES} ${ASSIMP_LIBRARIES} ${SFML_LIBRARIES} pthread gcov)
 target_compile_definitions(runTests PUBLIC RT_TESTING_ENV)

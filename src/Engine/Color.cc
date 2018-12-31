@@ -33,12 +33,14 @@ rt::Color::Color(std::uint8_t red, std::uint8_t green, std::uint8_t blue) {
     _color.rgba.r = red;
     _color.rgba.g = green;
     _color.rgba.b = blue;
+    _color.rgba.a = 0;
 }
 
 rt::Color::Color(Vector3<float> const& vec) {
     _color.rgba.r = vec.X * 255;
     _color.rgba.g = vec.Y * 255;
     _color.rgba.b = vec.Z * 255;
+    _color.rgba.a = 0;
 }
 
 rt::Color::~Color() {

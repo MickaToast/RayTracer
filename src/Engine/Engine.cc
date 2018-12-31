@@ -19,11 +19,10 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <vector>
 #include <thread>
 #include "Engine.h"
-#include "Config.h"
 #include "../Light/PointLight.h"
 
 namespace rt {
-    Engine::Engine(AssimpLoader const &loader) : _loader(loader), _camera(loader.GetCameraFromScene()) {
+    Engine::Engine(AssimpLoader const &loader) : _loader(loader), _sky(nullptr), _camera(loader.GetCameraFromScene()) {
         _meshes = loader.GetMeshesFromScene();
         _lights = loader.GetLightsFromScene();
     }
@@ -41,7 +40,7 @@ namespace rt {
                 lightDir.Normalize();
                 Intersection interLight = _intersect(Ray(inter.Point, lightDir));
                 if (!interLight.Intersect ||
-                 interLight.Dist > (_lights[i]->GetPos() - inter.Point).Norm()) {
+                    interLight.Dist > (_lights[i]->GetPos() - inter.Point).Norm()) {
                     float angle = lightDir.Angle(inter.Normal);
                     if (angle > 90.f) {
                         angle = 180.f - angle;
@@ -49,6 +48,8 @@ namespace rt {
                     color += (Color(inter.Mat.Kd) * ((-1.f / 90.f) * angle + 1.f));
                 }
             }
+        } else if (_sky != nullptr) { // Environment mapping
+            color = _sky->GetPixel(ray.Direction);
         }
         return color;
     }
@@ -75,5 +76,9 @@ namespace rt {
 
     Vector2<unsigned int> Engine::GetRes() const {
         return _camera.GetRes();
+    }
+
+    void Engine::SetBackground(std::shared_ptr<Sky> const& sky) {
+        _sky = sky;
     }
 }  // namespace rt

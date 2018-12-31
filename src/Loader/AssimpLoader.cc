@@ -33,7 +33,7 @@ namespace rt {
                                                | aiProcess_GenSmoothNormals
                                                | aiProcess_FixInfacingNormals);
         if (!_scene) {
-            std::cout << "ERROR while importing scene:" << _importer.GetErrorString() << std::endl;
+            std::cerr << "Error while importing scene: " << _importer.GetErrorString() << std::endl;
             return false;
         }
         _loadNode(_scene->mRootNode, aiMatrix4x4());   

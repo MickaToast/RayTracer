@@ -23,6 +23,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../KDTree/KDNode.h"
 #include "../Vector/Vector2.h"
 #include "../Vector/Vector3.h"
+#include "../Sky/SphereSky.h"
 #include "Color.h"
 #include "Tools.h"
 
@@ -34,9 +35,11 @@ namespace rt {
 
         Color                   Raytrace(Vector2<unsigned int> const& pixel);
         Vector2<unsigned int>   GetRes() const;
+        void                    SetBackground(std::shared_ptr<Sky> const& sky);
 
     private:
         AssimpLoader                        _loader;
+        std::shared_ptr<Sky>                _sky;
         Camera                              _camera;
         std::vector<std::shared_ptr<Mesh>>  _meshes;
         std::vector<std::shared_ptr<Light>> _lights;

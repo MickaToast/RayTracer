@@ -19,7 +19,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Color.h"
 
 namespace rt {
-    TEST(Color, initBasic) {
+    TEST(Color, initByHexcode) {
         Color color(0x00000000);
 
         ASSERT_EQ(color.GetColor().rgba.r, 0);
@@ -28,10 +28,19 @@ namespace rt {
         ASSERT_EQ(color.GetColor().rgba.a, 0);
     }
 
-    TEST(Color, initComponent) {
+    TEST(Color, initByComponent) {
         Color_Component component;
         component.hexcode = 0x00000000;
         Color color(component);
+
+        ASSERT_EQ(color.GetColor().rgba.r, 0);
+        ASSERT_EQ(color.GetColor().rgba.g, 0);
+        ASSERT_EQ(color.GetColor().rgba.b, 0);
+        ASSERT_EQ(color.GetColor().rgba.a, 0);
+    }
+
+    TEST(Color, initByComposite) {
+        Color color(0, 0, 0);
 
         ASSERT_EQ(color.GetColor().rgba.r, 0);
         ASSERT_EQ(color.GetColor().rgba.g, 0);
