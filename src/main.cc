@@ -20,13 +20,65 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <SFML/Graphics.hpp>
 #include <cstring>
 #include <regex>
-#include "Loader/Bitmap.h"
 #include "Loader/AssimpLoader.h"
 #include "Camera/Camera.h"
 #include "Engine/Engine.h"
 #include "Dispatcher/Dispatcher.h"
 #include "Vector/Vector2.h"
 #include "Config/Config.h"
+
+void exportToImage(rt::Dispatcher &dispatcher, std::size_t num_frames, rt::Vector2<unsigned int> const& res) {
+    while (dispatcher.GetNumberOfProcessed() < num_frames) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+    dispatcher.Stop();
+
+    sf::Image export_image;
+    export_image.create(res.X, res.Y);
+    std::vector<rt::Color> const& image = dispatcher.Flush();
+    std::size_t i = 0;
+    std::size_t size = res.Y * res.X;
+    while (i < size) {
+        export_image.setPixel(i % res.X, i / res.X, sf::Color(image[i].GetColor().rgba.r, image[i].GetColor().rgba.g, image[i].GetColor().rgba.b));
+        i++;
+    }
+    export_image.saveToFile("output.bmp");
+}
+
+void displayToScreen(rt::Dispatcher &dispatcher, rt::Vector2<unsigned int> const& res) {
+    sf::RenderWindow window(sf::VideoMode(res.X, res.Y), "RayTracer 2.0");
+    window.setFramerateLimit(1); // Keep to 1 in order to avoid using thread for displaying
+    sf::Uint8* frame = new sf::Uint8[window.getSize().x * window.getSize().y * 4];
+    std::fill_n(frame, window.getSize().x * window.getSize().y * 4, 0xff); // Init with all component to 255
+    sf::Texture texture;
+    texture.create(window.getSize().x, window.getSize().y);
+    sf::Sprite sprite(texture);
+
+    while (window.isOpen()) {
+        std::size_t i = 0;
+        std::vector<rt::Color> pixels = dispatcher.Flush();
+
+        for (auto const& pixel : pixels) {
+            rt::Color_Component const& components = pixel.GetColor();
+            frame[i] = components.rgba.r;
+            frame[i + 1] = components.rgba.g;
+            frame[i + 2] = components.rgba.b;
+            i = i + 4;
+        }
+        texture.update(frame);
+        window.clear();
+        window.draw(sprite);
+        window.display();
+
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if ((event.type == sf::Event::Closed) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+                window.close();
+                dispatcher.Stop();
+            }
+        }
+    }
+}
 
 int main(int argc, char **argv) {
     if (argc < 2) {
@@ -60,54 +112,9 @@ int main(int argc, char **argv) {
     dispatcher.Start(); //Start to dispatch
 
     if (config.RequestImageOutput()) {
-        std::size_t num_frames = config.GetImageOutputFrames();
-        while (dispatcher.GetNumberOfProcessed() < num_frames) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            dispatcher.Flush();
-        }
-        dispatcher.Stop();
-        bitmap_image bitmap(res.X, res.Y);
-        std::vector<rt::Color> const& image = dispatcher.Flush();
-        std::size_t i = 0;
-        std::size_t size = res.Y * res.X;
-        while (i < size) {
-            bitmap.set_pixel(i % res.X, i / res.X, image[i].GetColor().rgba.r, image[i].GetColor().rgba.g, image[i].GetColor().rgba.b);
-            i++;
-        }
-        bitmap.save_image("output.bpm");
+        exportToImage(dispatcher, config.GetImageOutputFrames(), res);
     } else {
-        sf::RenderWindow window(sf::VideoMode(res.X, res.Y), "RayTracer 2.0");
-        window.setFramerateLimit(1); // Keep to 1 in order to avoid using thread for displaying
-        sf::Uint8* frame = new sf::Uint8[window.getSize().x * window.getSize().y * 4];
-        std::fill_n(frame, window.getSize().x * window.getSize().y * 4, 0xff); // Init with all component to 255
-        sf::Texture texture;
-        texture.create(window.getSize().x, window.getSize().y);
-        sf::Sprite sprite(texture);
-
-        while (window.isOpen()) {
-            std::size_t i = 0;
-            std::vector<rt::Color> pixels = dispatcher.Flush();
-
-            for (auto const& pixel : pixels) {
-                rt::Color_Component const& components = pixel.GetColor();
-                frame[i] = components.rgba.r;
-                frame[i + 1] = components.rgba.g;
-                frame[i + 2] = components.rgba.b;
-                i = i + 4;
-            }
-            texture.update(frame);
-            window.clear();
-            window.draw(sprite);
-            window.display();
-
-            sf::Event event;
-            while (window.pollEvent(event)) {
-                if (event.type == sf::Event::Closed) {
-                    window.close();
-                    dispatcher.Stop();
-                }
-            }
-        }
+        displayToScreen(dispatcher, res);
     }
     return 0;
 }
