@@ -22,7 +22,7 @@ cmake .. && make && ./RayTracer scene.obj
 
 ## How to create a test
 Create a directory in validation_test with the name of the scene (it must match the name of the scene).
-Create test files inside the directory with the following name format: `<width>x<height>_<number_of_frame_to_render>_<difference_threshold>`
+Create test files inside the directory with the following name format: `<number_of_frame_to_render>_<difference_threshold>.jpg`
 Then, follow the next point in order to generate the test.
 
 ## How to regenerate tests

@@ -46,7 +46,7 @@ namespace rt {
         _threads.clear();
     }
 
-    std::vector<Color> Dispatcher::Flush() {
+    std::vector<Color> const& Dispatcher::Flush() const {
         return _image;
     }
 
