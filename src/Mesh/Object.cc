@@ -26,9 +26,6 @@ namespace rt {
         _name = name;
     }
 
-    Object::~Object() {
-    }
-
     Intersection const Object::Intersect(Ray const& ray) {
         Intersection inter = _KDTree.Intersect(ray);
         inter.Mat = _material;

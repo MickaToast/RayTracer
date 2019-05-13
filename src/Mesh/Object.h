@@ -26,7 +26,7 @@ namespace rt {
     class Object : public Mesh {
     public:
         Object(std::vector<Triangle> const& triangles, Material const& mat, std::string const& name);
-        ~Object();
+        ~Object() = default;
 
         Intersection const      Intersect(Ray const& ray) override;
 
