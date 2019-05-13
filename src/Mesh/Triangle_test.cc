@@ -22,9 +22,9 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     TEST(Triangle, initBasic) {
         Triangle t = Triangle(
-            Vector3<float>(),
-            Vector3<float>(1, 1, 1),
-            Vector3<float>(2, 2, 2)
+                Vector3<float>(),
+                Vector3<float>(1, 1, 1),
+                Vector3<float>(2, 2, 2)
         );
 
         EXPECT_EQ(t.GetEdge1(), Vector3<float>(1, 1, 1));
@@ -36,10 +36,10 @@ namespace rt {
 
     TEST(Triangle, initBasic2) {
         Triangle t = Triangle(
-            Vector3<float>(),
-            Vector3<float>(1, 1, 1),
-            Vector3<float>(2, 2, 2),
-            Material()
+                Vector3<float>(),
+                Vector3<float>(1, 1, 1),
+                Vector3<float>(2, 2, 2),
+                Material()
         );
 
         EXPECT_EQ(t.GetEdge1(), Vector3<float>(1, 1, 1));
@@ -48,44 +48,44 @@ namespace rt {
 
     TEST(Triangle, Intersection) {
         Triangle t2 = Triangle(
-            Vector3<float>(),
-            Vector3<float>(1, 0, 0),
-            Vector3<float>(0, 1, 0)
+                Vector3<float>(),
+                Vector3<float>(1, 0, 0),
+                Vector3<float>(0, 1, 0)
         );
         EXPECT_TRUE(t2.Intersect(Ray(
-            Vector3<float>(.3, .3, 1),
-            Vector3<float>(0, 0, -1)            
+                Vector3<float>(.3, .3, 1),
+                Vector3<float>(0, 0, -1)
         )).Intersect);
         EXPECT_FALSE(t2.Intersect(Ray(
-            Vector3<float>(.3, .3, 1),
-            Vector3<float>(0, 0, 1)            
+                Vector3<float>(.3, .3, 1),
+                Vector3<float>(0, 0, 1)
         )).Intersect);
         t2 = Triangle(
-            Vector3<float>(),
-            Vector3<float>(0, 1, 0),
-            Vector3<float>(1, 0, 0)
+                Vector3<float>(),
+                Vector3<float>(0, 1, 0),
+                Vector3<float>(1, 0, 0)
         );
         EXPECT_TRUE(t2.Intersect(Ray(
-            Vector3<float>(.3, .3, 1),
-            Vector3<float>(0, 0, -1)            
+                Vector3<float>(.3, .3, 1),
+                Vector3<float>(0, 0, -1)
         )).Intersect);
 
         Triangle t3 = Triangle(
-            Vector3<float>(0, 0, -1),
-            Vector3<float>(3, 0, -1),
-            Vector3<float>(0, 0, 0)
+                Vector3<float>(0, 0, -1),
+                Vector3<float>(3, 0, -1),
+                Vector3<float>(0, 0, 0)
         );
         EXPECT_FALSE(t3.Intersect(Ray(
-            Vector3<float>(1.5, 3, -0.5),
-            Vector3<float>(0, 1, 0)
+                Vector3<float>(1.5, 3, -0.5),
+                Vector3<float>(0, 1, 0)
         )).Intersect);
     }
-    
+
     TEST(Triangle, MaterialRetrieving) {
         Triangle t = Triangle(
-            Vector3<float>(),
-            Vector3<float>(1, 1, 1),
-            Vector3<float>(2, 2, 2)
+                Vector3<float>(),
+                Vector3<float>(1, 1, 1),
+                Vector3<float>(2, 2, 2)
         );
         Material mat = t.GetMaterial();
         EXPECT_EQ(mat.Kd, Vector3<float>(0, 1, 0));
@@ -93,18 +93,18 @@ namespace rt {
 
     TEST(Triangle, GetNormal) {
         Triangle t = Triangle(
-            Vector3<float>(),
-            Vector3<float>(0, 0, -1),
-            Vector3<float>(1, 0, 0)
+                Vector3<float>(),
+                Vector3<float>(0, 0, -1),
+                Vector3<float>(1, 0, 0)
         );
         EXPECT_EQ(t.GetNormal(), Vector3<float>(0, -1, 0));
     }
 
     TEST(Triangle, GetMinMax) {
         Triangle t = Triangle(
-            Vector3<float>(1, 4, -5),
-            Vector3<float>(5, -3, 2),
-            Vector3<float>(2, 3, -8)
+                Vector3<float>(1, 4, -5),
+                Vector3<float>(5, -3, 2),
+                Vector3<float>(2, 3, -8)
         );
         EXPECT_EQ(t.GetMinMaxX(), Vector2<float>(1, 5));
         EXPECT_EQ(t.GetMinMaxY(), Vector2<float>(-3, 4));
@@ -113,23 +113,23 @@ namespace rt {
 
     TEST(Triangle, GetMidPoint) {
         Triangle t = Triangle(
-            Vector3<float>(1, 4, -5),
-            Vector3<float>(5, -3, 2),
-            Vector3<float>(2, 3, -8)
+                Vector3<float>(1, 4, -5),
+                Vector3<float>(5, -3, 2),
+                Vector3<float>(2, 3, -8)
         );
         EXPECT_EQ(t.GetMidPoint(), Vector3<float>(3, .5, -3));
     }
 
     TEST(Triangle, EqualOperator) {
         Triangle t = Triangle(
-            Vector3<float>(1, 4, -5),
-            Vector3<float>(5, -3, 2),
-            Vector3<float>(2, 3, -8)
+                Vector3<float>(1, 4, -5),
+                Vector3<float>(5, -3, 2),
+                Vector3<float>(2, 3, -8)
         );
         Triangle t2 = Triangle(
-            Vector3<float>(1, 4, -5),
-            Vector3<float>(5, -3, 2),
-            Vector3<float>(2, 3, -8)
+                Vector3<float>(1, 4, -5),
+                Vector3<float>(5, -3, 2),
+                Vector3<float>(2, 3, -8)
         );
         EXPECT_TRUE(t == t2);
     }

@@ -37,8 +37,8 @@ namespace rt {
 
         Vector3<T> Cross(Vector3<T> const& other) const {
             return Vector3<T>(this->Y * other.Z - Z * other.Y,
-                           Z * other.X - this->X * other.Z,
-                           this->X * other.Y - this->Y * other.X);
+                              Z * other.X - this->X * other.Z,
+                              this->X * other.Y - this->Y * other.X);
         }
 
         T   Dot(Vector3<T> const& other) const {
@@ -54,7 +54,7 @@ namespace rt {
         }
 
         void    Normalize(void) {
-            float norm = this->Norm();
+            T norm = this->Norm();
             this->X = this->X / norm;
             this->Y = this->Y / norm;
             Z = Z / norm;

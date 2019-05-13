@@ -24,30 +24,30 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Engine/Tools.h"
 
 namespace rt {
-class Camera {
- public:
-   Camera();
-   virtual ~Camera(void);
+    class Camera {
+    public:
+        Camera();
+        virtual ~Camera();
 
-   Ray const  GenerateRay(Vector2<unsigned int> const &pos);
-   
-   Vector3<float> const&                  GetPos(void) const;
-   Vector2<unsigned int> const&           GetRes(void) const;
-   void                                   SetMatrix(Vector3<float> const& pos, Vector3<float> const& c1, Vector3<float> const& c2, Vector3<float> const& c3);
- 
- private:
-   Vector3<float>                         _pos;
-   Vector3<float>                         _c1;
-   Vector3<float>                         _c2;
-   Vector3<float>                         _c3;
-   Vector2<unsigned int>                  _screenRes;
-   Vector2<float>                         _screenSize;
-   Vector3<float>                         _screenCorner;
-   float                                  _screenDist;
-   std::mt19937                           _gen;
-   std::uniform_real_distribution<float>  _dis;
+        Ray const  GenerateRay(Vector2<unsigned int> const &pos);
+
+        Vector3<float> const&                  GetPos() const;
+        Vector2<unsigned int> const&           GetRes() const;
+        void                                   SetMatrix(Vector3<float> const& pos, Vector3<float> const& c1, Vector3<float> const& c2, Vector3<float> const& c3);
+
+    private:
+        Vector3<float>                         _pos;
+        Vector3<float>                         _c1;
+        Vector3<float>                         _c2;
+        Vector3<float>                         _c3;
+        Vector2<unsigned int>                  _screenRes;
+        Vector2<float>                         _screenSize;
+        Vector3<float>                         _screenCorner;
+        float                                  _screenDist;
+        std::mt19937                           _gen;
+        std::uniform_real_distribution<float>  _dis;
 
 
-   void     generateScreen();
-};
+        void     generateScreen();
+    };
 }  // namespace rt

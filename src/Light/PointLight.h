@@ -21,15 +21,14 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     class PointLight : public Light {
-     public:
+    public:
         PointLight(Vector3<float> const& pos);
         PointLight(Vector3<float> const& pos, Color const& color);
-        virtual ~PointLight();
+        virtual ~PointLight() = default;
 
-        virtual Vector3<float>  GetPos() const;
+        Vector3<float>  GetPos() const override;
 
-
-     private:
+    private:
         Vector3<float>  _pos;
     };
 }

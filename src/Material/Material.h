@@ -24,9 +24,9 @@ namespace rt {
     struct Ray;
     struct Intersection;
     class Material {
-     public:
+    public:
         Material();
-        ~Material();
+        ~Material() = default;
 
         std::string     name;
         float           Ns;     //Specular exponent

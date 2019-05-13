@@ -31,7 +31,7 @@ namespace rt {
     class Engine {
     public:
         explicit    Engine(AssimpLoader const& loader);
-        virtual     ~Engine();
+        virtual     ~Engine() = default;
 
         Color                   Raytrace(Vector2<unsigned int> const& pixel);
         Vector2<unsigned int>   GetRes() const;
@@ -44,7 +44,7 @@ namespace rt {
         std::vector<std::shared_ptr<Mesh>>  _meshes;
         std::vector<std::shared_ptr<Light>> _lights;
 
-        void                _pathtrace(Ray const& ray, unsigned int const& depth, Color & color);
+        //void                _pathtrace(Ray const& ray, unsigned int const& depth, Color & color);
         Intersection const  _intersect(Ray const& ray);
     };
 }  // namespace rt

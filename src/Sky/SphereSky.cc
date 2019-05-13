@@ -20,9 +20,6 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 rt::SphereSky::SphereSky(const rt::Vector2<unsigned int> &size, const std::uint8_t *pixels) : _size(size), _pixels(pixels, pixels + (size.X * size.Y * 4)) {
 }
 
-rt::SphereSky::~SphereSky() {
-}
-
 rt::Color rt::SphereSky::GetPixel(const rt::Vector3<float> &direction) const {
     unsigned int u = (0.5f + (std::atan2(direction.Y, direction.X) / (2.f * static_cast<float>(M_PI)))) * (_size.X - 1);
     unsigned int v = (0.5f - std::asin(direction.Z) / static_cast<float>(M_PI)) * (_size.Y - 1);

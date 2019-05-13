@@ -1,3 +1,7 @@
+#include <memory>
+
+#include <memory>
+
 /* Copyright (c) 2018 mickael.leclerc@epitech.eu charles.fraisse@epitech.eu
  Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,24 +36,21 @@ namespace rt {
             for (std::size_t i = 0; i < size; ++i) {
                 switch (axis) {
                     case 0:
-                        triangles[i].GetMidPoint().X > midpoint.X ? tright.push_back(std::move(triangles[i])) : tleft.push_back(std::move(triangles[i]));
+                        triangles[i].GetMidPoint().X > midpoint.X ? tright.push_back(triangles[i]) : tleft.push_back(triangles[i]);
                         break;
                     case 1:
-                        triangles[i].GetMidPoint().Y > midpoint.Y ? tright.push_back(std::move(triangles[i])) : tleft.push_back(std::move(triangles[i]));
+                        triangles[i].GetMidPoint().Y > midpoint.Y ? tright.push_back(triangles[i]) : tleft.push_back(triangles[i]);
                         break;
                     case 2:
-                        triangles[i].GetMidPoint().Z > midpoint.Z ? tright.push_back(std::move(triangles[i])) : tleft.push_back(std::move(triangles[i]));
+                        triangles[i].GetMidPoint().Z > midpoint.Z ? tright.push_back(triangles[i]) : tleft.push_back(triangles[i]);
                         break;
                 }
             }
-            _left = std::shared_ptr<KDNode>(new KDNode(tleft, depth - 1));
-            _right = std::shared_ptr<KDNode>(new KDNode(tright, depth - 1));
+            _left = std::make_shared<KDNode>(tleft, depth - 1);
+            _right = std::make_shared<KDNode>(tright, depth - 1);
         } else {
             _triangles = triangles;
         }
-    }
-
-    KDNode::~KDNode() {
     }
 
     Intersection KDNode::Intersect(Ray const& ray) {
@@ -59,8 +60,8 @@ namespace rt {
         } else if (!_left && !_right) {
             Intersection inter;
             float min = -1;
-            for (std::size_t i = 0; i < _triangles.size(); ++i) {
-                inter = _triangles[i].Intersect(ray);
+            for (auto & _triangle : _triangles) {
+                inter = _triangle.Intersect(ray);
                 if (inter.Intersect) {
                     if (min == -1 || inter.Dist < min) {
                         min = inter.Dist;

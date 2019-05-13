@@ -23,15 +23,15 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "Triangle.h"
 
 namespace rt {
-class Object : public Mesh {
- public:
-    Object(std::vector<Triangle> const& triangles, Material const& mat, std::string const& name);
-    ~Object();
+    class Object : public Mesh {
+    public:
+        Object(std::vector<Triangle> triangles, Material const& mat, std::string const& name);
+        ~Object();
 
-    virtual Intersection const   Intersect(Ray const& ray);
+        Intersection const      Intersect(Ray const& ray) override;
 
- private:
-    std::vector<Triangle>   _triangles;
-    KDNode                  _KDTree;
-};
+    private:
+        std::vector<Triangle>   _triangles;
+        KDNode                  _KDTree;
+    };
 }  // namespace rt

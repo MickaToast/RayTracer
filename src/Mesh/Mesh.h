@@ -21,14 +21,14 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Material/Material.h"
 
 namespace rt {
-class Mesh {
- public:
-    virtual Intersection const   Intersect(Ray const& ray) = 0;
-    
-    Material const&  GetMaterial() const;
-    
- protected:
-   Material    _material;
-   std::string _name;
-};
+    class Mesh {
+    public:
+        virtual Intersection const   Intersect(Ray const& ray) = 0;
+
+        Material const&  GetMaterial() const;
+
+    protected:
+        Material    _material;
+        std::string _name;
+    };
 }  // namespace rt

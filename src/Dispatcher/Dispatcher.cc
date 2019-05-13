@@ -25,9 +25,6 @@ namespace rt {
         _image.resize(size, Color(0x000000ff));
     }
 
-    Dispatcher::~Dispatcher() {
-    }
-
     void Dispatcher::Start() {
         _running = true;
         std::size_t cores = std::thread::hardware_concurrency();

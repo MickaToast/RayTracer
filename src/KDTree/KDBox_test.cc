@@ -21,14 +21,14 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     void feedVector(std::vector<Triangle> &triangles) {
         triangles.emplace_back(
-            Vector3<float>(0, 0.5, -0.5),
-            Vector3<float>(1.5, 0.5, 0),
-            Vector3<float>(1.5, 0, -0.5)
+                Vector3<float>(0, 0.5, -0.5),
+                Vector3<float>(1.5, 0.5, 0),
+                Vector3<float>(1.5, 0, -0.5)
         );
         triangles.emplace_back(
-            Vector3<float>(3, 0.5, -0.5),
-            Vector3<float>(1.5, 0.5, -1),
-            Vector3<float>(1.5, 1, -0.5)
+                Vector3<float>(3, 0.5, -0.5),
+                Vector3<float>(1.5, 0.5, -1),
+                Vector3<float>(1.5, 1, -0.5)
         );
     }
 
@@ -51,14 +51,14 @@ namespace rt {
     TEST(KDBox, LongestAxisY) {
         std::vector<Triangle> triangles;
         triangles.emplace_back(
-            Vector3<float>(0, 7.5, -0.5),
-            Vector3<float>(1.5, 0.5, 0),
-            Vector3<float>(1.5, 0, -0.5)
+                Vector3<float>(0, 7.5, -0.5),
+                Vector3<float>(1.5, 0.5, 0),
+                Vector3<float>(1.5, 0, -0.5)
         );
         triangles.emplace_back(
-            Vector3<float>(3, 0.5, -0.5),
-            Vector3<float>(1.5, -0.5, -1),
-            Vector3<float>(1.5, 1, -0.5)
+                Vector3<float>(3, 0.5, -0.5),
+                Vector3<float>(1.5, -0.5, -1),
+                Vector3<float>(1.5, 1, -0.5)
         );
         KDBox box = KDBox(triangles);
         EXPECT_EQ(box.GetLongestAxis(), 1);
@@ -67,14 +67,14 @@ namespace rt {
     TEST(KDBox, LongestAxisZ) {
         std::vector<Triangle> triangles;
         triangles.emplace_back(
-            Vector3<float>(0, 3.5, -10.5),
-            Vector3<float>(1.5, 0.5, 0),
-            Vector3<float>(1.5, 0, -0.5)
+                Vector3<float>(0, 3.5, -10.5),
+                Vector3<float>(1.5, 0.5, 0),
+                Vector3<float>(1.5, 0, -0.5)
         );
         triangles.emplace_back(
-            Vector3<float>(3, 0.5, -0.5),
-            Vector3<float>(1.5, -0.5, -1),
-            Vector3<float>(1.5, 1, 20.5)
+                Vector3<float>(3, 0.5, -0.5),
+                Vector3<float>(1.5, -0.5, -1),
+                Vector3<float>(1.5, 1, 20.5)
         );
         KDBox box = KDBox(triangles);
         EXPECT_EQ(box.GetLongestAxis(), 2);
@@ -86,32 +86,32 @@ namespace rt {
         KDBox box = KDBox(triangles);
 
         EXPECT_TRUE(box.Intersect(Ray(
-            Vector3<float>(1.5, 0.5, 3),
-            Vector3<float>(0, 0, -1)
+                Vector3<float>(1.5, 0.5, 3),
+                Vector3<float>(0, 0, -1)
         )));
         EXPECT_TRUE(box.Intersect(Ray(
-            Vector3<float>(1.5, 0.5, -3),
-            Vector3<float>(0, 0, 1)
+                Vector3<float>(1.5, 0.5, -3),
+                Vector3<float>(0, 0, 1)
         )));
         EXPECT_TRUE(box.Intersect(Ray(
-            Vector3<float>(5, 0.5, -0.5),
-            Vector3<float>(-1, 0, 0)
+                Vector3<float>(5, 0.5, -0.5),
+                Vector3<float>(-1, 0, 0)
         )));
         EXPECT_TRUE(box.Intersect(Ray(
-            Vector3<float>(-3, 0.5, -0.5),
-            Vector3<float>(1, 0, 0)
+                Vector3<float>(-3, 0.5, -0.5),
+                Vector3<float>(1, 0, 0)
         )));
         EXPECT_TRUE(box.Intersect(Ray(
-            Vector3<float>(1.5, 3, -0.5),
-            Vector3<float>(0, -1, 0)
+                Vector3<float>(1.5, 3, -0.5),
+                Vector3<float>(0, -1, 0)
         )));
         EXPECT_TRUE(box.Intersect(Ray(
-            Vector3<float>(1.5, -3, -0.5),
-            Vector3<float>(0, 1, 0)
+                Vector3<float>(1.5, -3, -0.5),
+                Vector3<float>(0, 1, 0)
         )));
         EXPECT_FALSE(box.Intersect(Ray(
-            Vector3<float>(1.5, 3, -0.5),
-            Vector3<float>(0, 1, 0)
+                Vector3<float>(1.5, 3, -0.5),
+                Vector3<float>(0, 1, 0)
         )));
     }
 }  // namespace rt

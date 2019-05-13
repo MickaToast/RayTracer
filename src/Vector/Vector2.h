@@ -23,9 +23,9 @@ namespace rt {
     template <class T>
     struct Vector2 {
     public:
-        Vector2(void) : X(0), Y(0) {};
+        Vector2() : X(0), Y(0) {};
         Vector2(T _X, T _Y) : X(_X), Y(_Y) {};
-        virtual ~Vector2(void) {};
+        virtual ~Vector2() = default;
 
         bool    operator==(Vector2<T> const& other) const {
             return (X == other.X && Y == other.Y);

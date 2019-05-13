@@ -21,15 +21,12 @@ namespace rt {
 
     PointLight::PointLight(Vector3<float> const& pos): _pos(pos) {
     }
-    
+
     PointLight::PointLight(Vector3<float> const& pos, Color const& color): _pos(pos) {
         _color = color;
     }
 
     Vector3<float> PointLight::GetPos() const {
         return _pos;
-    }
-
-    PointLight::~PointLight() {
     }
 }  //namespace rt

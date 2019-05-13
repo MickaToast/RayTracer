@@ -22,15 +22,15 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     class Light {
-     public:
+    public:
         Light();
-        virtual ~Light();
+        virtual ~Light() = default;
 
         virtual Vector3<float>  GetPos() const = 0;
         Color const&            GetColor() const;
         float const&            GetBrightness() const;
 
-     protected:
+    protected:
         Color   _color;
         float   _intensity;
     };
