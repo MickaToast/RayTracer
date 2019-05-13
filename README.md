@@ -1,4 +1,7 @@
 # RayTracer
+
+![Current RayTracer Version](https://github.com/MickaToast/RayTracer/blob/master/raytracer_current.png?raw=true)
+
 [![Build Status](https://travis-ci.com/MickaToast/RayTracer.svg?branch=master)](https://travis-ci.com/MickaToast/RayTracer)
 [![Coverage Status](https://coveralls.io/repos/github/MickaToast/RayTracer/badge.svg?branch=master)](https://coveralls.io/github/MickaToast/RayTracer?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c64977c42e714c96a3e85cad31ab8103)](https://www.codacy.com/app/MickaToast/RayTracer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MickaToast/RayTracer&amp;utm_campaign=Badge_Grade)
