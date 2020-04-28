@@ -45,5 +45,7 @@ namespace rt {
         std::mutex                      _image_mutex;
         std::vector<Color>              _image;
         std::atomic<std::size_t>        _sample;
+        std::vector<std::size_t>        _frames_durations;
+        std::mutex                      _frames_mutex;
     };
 }  // namespace rt

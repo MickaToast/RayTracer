@@ -159,7 +159,7 @@ namespace rt {
                     triangles.emplace_back(v1, v2, v3);
                 }
             }
-            std::cout << "Creating KDTree for " << mesh->mName.C_Str() << " composed of " << triangles.size() << std::endl;
+            std::cout << "Creating KDTree for " << mesh->mName.C_Str() << " composed of " << triangles.size() << " triangles." << std::endl;
             _meshes.emplace_back(new Object(triangles, _loadMaterialFromMesh(mesh->mMaterialIndex), mesh->mName.C_Str()));
             std::cout << "Done" << std::endl;
         }
