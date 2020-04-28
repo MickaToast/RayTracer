@@ -23,23 +23,23 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Engine/Color.h"
 
 namespace rt {
-class KDBox {
- public:
-    KDBox(std::vector<Triangle> const& triangles);
-    ~KDBox();
+    class KDBox {
+    public:
+        explicit KDBox(std::vector<Triangle> const& triangles);
+        ~KDBox() = default;
 
-    bool    Intersect(Ray const& ray);
+        bool    Intersect(Ray const& ray);
 
-    Vector2<float> const&           GetX() const;
-    Vector2<float> const&           GetY() const;
-    Vector2<float> const&           GetZ() const;
-    std::size_t                     GetLongestAxis() const;
+        Vector2<float> const&           GetX() const;
+        Vector2<float> const&           GetY() const;
+        Vector2<float> const&           GetZ() const;
+        std::size_t                     GetLongestAxis() const;
 
- private:
-    Vector2<float>          _x;  // Containing Xmin and Xmax
-    Vector2<float>          _y;  // Containing Ymin and Ymax
-    Vector2<float>          _z;  // Containing Zmin and Zmax
+    private:
+        Vector2<float>          _x;  // Containing Xmin and Xmax
+        Vector2<float>          _y;  // Containing Ymin and Ymax
+        Vector2<float>          _z;  // Containing Zmin and Zmax
 
-    void    setMinMax(std::vector<Triangle> const& triangles);
-};
+        void    setMinMax(std::vector<Triangle> const& triangles);
+    };
 }  // namespace rt

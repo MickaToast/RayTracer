@@ -20,9 +20,6 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     Vertex::Vertex(Vector3<float> const& pos) : _pos(pos) {
     }
-    
-    Vertex::~Vertex() {
-    }
 
     Vector3<float> const&   Vertex::GetPos() const {
         return _pos;
@@ -37,7 +34,7 @@ namespace rt {
     }
 
     bool  Vertex::operator==(Vertex const& other) const {
-       return (_pos == other._pos && _normal == other._normal);
-   }
+        return (_pos == other._pos && _normal == other._normal);
+    }
 
 }  // namespace rt

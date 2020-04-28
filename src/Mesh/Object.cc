@@ -1,3 +1,5 @@
+#include <utility>
+
 /* Copyright (c) 2018 mickael.leclerc@epitech.eu charles.fraisse@epitech.eu
  Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +24,6 @@ namespace rt {
     Object::Object(std::vector<Triangle> const& triangles, Material const& mat, std::string const& name) : _triangles(triangles), _KDTree(_triangles, Constant::KDTreeDepth) {
         _material = mat;
         _name = name;
-    }
-
-    Object::~Object() {
     }
 
     Intersection const Object::Intersect(Ray const& ray) {

@@ -23,7 +23,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     TEST(Dispatcher, start_and_stop) {
-       AssimpLoader loader;
+        AssimpLoader loader;
         if (!loader.LoadFile("../scenes/Cube.dae")) {
             ASSERT_TRUE(false);
         }

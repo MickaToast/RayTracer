@@ -19,12 +19,9 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "KDBox.h"
 
 namespace rt {
-    
+
     KDBox::KDBox(std::vector<Triangle> const& triangles) {
         this->setMinMax(triangles);
-    }
-
-    KDBox::~KDBox() {
     }
 
     bool KDBox::Intersect(Ray const& ray) {
@@ -37,8 +34,7 @@ namespace rt {
         float tMin = std::max(std::max(std::min(tx1, tx2), std::min(ty1, ty2)), std::min(tz1, tz2));
         float tMax = std::min(std::min(std::max(tx1, tx2), std::max(ty1, ty2)), std::max(tz1, tz2));
         if (tMin <= tMax) {
-            if (tMin <= Constant::Epsilon && tMax <= Constant::Epsilon) return false;
-            return true;
+            return !(tMin <= Constant::Epsilon && tMax <= Constant::Epsilon);
         }
         return false;
     }
@@ -54,12 +50,12 @@ namespace rt {
     Vector2<float> const& KDBox::GetZ() const {
         return _z;
     }
-    
+
     std::size_t KDBox::GetLongestAxis() const {
         float xDiff = _x.Y - _x.X;
         float yDiff = _y.Y - _y.X;
         float zDiff = _z.Y - _z.X;
-        float max = std::max(xDiff, std::max(yDiff, zDiff)); 
+        float max = std::max(xDiff, std::max(yDiff, zDiff));
         return max == xDiff ? 0 : max == yDiff ? 1 : 2;
     }
 

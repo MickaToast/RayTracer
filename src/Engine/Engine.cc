@@ -22,12 +22,7 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Light/PointLight.h"
 
 namespace rt {
-    Engine::Engine(AssimpLoader const &loader) : _loader(loader), _sky(nullptr), _camera(loader.GetCameraFromScene()) {
-        _meshes = loader.GetMeshesFromScene();
-        _lights = loader.GetLightsFromScene();
-    }
-
-    Engine::~Engine() {
+    Engine::Engine(AssimpLoader const &loader) : _loader(loader), _sky(nullptr), _camera(loader.GetCameraFromScene()), _meshes(loader.GetMeshesFromScene()), _lights(loader.GetLightsFromScene()) {
     }
 
     Color Engine::Raytrace(const rt::Vector2<unsigned int> &pixel) {
@@ -35,12 +30,12 @@ namespace rt {
         Ray ray = _camera.GenerateRay(pixel);
         Intersection inter = _intersect(ray);
         if (inter.Intersect) {
-            for (size_t i = 0; i < _lights.size(); ++i) {
-                Vector3<float> lightDir = _lights[i]->GetPos() - inter.Point;
+            for (auto & _light : _lights) {
+                Vector3<float> lightDir = _light->GetPos() - inter.Point;
                 lightDir.Normalize();
                 Intersection interLight = _intersect(Ray(inter.Point, lightDir));
                 if (!interLight.Intersect ||
-                    interLight.Dist > (_lights[i]->GetPos() - inter.Point).Norm()) {
+                    interLight.Dist > (_light->GetPos() - inter.Point).Norm()) {
                     float angle = lightDir.Angle(inter.Normal);
                     if (angle > 90.f) {
                         angle = 180.f - angle;
@@ -62,8 +57,8 @@ namespace rt {
         Intersection rtn;
         float min = -1;
 
-        for (size_t i = 0; i < _meshes.size(); ++i) {
-            Intersection inter = _meshes[i]->Intersect(ray);
+        for (auto & _mesh : _meshes) {
+            Intersection inter = _mesh->Intersect(ray);
             if (inter.Intersect) {
                 if (min == -1 || inter.Dist < min) {
                     min = inter.Dist;

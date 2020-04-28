@@ -20,5 +20,5 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 namespace rt {
     Material const&  Mesh::GetMaterial() const {
         return _material;
-    }    
+    }
 }  // namespace rt

@@ -15,6 +15,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include <chrono>
 #include <thread>
 #include "Dispatcher.h"
 
@@ -23,9 +24,6 @@ namespace rt {
         std::size_t size = _res.Y * _res.X;
         _image.reserve(size);
         _image.resize(size, Color(0x000000ff));
-    }
-
-    Dispatcher::~Dispatcher() {
     }
 
     void Dispatcher::Start() {
@@ -56,6 +54,8 @@ namespace rt {
 
     void Dispatcher::execute() {
         std::size_t size = _res.Y * _res.X;
+        std::chrono::_V2::steady_clock::time_point start = std::chrono::steady_clock::now();
+        std::chrono::_V2::steady_clock::time_point end;
 
         while (_running) {
             std::size_t current = _image_index++;
@@ -64,7 +64,14 @@ namespace rt {
                 current %= size;
                 if (current == 0) {
                     _sample++;
-                    std::cout << "FRAME" << std::endl;
+                    end = std::chrono::steady_clock::now();
+                    std::size_t ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+                    _frames_mutex.lock();
+                    _frames_durations.push_back(ms);
+                    unsigned long avg = std::accumulate(_frames_durations.begin(), _frames_durations.end(), 0) / _frames_durations.size();
+                    _frames_mutex.unlock();
+                    std::cout << "Frame rendered in " << ms << "ms.\tAverage render time " << avg  << " ms"<< std::endl;
+                    start = std::chrono::steady_clock::now();
                 }
             }
             Color color = _engine.Raytrace(Vector2<unsigned int>(current % _res.X, current / _res.X));

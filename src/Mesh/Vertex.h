@@ -21,9 +21,9 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     class Vertex {
-     public:
+    public:
         Vertex(Vector3<float> const& pos);
-        ~Vertex();
+        ~Vertex() = default;
 
         Vector3<float> const&   GetPos() const;
         Vector3<float> const&   GetNormal() const;
@@ -31,7 +31,7 @@ namespace rt {
 
         bool  operator==(Vertex const& other) const;
 
-     private:
+    private:
         Vector3<float>  _pos;
         Vector3<float>  _normal;
     };

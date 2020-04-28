@@ -24,17 +24,17 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "KDBox.h"
 
 namespace rt {
-class KDNode {
- public:
-    KDNode(std::vector<Triangle> const& triangles, std::size_t depth);
-    ~KDNode();
+    class KDNode {
+    public:
+        KDNode(std::vector<Triangle> const& triangles, std::size_t depth);
+        ~KDNode() = default;
 
-    Intersection Intersect(Ray const& ray);
+        Intersection Intersect(Ray const& ray);
 
- private:
-    KDBox                   _box;
-    std::shared_ptr<KDNode> _left;
-    std::shared_ptr<KDNode> _right;
-    std::vector<Triangle>   _triangles;
-};
+    private:
+        KDBox                   _box;
+        std::shared_ptr<KDNode> _left;
+        std::shared_ptr<KDNode> _right;
+        std::vector<Triangle>   _triangles;
+    };
 }  // namespace rt

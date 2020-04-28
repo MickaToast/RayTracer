@@ -21,22 +21,18 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 #include "../Light/PointLight.h"
 
 namespace rt {
-    AssimpLoader::AssimpLoader(): _camera() {
-        _scene = nullptr;
-    }
-
-    AssimpLoader::~AssimpLoader() {
+    AssimpLoader::AssimpLoader(): _scene(nullptr), _camera() {
     }
 
     bool AssimpLoader::LoadFile(std::string const& filePath) {
         _scene = _importer.ReadFile(filePath, aiProcess_Triangulate
-                                               | aiProcess_GenSmoothNormals
-                                               | aiProcess_FixInfacingNormals);
+                                              | aiProcess_GenSmoothNormals
+                                              | aiProcess_FixInfacingNormals);
         if (!_scene) {
             std::cerr << "Error while importing scene: " << _importer.GetErrorString() << std::endl;
             return false;
         }
-        _loadNode(_scene->mRootNode, aiMatrix4x4());   
+        _loadNode(_scene->mRootNode, aiMatrix4x4());
         return true;
     }
 
@@ -54,9 +50,9 @@ namespace rt {
 
     Vector3<float> AssimpLoader::_transform(aiMatrix4x4 const& mat, Vector3<float> const& point) const {
         return Vector3<float>(
-            mat.a1 * point.X + mat.a2 * point.Y + mat.a3 * point.Z + mat.a4,
-            -mat.c1 * point.X - mat.c2 * point.Y - mat.c3 * point.Z - mat.c4,
-            mat.b1 * point.X + mat.b2 * point.Y + mat.b3 * point.Z + mat.b4
+                mat.a1 * point.X + mat.a2 * point.Y + mat.a3 * point.Z + mat.a4,
+                -mat.c1 * point.X - mat.c2 * point.Y - mat.c3 * point.Z - mat.c4,
+                mat.b1 * point.X + mat.b2 * point.Y + mat.b3 * point.Z + mat.b4
         );
     }
 
@@ -66,7 +62,7 @@ namespace rt {
         aiColor3D color;
         float coef;
         if (aiMat->Get(AI_MATKEY_SHININESS, coef) == AI_SUCCESS) {
-            mat.Ns = coef;                
+            mat.Ns = coef;
         }
         aiString name;
         aiMat->Get(AI_MATKEY_NAME, name);
@@ -100,20 +96,20 @@ namespace rt {
 
         if (_scene->mNumCameras > 0 && node->mName == _scene->mCameras[0]->mName) {
             _camera.SetMatrix(
-                Vector3<float>(matrix.a1, -matrix.c1, matrix.b1),
-                Vector3<float>(matrix.a2, -matrix.c2, matrix.b2),
-                Vector3<float>(matrix.a3, -matrix.c3, matrix.b3),
-                Vector3<float>(matrix.a4, -matrix.c4, matrix.b4)
+                    Vector3<float>(matrix.a1, -matrix.c1, matrix.b1),
+                    Vector3<float>(matrix.a2, -matrix.c2, matrix.b2),
+                    Vector3<float>(matrix.a3, -matrix.c3, matrix.b3),
+                    Vector3<float>(matrix.a4, -matrix.c4, matrix.b4)
             );
         }
-        
+
         for (std::uint32_t lightIdx = 0; lightIdx < _scene->mNumLights; ++lightIdx) {
             aiLight* light = _scene->mLights[lightIdx];
             if (light->mName == node->mName) {
                 if (light->mType == aiLightSource_POINT) {
                     _lights.emplace_back(new PointLight(
-                         _transform(matrix, Vector3<float>(light->mPosition.x, light->mPosition.y, light->mPosition.z)),
-                        Color(light->mColorDiffuse.r, light->mColorDiffuse.g, light->mColorDiffuse.b)
+                            _transform(matrix, Vector3<float>(light->mPosition.x, light->mPosition.y, light->mPosition.z)),
+                            Color(light->mColorDiffuse.r, light->mColorDiffuse.g, light->mColorDiffuse.b)
                     ));
                 }
             }
@@ -132,38 +128,38 @@ namespace rt {
                             mesh->mVertices[v1Idx].x,
                             mesh->mVertices[v1Idx].y,
                             mesh->mVertices[v1Idx].z
-                        )));
+                    )));
                     Vertex v2 = Vertex(_transform(matrix, Vector3<float>(
                             mesh->mVertices[v2Idx].x,
                             mesh->mVertices[v2Idx].y,
                             mesh->mVertices[v2Idx].z
-                        )));
+                    )));
                     Vertex v3 = Vertex(_transform(matrix, Vector3<float>(
                             mesh->mVertices[v3Idx].x,
                             mesh->mVertices[v3Idx].y,
                             mesh->mVertices[v3Idx].z
-                        )));
+                    )));
                     if (mesh->mNormals) {
                         v1.SetNormal(_transform(matrix, Vector3<float>(
-                            mesh->mNormals[v1Idx].x,
-                            mesh->mNormals[v1Idx].y,
-                            mesh->mNormals[v1Idx].z
+                                mesh->mNormals[v1Idx].x,
+                                mesh->mNormals[v1Idx].y,
+                                mesh->mNormals[v1Idx].z
                         )));
                         v2.SetNormal(_transform(matrix, Vector3<float>(
-                            mesh->mNormals[v2Idx].x,
-                            mesh->mNormals[v2Idx].y,
-                            mesh->mNormals[v2Idx].z
+                                mesh->mNormals[v2Idx].x,
+                                mesh->mNormals[v2Idx].y,
+                                mesh->mNormals[v2Idx].z
                         )));
                         v2.SetNormal(_transform(matrix, Vector3<float>(
-                            mesh->mNormals[v3Idx].x,
-                            mesh->mNormals[v3Idx].y,
-                            mesh->mNormals[v3Idx].z
+                                mesh->mNormals[v3Idx].x,
+                                mesh->mNormals[v3Idx].y,
+                                mesh->mNormals[v3Idx].z
                         )));
                     }
                     triangles.emplace_back(v1, v2, v3);
                 }
             }
-            std::cout << "Creating KDTree for " << mesh->mName.C_Str() << " composed of " << triangles.size() << std::endl;
+            std::cout << "Creating KDTree for " << mesh->mName.C_Str() << " composed of " << triangles.size() << " triangles." << std::endl;
             _meshes.emplace_back(new Object(triangles, _loadMaterialFromMesh(mesh->mMaterialIndex), mesh->mName.C_Str()));
             std::cout << "Done" << std::endl;
         }

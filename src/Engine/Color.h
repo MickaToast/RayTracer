@@ -38,7 +38,7 @@ namespace rt {
         explicit    Color(Color_Component const& component);
         explicit    Color(std::uint8_t red, std::uint8_t green, std::uint8_t blue);
         explicit    Color(Vector3<float> const& vec);
-        virtual     ~Color(void);
+        virtual     ~Color();
 
         Color_Component     GetColor() const;
         void                SetColor(Color_Component const& component);

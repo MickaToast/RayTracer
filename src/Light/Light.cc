@@ -21,16 +21,12 @@ namespace rt {
 
     Light::Light(): _color(0xffffffff), _intensity(1.f) {
     }
-    
+
     Color const& Light::GetColor() const {
         return _color;
     }
 
     float const& Light::GetBrightness() const {
         return _intensity;
-    }
-
-
-    Light::~Light() {
     }
 }  //namespace rt

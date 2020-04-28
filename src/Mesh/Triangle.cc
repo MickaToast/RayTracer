@@ -22,17 +22,14 @@ OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace rt {
     Triangle::Triangle(Vertex const& v1, Vertex const& v2,
-    Vertex const& v3): _v1(v1), _v2(v2), _v3(v3) {
+                       Vertex const& v3): _v1(v1), _v2(v2), _v3(v3) {
         this->generateCharacteristics();
     }
 
     Triangle::Triangle(Vertex const& v1, Vertex const& v2,
-    Vertex const& v3, Material const& material): _v1(v1), _v2(v2), _v3(v3) {
+                       Vertex const& v3, Material const& material): _v1(v1), _v2(v2), _v3(v3) {
         _material = material;
         this->generateCharacteristics();
-    }
-
-    Triangle::~Triangle() {
     }
 
     Intersection const Triangle::Intersect(Ray const& ray) {
@@ -68,62 +65,62 @@ namespace rt {
         return ret;
     }
 
-   Vector2<float> const Triangle::GetMinMaxX() const {
-       return Vector2<float>(
-           std::min(_v1.GetPos().X, std::min(_v2.GetPos().X, _v3.GetPos().X)),
-           std::max(_v1.GetPos().X, std::max(_v2.GetPos().X, _v3.GetPos().X))
-       );
-   }
-
-   Vector2<float> const Triangle::GetMinMaxY() const {
-       return Vector2<float>(
-           std::min(_v1.GetPos().Y, std::min(_v2.GetPos().Y, _v3.GetPos().Y)),
-           std::max(_v1.GetPos().Y, std::max(_v2.GetPos().Y, _v3.GetPos().Y))
-       );
-   }
-
-   Vector2<float> const Triangle::GetMinMaxZ() const {
-       return Vector2<float>(
-           std::min(_v1.GetPos().Z, std::min(_v2.GetPos().Z, _v3.GetPos().Z)),
-           std::max(_v1.GetPos().Z, std::max(_v2.GetPos().Z, _v3.GetPos().Z))
-       );
-   }
-
-   Vector3<float> const Triangle::GetMidPoint() const {
-       return Vector3<float>(
-            (this->GetMinMaxX().X + this->GetMinMaxX().Y) / 2.f,
-            (this->GetMinMaxY().X + this->GetMinMaxY().Y) / 2.f,
-            (this->GetMinMaxZ().X + this->GetMinMaxZ().Y) / 2.f
+    Vector2<float> const Triangle::GetMinMaxX() const {
+        return Vector2<float>(
+                std::min(_v1.GetPos().X, std::min(_v2.GetPos().X, _v3.GetPos().X)),
+                std::max(_v1.GetPos().X, std::max(_v2.GetPos().X, _v3.GetPos().X))
         );
-   }
+    }
 
-   Vertex const& Triangle::GetV1() const {
-       return _v1;
-   }
+    Vector2<float> const Triangle::GetMinMaxY() const {
+        return Vector2<float>(
+                std::min(_v1.GetPos().Y, std::min(_v2.GetPos().Y, _v3.GetPos().Y)),
+                std::max(_v1.GetPos().Y, std::max(_v2.GetPos().Y, _v3.GetPos().Y))
+        );
+    }
 
-   Vertex const& Triangle::GetV2() const {
-       return _v2;
-   }
+    Vector2<float> const Triangle::GetMinMaxZ() const {
+        return Vector2<float>(
+                std::min(_v1.GetPos().Z, std::min(_v2.GetPos().Z, _v3.GetPos().Z)),
+                std::max(_v1.GetPos().Z, std::max(_v2.GetPos().Z, _v3.GetPos().Z))
+        );
+    }
 
-   Vertex const& Triangle::GetV3() const {
-       return _v3;
-   }
+    Vector3<float> const Triangle::GetMidPoint() const {
+        return Vector3<float>(
+                (this->GetMinMaxX().X + this->GetMinMaxX().Y) / 2.f,
+                (this->GetMinMaxY().X + this->GetMinMaxY().Y) / 2.f,
+                (this->GetMinMaxZ().X + this->GetMinMaxZ().Y) / 2.f
+        );
+    }
 
-   Vector3<float> const& Triangle::GetEdge1() const {
-       return _edge1;
-   }
+    Vertex const& Triangle::GetV1() const {
+        return _v1;
+    }
 
-   Vector3<float> const& Triangle::GetEdge2() const {
-       return _edge2;
-   }
+    Vertex const& Triangle::GetV2() const {
+        return _v2;
+    }
 
-   Vector3<float> const& Triangle::GetNormal() const {
-       return _normal;
-   }
-   
-   bool  Triangle::operator==(Triangle const& other) const {
-       return (_v1 == other.GetV1() && _v2 == other.GetV2() && _v3 == other.GetV3());
-   }
+    Vertex const& Triangle::GetV3() const {
+        return _v3;
+    }
+
+    Vector3<float> const& Triangle::GetEdge1() const {
+        return _edge1;
+    }
+
+    Vector3<float> const& Triangle::GetEdge2() const {
+        return _edge2;
+    }
+
+    Vector3<float> const& Triangle::GetNormal() const {
+        return _normal;
+    }
+
+    bool  Triangle::operator==(Triangle const& other) const {
+        return (_v1 == other.GetV1() && _v2 == other.GetV2() && _v3 == other.GetV3());
+    }
 
     void Triangle::generateCharacteristics() {
         _edge1 = _v2.GetPos() - _v1.GetPos();

@@ -27,15 +27,15 @@ namespace rt {
     class Dispatcher {
     public:
         explicit                        Dispatcher(Engine const& engine, Vector2<unsigned int> const& res);
-        virtual                         ~Dispatcher();
+        virtual                         ~Dispatcher() = default;
 
-        void                            Start(void);
-        void                            Stop(void);
-        std::vector<Color>              Flush(void);
-        std::size_t                     GetNumberOfProcessed(void) const;
+        void                            Start();
+        void                            Stop();
+        std::vector<Color>              Flush();
+        std::size_t                     GetNumberOfProcessed() const;
 
     private:
-        void                            execute(void);
+        void                            execute();
 
         bool                            _running;
         Engine                          _engine;
@@ -45,5 +45,7 @@ namespace rt {
         std::mutex                      _image_mutex;
         std::vector<Color>              _image;
         std::atomic<std::size_t>        _sample;
+        std::vector<std::size_t>        _frames_durations;
+        std::mutex                      _frames_mutex;
     };
 }  // namespace rt

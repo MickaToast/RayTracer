@@ -28,7 +28,7 @@ namespace rt {
     class SphereSky : public Sky {
     public:
         SphereSky(Vector2<unsigned int> const& size, const std::uint8_t *pixels);
-        ~SphereSky() override;
+        ~SphereSky() override = default;
 
         Color                       GetPixel(Vector3<float> const& direction) const override;
 
