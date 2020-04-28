@@ -1,7 +1,5 @@
 #include <memory>
 
-#include <memory>
-
 /* Copyright (c) 2018 mickael.leclerc@epitech.eu charles.fraisse@epitech.eu
  Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
